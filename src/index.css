@@ -13,6 +13,25 @@ body {
   background-color: var(--bg-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Hard CSS media query guarantee: Never display desktop-sidebar on mobile or tablet (<1024px) */
+@media screen and (max-width: 1023.98px) {
+  .desktop-sidebar {
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+  }
 }
 
 /* Crisp SaaS cards matching the modern student productivity dashboard */

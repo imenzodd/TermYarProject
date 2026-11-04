@@ -164,36 +164,36 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     <div className="space-y-6 pb-12">
       {/* 1. Header Greeting & Semester Stats Bar */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-            <span>{isFa ? `صبح بخیر، ${displayName}` : `Good morning, ${displayName}`}</span>
-            <span className="text-2xl">👋</span>
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+            <span className="truncate">{isFa ? `صبح بخیر، ${displayName}` : `Good morning, ${displayName}`}</span>
+            <span className="text-xl sm:text-2xl shrink-0">👋</span>
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             {isFa ? 'ترم تحصیلی شما در یک نگاه' : 'Your semester at a glance'}
           </p>
         </div>
 
-        {/* Top Stat Pills Row matching screenshot */}
-        <div className="flex items-center gap-2.5 flex-wrap">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 shadow-2xs">
-            <Calendar className="w-3.5 h-3.5 text-slate-400" />
-            <span>{isFa ? 'هفته ۷ از ۱۵' : 'Week 7 of 15'}</span>
+        {/* Top Stat Pills Row (Responsive 2x2 on mobile, 4-col on tablet/desktop) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 w-full lg:w-auto">
+          <div className="flex items-center justify-center sm:justify-start gap-2 px-2.5 sm:px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 shadow-2xs">
+            <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="truncate">{isFa ? 'هفته ۷ از ۱۵' : 'Week 7 of 15'}</span>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 shadow-2xs">
-            <FileCheck className="w-3.5 h-3.5 text-slate-400" />
-            <span>{isFa ? '۳ تحویل امروز' : '3 due today'}</span>
+          <div className="flex items-center justify-center sm:justify-start gap-2 px-2.5 sm:px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 shadow-2xs">
+            <FileCheck className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="truncate">{isFa ? '۳ تحویل امروز' : '3 due today'}</span>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 shadow-2xs">
-            <Clock className="w-3.5 h-3.5 text-slate-400" />
-            <span>{isFa ? '۲ امتحان نزدیک' : '2 exams soon'}</span>
+          <div className="flex items-center justify-center sm:justify-start gap-2 px-2.5 sm:px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 shadow-2xs">
+            <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="truncate">{isFa ? '۲ امتحان نزدیک' : '2 exams soon'}</span>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 shadow-2xs">
-            <BarChart2 className="w-3.5 h-3.5 text-slate-400" />
-            <span>{isFa ? 'معدل ۱۸.۶۰' : 'GPA 3.72'}</span>
+          <div className="flex items-center justify-center sm:justify-start gap-2 px-2.5 sm:px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 shadow-2xs">
+            <BarChart2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="truncate">{isFa ? 'معدل ۱۸.۶۰' : 'GPA 3.72'}</span>
           </div>
         </div>
       </div>

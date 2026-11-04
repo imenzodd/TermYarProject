@@ -417,8 +417,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* 1. Permanent Desktop Sidebar (Hidden on mobile/tablet < 1024px) */}
-      <aside className="hidden lg:flex w-64 xl:w-72 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none">
+      {/* 1. Permanent Desktop Sidebar (Strictly hidden on mobile/tablet < 1024px) */}
+      <aside className="desktop-sidebar hidden lg:flex w-64 xl:w-72 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none">
         {renderNavContent(false)}
       </aside>
 

@@ -28,6 +28,10 @@ import {
   Compass,
   ArrowRight
 } from 'lucide-react';
+import { InteractiveBusinessModelCanvas } from './InteractiveBusinessModelCanvas';
+import { InteractiveSemesterHealthSimulator } from './InteractiveSemesterHealthSimulator';
+import { InteractiveCustomerJourney } from './InteractiveCustomerJourney';
+import { InteractiveMarketEconomics } from './InteractiveMarketEconomics';
 
 interface BusinessDossierViewProps {
   onSwitchToLiveApp?: () => void;
@@ -372,6 +376,11 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   <span>مشاهده نسخه اولیه ترمیار</span>
                   <ExternalLink className="w-4 h-4" />
                 </a>
+              </div>
+
+              {/* Interactive Osterwalder Business Model Canvas Widget */}
+              <div className="pt-6 border-t border-slate-800/80">
+                <InteractiveBusinessModelCanvas />
               </div>
             </div>
           </div>
@@ -737,6 +746,11 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   <li><strong>مدل درآمدی پلتفرم:</strong> دریافت کارمزد اندک (۵ تا ۷ درصد) در صورت اتصال درگاه امن امانی در فاز بلوغ.</li>
                 </ul>
               </div>
+            </div>
+
+            {/* Interactive Market Size & Unit Economics Simulator */}
+            <div className="mt-6 pt-6 border-t border-slate-800">
+              <InteractiveMarketEconomics />
             </div>
           </div>
         </section>
@@ -1562,7 +1576,22 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             <span className="text-xs text-slate-400">روایت ملموس از چرخه حیات کاربر در سامانه</span>
           </div>
 
-          <div className="space-y-4 sm:space-y-6">
+          {/* Interactive Visual Customer Journey Pipeline */}
+          <div className="pt-2">
+            <InteractiveCustomerJourney />
+          </div>
+
+          {/* Interactive Live Semester Health Simulator */}
+          <div className="pt-2">
+            <InteractiveSemesterHealthSimulator />
+          </div>
+
+          <div className="space-y-4 sm:space-y-6 pt-2">
+            <div className="border-b border-slate-800/80 pb-2">
+              <h3 className="text-sm font-bold text-slate-300">
+                روایت‌های موردی (۳ سناریوی شبیه‌سازی‌شده در بستر خوابگاه و دانشکده):
+              </h3>
+            </div>
             {/* Scenario 1 */}
             <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
