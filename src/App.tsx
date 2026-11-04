@@ -371,7 +371,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-row">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col lg:flex-row w-full max-w-full overflow-x-hidden">
       {/* 1. Navigation Sidebar (Desktop permanent + Mobile slide-over drawer) */}
       <Sidebar
         activeTab={activeTab}

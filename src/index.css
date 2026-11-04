@@ -24,13 +24,20 @@ html {
 
 /* Hard CSS media query guarantee: Never display desktop-sidebar on mobile or tablet (<1024px) */
 @media screen and (max-width: 1023.98px) {
-  .desktop-sidebar {
+  .desktop-sidebar,
+  aside.desktop-sidebar {
     display: none !important;
     width: 0 !important;
     min-width: 0 !important;
     max-width: 0 !important;
+    height: 0 !important;
     overflow: hidden !important;
     visibility: hidden !important;
+    position: absolute !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
   }
 }
 

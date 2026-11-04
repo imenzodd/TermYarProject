@@ -431,16 +431,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
 
-      {/* 3. Mobile Slide-out Drawer */}
-      <aside
-        className={`fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-white dark:bg-slate-900 shadow-2xl flex flex-col justify-between h-full overflow-y-auto select-none transition-all duration-300 ease-in-out lg:hidden ${
-          isMobileOpen
-            ? 'translate-x-0 opacity-100 visible pointer-events-auto'
-            : `${isFa ? 'translate-x-full' : '-translate-x-full'} opacity-0 invisible pointer-events-none`
-        }`}
-      >
-        {renderNavContent(true)}
-      </aside>
+      {/* 3. Mobile Slide-out Drawer (Mounted ONLY when isMobileOpen is true) */}
+      {isMobileOpen && (
+        <aside
+          className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-white dark:bg-slate-900 shadow-2xl flex flex-col justify-between h-full overflow-y-auto select-none lg:hidden"
+        >
+          {renderNavContent(true)}
+        </aside>
+      )}
     </>
   );
 };
