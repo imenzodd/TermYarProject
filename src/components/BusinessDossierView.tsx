@@ -222,7 +222,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
 
         {/* Mobile Dropdown Drawer for 10 Sections */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-2 pt-2 border-t border-slate-800/80 grid grid-cols-2 gap-1.5 bg-slate-900/95 p-3 rounded-2xl shadow-2xl max-h-[70vh] overflow-y-auto">
+          <div className="md:hidden mt-2 pt-2 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 gap-1.5 bg-slate-900/95 p-3 rounded-2xl shadow-2xl max-h-[70vh] overflow-y-auto">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isCurrent = activeSection === item.id;

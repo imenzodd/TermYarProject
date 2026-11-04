@@ -1,11 +1,21 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Vazirmatn', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --brand-indigo: #4F46E5;
   --brand-indigo-dark: #3730A3;
   --bg-main: #F8FAFC;
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
 }
 
 body {

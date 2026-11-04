@@ -144,7 +144,7 @@ export const InteractiveCustomerJourney: React.FC = () => {
       </div>
 
       {/* 5-Step Visual Stepper Bar */}
-      <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+      <div className="flex sm:grid sm:grid-cols-5 gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-1">
         {stages.map((stage) => {
           const Icon = stage.icon;
           const isSelected = stage.id === activeStep;
@@ -154,7 +154,7 @@ export const InteractiveCustomerJourney: React.FC = () => {
               key={stage.id}
               type="button"
               onClick={() => setActiveStep(stage.id)}
-              className={`p-2 sm:p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1 sm:gap-1.5 ${
+              className={`min-w-[68px] sm:min-w-0 flex-1 p-2 sm:p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1 sm:gap-1.5 shrink-0 sm:shrink ${
                 isSelected
                   ? 'bg-indigo-600/30 border-indigo-400 text-white ring-2 ring-indigo-500/30 shadow-md'
                   : isCompleted

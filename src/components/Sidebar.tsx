@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   LayoutDashboard,
   CalendarDays,
@@ -52,6 +52,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const isFa = lang === 'fa';
+
+  useEffect(() => {
+    if (isMobileOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape' && onCloseMobile) {
+          onCloseMobile();
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isMobileOpen, onCloseMobile]);
 
   const handleSelectTab = (tab: string) => {
     setActiveTab(tab);

@@ -71,16 +71,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Right Controls: Business Dossier, Language toggle, Theme toggle, Notifications, User profile */}
       <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-        {/* Business Dossier Button */}
+        {/* Business Dossier Button (Hidden on small mobile to avoid header clutter; available in drawer and banner) */}
         {onOpenDossier && (
           <button
             onClick={onOpenDossier}
-            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/80 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-all shadow-xs"
+            className="hidden md:flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/80 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-all shadow-xs shrink-0"
             title={isFa ? 'مشاهده پرونده تحلیلی درس تجارت الکترونیک' : 'Business Dossier'}
           >
             <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-            <span className="hidden sm:inline">{isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Business Dossier'}</span>
-            <span className="sm:hidden">{isFa ? 'پرونده' : 'Dossier'}</span>
+            <span>{isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Business Dossier'}</span>
           </button>
         )}
 
