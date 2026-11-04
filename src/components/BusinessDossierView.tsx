@@ -173,30 +173,29 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
 
           {/* Global Action CTAs */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            {/* Direct link to external deployment */}
+            {/* Primary Action: Switch to modern interactive TermYar cockpit */}
+            {onSwitchToLiveApp && (
+              <button
+                onClick={onSwitchToLiveApp}
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md shadow-indigo-600/30 transition-all active:scale-95"
+                title="ورود به سامانه زنده و ریسپانسیو ترم‌یار"
+              >
+                <Laptop className="w-4 h-4 text-cyan-300" />
+                <span>ورود به سامانه ترم‌یار</span>
+              </button>
+            )}
+
+            {/* Direct link to external Vercel deployment (secondary) */}
             <a
               href="https://term-yar.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white shadow-md shadow-indigo-600/30 transition-all active:scale-95"
-              title="مشاهده نسخه اولیه ترمیار در ورسل"
+              className="hidden md:flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-all"
+              title="مشاهده نسخه قدیمی مستقر در ورسل"
             >
-              <span className="hidden sm:inline">مشاهده نسخه اولیه</span>
-              <span className="sm:hidden">سایت زنده</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <span>لینک ورسل خارجی</span>
+              <ArrowUpRight className="w-3 h-3 text-slate-400" />
             </a>
-
-            {/* Switch to local interactive app */}
-            {onSwitchToLiveApp && (
-              <button
-                onClick={onSwitchToLiveApp}
-                className="hidden lg:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition-all"
-                title="جابجایی مستقیم به رابط کاربری نرم‌افزار ترمیار"
-              >
-                <Laptop className="w-3.5 h-3.5 text-cyan-400" />
-                <span>تست زنده در همین تب</span>
-              </button>
-            )}
 
             {/* Print / Save PDF */}
             <button
@@ -360,22 +359,34 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
                     <span className="text-xs sm:text-sm font-bold text-white">
-                      نسخه اولیه محصول هم‌اکنون به صورت آنلاین و عملیاتی در دسترس است
+                      نسخه زنده، ریسپانسیو و فارسی ترم‌یار در همین برنامه پیاده‌سازی شده است
                     </span>
                   </div>
                   <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
-                    نسخه پروتوتایپ کامل ترمیار با پشتیبانی از برنامه هفتگی، مدیریت تکالیف، تایمر پومودورو و مخزن جزوات روی Vercel منتشر شده است:
+                    پروتوتایپ کامل با برنامه هفتگی، مدیریت امتحانات، تایمر مطالعه، امتیاز سلامت ترم و بازارچه خوابگاهی (کاملاً بهینه‌شده برای موبایل و تبلت):
                   </p>
                 </div>
-                <a
-                  href="https://term-yar.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30 transition-all active:scale-95 shrink-0"
-                >
-                  <span>مشاهده نسخه اولیه ترمیار</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+                <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 flex-wrap">
+                  {onSwitchToLiveApp && (
+                    <button
+                      onClick={onSwitchToLiveApp}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-600/30 transition-all active:scale-95"
+                    >
+                      <Laptop className="w-4 h-4 text-cyan-300" />
+                      <span>ورود به سامانه ترم‌یار (همین تب)</span>
+                    </button>
+                  )}
+                  <a
+                    href="https://term-yar.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-all text-center"
+                    title="مشاهده نسخه قدیمی روی سرور ورسل"
+                  >
+                    <span>لینک ورسل قدیمی</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                  </a>
+                </div>
               </div>
 
               {/* Interactive Osterwalder Business Model Canvas Widget */}
@@ -1856,15 +1867,25 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
               <div className="text-[11px] sm:text-xs text-slate-400">
                 پایان پرونده تحلیلی • تهیه شده جهت ارائه در درس تجارت الکترونیک دانشگاه
               </div>
-              <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end">
+              <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end flex-wrap">
+                {onSwitchToLiveApp && (
+                  <button
+                    onClick={onSwitchToLiveApp}
+                    className="px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md transition-all flex items-center justify-center gap-2 flex-1 sm:flex-initial"
+                  >
+                    <Laptop className="w-4 h-4 text-cyan-300" />
+                    <span>ورود مستقیم به سامانه ترم‌یار</span>
+                  </button>
+                )}
                 <a
                   href="https://term-yar.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md transition-all flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
+                  className="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
+                  title="مشاهده نسخه قدیمی روی ورسل"
                 >
-                  <span>بازدید از نسخه آنلاین</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>ورسل خارجی</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
                 </a>
                 <button
                   onClick={handlePrint}
