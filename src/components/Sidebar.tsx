@@ -53,6 +53,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const isFa = lang === 'fa';
 
+  // Dynamic screen width check to ensure desktop sidebar is 100% NOT mounted into DOM on mobile
+  const [isDesktop, setIsDesktop] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    return window.innerWidth >= 1024;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     if (isMobileOpen) {
       document.body.style.overflow = 'hidden';
@@ -435,10 +449,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* 1. Permanent Desktop Sidebar (Strictly hidden on mobile/tablet < 1024px) */}
-      <aside className="desktop-sidebar hidden lg:flex w-64 xl:w-72 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none">
-        {renderNavContent(false)}
-      </aside>
+      {/* 1. Permanent Desktop Sidebar (Strictly unmounted on mobile/tablet < 1024px) */}
+      {isDesktop && (
+        <aside className="desktop-sidebar hidden lg:flex w-64 xl:w-72 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none">
+          {renderNavContent(false)}
+        </aside>
+      )}
 
       {/* 2. Mobile Drawer Backdrop Overlay */}
       {isMobileOpen && (

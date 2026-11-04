@@ -76,13 +76,14 @@ export default function App() {
     };
   }, [isMobileMenuOpen]);
 
-  // Language state (default 'en' matching the mockup screenshot, toggleable to 'fa')
+  // Language state (defaults to Persian 'fa' and RTL for Iranian academic environment)
   const [lang, setLang] = useState<'en' | 'fa'>(() => {
-    return (localStorage.getItem('ty_lang') as 'en' | 'fa') || 'en';
+    const saved = localStorage.getItem('ty_lang_v2');
+    return (saved === 'en' || saved === 'fa') ? saved : 'fa';
   });
 
   useEffect(() => {
-    localStorage.setItem('ty_lang', lang);
+    localStorage.setItem('ty_lang_v2', lang);
     document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
   }, [lang]);
