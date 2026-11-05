@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
-import { CalendarDays, Clock, MapPin, User, Plus, X } from 'lucide-react';
+import { CalendarDays, Clock, MapPin, User, Plus, X, Sparkles, FileSpreadsheet } from 'lucide-react';
 import { Course, CourseSchedule } from '../types';
 import { PERSIAN_DAYS, getJalaliWeekDays, toPersianDigits } from '../utils/persian';
+import { BackButton } from './BackButton';
 
 interface WeeklyScheduleViewProps {
   courses: Course[];
   onAddScheduleSlot: (courseId: string, slot: CourseSchedule) => void;
   lang?: 'en' | 'fa';
+  onOpenGolestanModal?: () => void;
+  onBack?: () => void;
 }
 
 export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
   courses,
   onAddScheduleSlot,
   lang = 'fa',
+  onOpenGolestanModal,
+  onBack,
 }) => {
   const isFa = lang === 'fa';
   const [showAddModal, setShowAddModal] = useState(false);
@@ -60,19 +65,27 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
   return (
     <div className="space-y-6">
-      
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-            <CalendarDays className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-            <span>{isFa ? 'برنامه هفتگی و کلاسی دانشگاه' : 'Weekly Class Schedule'}</span>
-          </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            {isFa
-              ? 'مشاهده زمان‌بندی دقیق کلاس‌ها، اساتید و شماره اتاق‌ها در طول هفته'
-              : 'Weekly timetable, classrooms, professors, and course time slots'}
-          </p>
+        <div className="flex items-center gap-3">
+          {onBack && (
+            <BackButton
+              onBack={onBack}
+              previousPageName={isFa ? 'داشبورد' : 'Dashboard'}
+              lang={lang}
+            />
+          )}
+          <div>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <CalendarDays className="w-6 h-6 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>{isFa ? 'برنامه هفتگی و کلاسی دانشگاه' : 'Weekly Class Schedule'}</span>
+            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              {isFa
+                ? 'مشاهده زمان‌بندی دقیق کلاس‌ها، اساتید و شماره اتاق‌ها در طول هفته'
+                : 'Weekly timetable, classrooms, professors, and course time slots'}
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
@@ -100,12 +113,24 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
             </button>
           </div>
 
+          {/* Golestan OCR Import Button */}
+          {onOpenGolestanModal && (
+            <button
+              type="button"
+              onClick={onOpenGolestanModal}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 shadow-sm flex items-center gap-1.5 shrink-0 transition-all active:scale-95"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+              <span>{isFa ? 'استخراج از گلستان (گزارش ۸۸)' : 'Import Golestan PDF'}</span>
+            </button>
+          )}
+
           <button
             onClick={() => {
               if (courses.length === 0) {
                 alert(
                   isFa
-                    ? 'برای تنظیم ساعات برنامه هفتگی، لطفاً ابتدا حداقل یک درس را از بخش «دروس و نمرات» اضافه نمایید.'
+                    ? 'برای تنظیم ساعات برنامه هفتگی، لطفاً ابتدا حداقل یک درس را از بخش «دروس و نمرات» اضافه نمایید یا فایل گلستان را بارگذاری کنید.'
                     : 'Please add at least one course in the Courses section first.'
                 );
                 return;
@@ -115,10 +140,43 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
             className="px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-sm flex items-center gap-1.5 cursor-pointer shrink-0"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>{isFa ? 'افزودن کلاس' : 'Add Class'}</span>
+            <span>{isFa ? 'افزودن کلاس دستی' : 'Add Class'}</span>
           </button>
         </div>
       </div>
+
+      {/* Golestan OCR Feature Banner inside Weekly Schedule */}
+      {onOpenGolestanModal && (
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/5 dark:from-indigo-950/40 dark:via-purple-950/30 dark:to-slate-900 border border-indigo-200/80 dark:border-indigo-800/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-indigo-600/10 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>{isFa ? 'استخراج خودکار برنامه هفتگی از فایل گلستان (گزارش ۸۸)' : 'Import Schedule from Golestan PDF'}</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">
+                  {isFa ? 'جدید' : 'New'}
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                {isFa
+                  ? 'فایل PDF یا تصویر انتخاب واحد گلستان را بارگذاری کنید تا تمام کلاس‌ها، اساتید، ساعات و شماره اتاق‌ها خودکار ثبت شوند.'
+                  : 'Upload Golestan Report 88 PDF/image to auto-populate your semester courses and timetable.'}
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={onOpenGolestanModal}
+            className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-xs transition-all active:scale-95 shrink-0 flex items-center justify-center gap-1.5"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+            <span>{isFa ? 'بارگذاری برنامه گلستان' : 'Import Golestan'}</span>
+          </button>
+        </div>
+      )}
 
       {/* MOBILE DAY SELECTOR VIEW (md:hidden when mobileViewMode is 'day') */}
       {mobileViewMode === 'day' && (

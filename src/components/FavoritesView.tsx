@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Course, MarketItem, Task } from '../types';
 import { formatToman, toPersianDigits } from '../utils/persian';
+import { BackButton } from './BackButton';
 
 interface FavoritesViewProps {
   favoriteIds: string[];
@@ -22,6 +23,7 @@ interface FavoritesViewProps {
   tasks: Task[];
   lang?: 'en' | 'fa';
   onNavigateTab: (tab: string) => void;
+  onBack?: () => void;
 }
 
 export const FavoritesView: React.FC<FavoritesViewProps> = ({
@@ -32,6 +34,7 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
   tasks,
   lang = 'en',
   onNavigateTab,
+  onBack,
 }) => {
   const [filterType, setFilterType] = useState<'all' | 'market' | 'course' | 'task'>('all');
   const isFa = lang === 'fa';
@@ -46,20 +49,29 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
     <div className="space-y-6 pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
-        <div>
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-500 flex items-center justify-center">
-              <Heart className="w-5 h-5 fill-current" />
+        <div className="flex items-center gap-3">
+          {onBack && (
+            <BackButton
+              onBack={onBack}
+              previousPageName={isFa ? 'داشبورد' : 'Dashboard'}
+              lang={lang}
+            />
+          )}
+          <div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-500 flex items-center justify-center">
+                <Heart className="w-5 h-5 fill-current" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                {isFa ? 'نشان‌شده‌ها و مورد علاقه‌ها' : 'Favorites & Bookmarks'}
+              </h1>
             </div>
-            <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-              {isFa ? 'نشان‌شده‌ها و مورد علاقه‌ها' : 'Favorites & Bookmarks'}
-            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              {isFa
+                ? 'دسترسی سریع به اقلام بازارچه خوابگاهی، دروس و وظایف نشان‌شده شما'
+                : 'Quick access to your saved dorm items, courses, and pinned tasks'}
+            </p>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            {isFa
-              ? 'دسترسی سریع به اقلام بازارچه خوابگاهی، دروس و وظایف نشان‌شده شما'
-              : 'Quick access to your saved dorm items, courses, and pinned tasks'}
-          </p>
         </div>
 
         {/* Filter Pills */}

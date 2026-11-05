@@ -39,6 +39,7 @@ import { NewTaskModal } from './components/NewTaskModal';
 import { NewMarketItemModal } from './components/NewMarketItemModal';
 import { NewNeedRequestModal } from './components/NewNeedRequestModal';
 import { ProfileModal } from './components/ProfileModal';
+import { GolestanScheduleImportModal } from './components/GolestanScheduleImportModal';
 import {
   loadAllResources,
   saveResourceToVault,
@@ -170,6 +171,61 @@ export default function App() {
   const [isNewNeedModalOpen, setIsNewNeedModalOpen] = useState(false);
   const [isMonetizationModalOpen, setIsMonetizationModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isGolestanModalOpen, setIsGolestanModalOpen] = useState(false);
+
+  // Navigation history stack for global back button
+  const [tabHistory, setTabHistory] = useState<string[]>([]);
+
+  const navigateToTab = (newTab: string) => {
+    if (newTab === activeTab) return;
+    setTabHistory((prev) => [...prev, activeTab]);
+    setActiveTab(newTab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleGoBack = () => {
+    if (tabHistory.length > 0) {
+      const prevTab = tabHistory[tabHistory.length - 1];
+      setTabHistory((prev) => prev.slice(0, -1));
+      setActiveTab(prevTab);
+    } else {
+      if (activeTab !== 'dashboard') {
+        setActiveTab('dashboard');
+      } else {
+        setActiveTab('dossier');
+      }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleApplyGolestanSchedule = (
+    newCourses: Course[],
+    options: { mode: 'replace' | 'merge'; updateProfile?: UserProfile }
+  ) => {
+    if (options.mode === 'replace') {
+      setCourses(newCourses);
+    } else {
+      setCourses((prev) => {
+        const newNames = new Set(newCourses.map((c) => c.name.trim().toLowerCase()));
+        const kept = prev.filter((c) => !newNames.has(c.name.trim().toLowerCase()));
+        return [...kept, ...newCourses];
+      });
+    }
+
+    if (options.updateProfile) {
+      setUser((prev) => ({
+        ...prev,
+        ...options.updateProfile,
+        name: options.updateProfile?.name || prev.name,
+        studentId: options.updateProfile?.studentId || prev.studentId,
+        university: options.updateProfile?.university || prev.university,
+        major: options.updateProfile?.major || prev.major,
+      }));
+    }
+
+    setIsGolestanModalOpen(false);
+    navigateToTab('schedule');
+  };
 
   // Persistence to localStorage
   useEffect(() => {
@@ -376,7 +432,7 @@ export default function App() {
       {/* 1. Navigation Sidebar (Desktop permanent + Mobile slide-over drawer) */}
       <Sidebar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={navigateToTab}
         openNeedsCount={needRequests.length}
         marketItemsCount={marketItems.length}
         pendingTasksCount={pendingTasksCount}
@@ -401,10 +457,7 @@ export default function App() {
           onOpenProfileModal={() => setIsProfileModalOpen(true)}
           onOpenNewTaskModal={() => openNewTaskModal('homework')}
           onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          onOpenDossier={() => {
-            setActiveTab('dossier');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          onOpenDossier={() => navigateToTab('dossier')}
         />
 
         {/* Main Content Area */}
@@ -456,12 +509,12 @@ export default function App() {
                   setIsHealthModalOpen(true);
                   return;
                 }
-                setActiveTab(tab);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                navigateToTab(tab);
               }}
               onOpenNewTaskModal={() => openNewTaskModal('homework')}
               onOpenNewMarketModal={() => setIsNewMarketModalOpen(true)}
               onOpenProfileModal={() => setIsProfileModalOpen(true)}
+              onOpenGolestanModal={() => setIsGolestanModalOpen(true)}
             />
           )}
 
@@ -475,6 +528,7 @@ export default function App() {
               onToggleFavorite={handleToggleFavoriteResource}
               onDeleteResource={handleDeleteResource}
               onQuickShare={(res) => setSelectedViewerResource(res)}
+              onBack={handleGoBack}
             />
           )}
 
@@ -484,7 +538,7 @@ export default function App() {
                 healthData={healthData}
                 lang={lang}
                 onOpenAnalysisModal={() => setIsHealthModalOpen(true)}
-                onNavigateTab={(tab: string) => setActiveTab(tab)}
+                onNavigateTab={(tab: string) => navigateToTab(tab)}
               />
             </div>
           )}
@@ -493,10 +547,11 @@ export default function App() {
             <MarketplaceView
               items={marketItems}
               onOpenNewModal={() => setIsNewMarketModalOpen(true)}
-              onOpenNeedRequestTab={() => setActiveTab('need_requests')}
+              onOpenNeedRequestTab={() => navigateToTab('need_requests')}
               searchQuery={searchQuery}
               favoriteIds={favoriteIds}
               onToggleFavorite={handleToggleFavorite}
+              onBack={handleGoBack}
             />
           )}
 
@@ -508,10 +563,8 @@ export default function App() {
               courses={courses}
               tasks={tasks}
               lang={lang}
-              onNavigateTab={(tab) => {
-                setActiveTab(tab);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onNavigateTab={(tab) => navigateToTab(tab)}
+              onBack={handleGoBack}
             />
           )}
 
@@ -525,6 +578,8 @@ export default function App() {
               setLang={setLang}
               onResetToSampleData={handleResetToSampleData}
               onClearAllData={handleClearAllData}
+              onOpenGolestanModal={() => setIsGolestanModalOpen(true)}
+              onBack={handleGoBack}
             />
           )}
 
@@ -533,6 +588,7 @@ export default function App() {
               requests={needRequests}
               onOpenNewNeedModal={() => setIsNewNeedModalOpen(true)}
               onRespondToNeed={handleRespondToNeed}
+              onBack={handleGoBack}
             />
           )}
 
@@ -540,6 +596,9 @@ export default function App() {
             <WeeklyScheduleView
               courses={courses}
               onAddScheduleSlot={handleAddScheduleSlot}
+              lang={lang}
+              onOpenGolestanModal={() => setIsGolestanModalOpen(true)}
+              onBack={handleGoBack}
             />
           )}
 
@@ -549,6 +608,8 @@ export default function App() {
               onAddCourse={handleAddCourse}
               onUpdateCourseProgress={handleUpdateCourseProgress}
               onDeleteCourse={handleDeleteCourse}
+              onOpenGolestanModal={() => setIsGolestanModalOpen(true)}
+              onBack={handleGoBack}
             />
           )}
 
@@ -559,6 +620,7 @@ export default function App() {
               onDeleteTask={handleDeleteTask}
               onOpenNewTaskModal={openNewTaskModal}
               isExamOnly={false}
+              onBack={handleGoBack}
             />
           )}
 
@@ -569,6 +631,7 @@ export default function App() {
               onDeleteTask={handleDeleteTask}
               onOpenNewTaskModal={() => openNewTaskModal('exam')}
               isExamOnly={true}
+              onBack={handleGoBack}
             />
           )}
 
@@ -578,6 +641,7 @@ export default function App() {
               studyLogs={studyLogs}
               onAddStudyLog={handleAddStudyLog}
               lang={lang}
+              onBack={handleGoBack}
             />
           )}
         </main>
@@ -585,10 +649,7 @@ export default function App() {
         {/* 3. Mobile Thumb Bottom Navigation Bar (Hidden on desktop lg+) */}
         <nav className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/90 dark:border-slate-800 px-2 py-1.5 flex items-center justify-around shadow-lg select-none">
           <button
-            onClick={() => {
-              setActiveTab('dashboard');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={() => navigateToTab('dashboard')}
             className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl transition-colors ${
               activeTab === 'dashboard'
                 ? 'text-indigo-600 dark:text-indigo-400 font-bold'
@@ -600,10 +661,7 @@ export default function App() {
           </button>
 
           <button
-            onClick={() => {
-              setActiveTab('resources');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={() => navigateToTab('resources')}
             className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl transition-colors ${
               activeTab === 'resources'
                 ? 'text-indigo-600 dark:text-indigo-400 font-bold'
@@ -615,10 +673,7 @@ export default function App() {
           </button>
 
           <button
-            onClick={() => {
-              setActiveTab('tasks');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={() => navigateToTab('tasks')}
             className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl transition-colors ${
               activeTab === 'tasks'
                 ? 'text-indigo-600 dark:text-indigo-400 font-bold'
@@ -630,10 +685,7 @@ export default function App() {
           </button>
 
           <button
-            onClick={() => {
-              setActiveTab('schedule');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={() => navigateToTab('schedule')}
             className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl transition-colors ${
               activeTab === 'schedule'
                 ? 'text-indigo-600 dark:text-indigo-400 font-bold'
@@ -725,6 +777,16 @@ export default function App() {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onUpdateGoalHours={(hours) => setWeeklyGoalHours(hours)}
+      />
+
+      {/* Feature 1: Intelligent Golestan Schedule Extraction & OCR Modal */}
+      <GolestanScheduleImportModal
+        isOpen={isGolestanModalOpen}
+        onClose={() => setIsGolestanModalOpen(false)}
+        onApplySchedule={handleApplyGolestanSchedule}
+        currentCourses={courses}
+        currentUser={user}
+        lang={lang}
       />
     </div>
   );

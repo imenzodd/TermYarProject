@@ -21,6 +21,7 @@ export interface CourseSchedule {
   startTime: string; // 10:00
   endTime: string; // 11:30
   room: string;
+  building?: string;
   status?: 'done' | 'upcoming';
 }
 

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { BookOpen, Plus, Trash2, Edit3, Award, Clock, MapPin, X } from 'lucide-react';
+import { BookOpen, Plus, Trash2, Edit3, Award, Clock, MapPin, X, Sparkles, FileSpreadsheet } from 'lucide-react';
 import { Course } from '../types';
 import { toPersianDigits } from '../utils/persian';
+import { BackButton } from './BackButton';
 
 interface CoursesViewProps {
   courses: Course[];
   onAddCourse: (course: Course) => void;
   onUpdateCourseProgress: (courseId: string, progress: number) => void;
   onDeleteCourse: (courseId: string) => void;
+  onOpenGolestanModal?: () => void;
+  onBack?: () => void;
 }
 
 export const CoursesView: React.FC<CoursesViewProps> = ({
@@ -15,6 +18,8 @@ export const CoursesView: React.FC<CoursesViewProps> = ({
   onAddCourse,
   onUpdateCourseProgress,
   onDeleteCourse,
+  onOpenGolestanModal,
+  onBack,
 }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [name, setName] = useState('');
@@ -51,26 +56,46 @@ export const CoursesView: React.FC<CoursesViewProps> = ({
 
   return (
     <div className="space-y-6">
-      
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-            <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-            <span>دروس و نمرات ترم جاری</span>
-          </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            مجموعاً {toPersianDigits(courses.length)} درس ثبت شده ({toPersianDigits(totalUnits)} واحد تحصیلی)
-          </p>
+        <div className="flex items-center gap-3">
+          {onBack && (
+            <BackButton
+              onBack={onBack}
+              previousPageName="داشبورد"
+            />
+          )}
+          <div>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>دروس و نمرات ترم جاری</span>
+            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              مجموعاً {toPersianDigits(courses.length)} درس ثبت شده ({toPersianDigits(totalUnits)} واحد تحصیلی)
+            </p>
+          </div>
         </div>
 
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 shadow-sm flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>افزودن درس جدید</span>
-        </button>
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          {onOpenGolestanModal && (
+            <button
+              type="button"
+              onClick={onOpenGolestanModal}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 shadow-sm flex items-center gap-1.5 shrink-0 transition-all active:scale-95"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+              <span>استخراج از گلستان (گزارش ۸۸)</span>
+            </button>
+          )}
+
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 shadow-sm flex items-center gap-1.5 shrink-0 cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>افزودن درس دستی</span>
+          </button>
+        </div>
       </div>
 
       {/* Course Stats Row */}

@@ -27,6 +27,7 @@ import {
   Atom,
   Feather,
   LineChart,
+  Sparkles,
 } from 'lucide-react';
 import { Course, MarketItem, NeedRequest, SemesterHealthScoreData, Task, UserProfile } from '../types';
 import { SemesterHealthScoreCard } from './SemesterHealthScoreCard';
@@ -45,6 +46,7 @@ interface DashboardViewProps {
   onOpenNewTaskModal: () => void;
   onOpenNewMarketModal: () => void;
   onOpenProfileModal: () => void;
+  onOpenGolestanModal?: () => void;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -61,6 +63,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onOpenNewTaskModal,
   onOpenNewMarketModal,
   onOpenProfileModal,
+  onOpenGolestanModal,
 }) => {
   const isFa = lang === 'fa';
   const displayName = user.name ? user.name.split(' ')[0] : 'Alex';
@@ -199,9 +202,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       </div>
 
       {/* 2. Row 1: The Three Main Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-5">
         {/* Card 1: Today's Focus (Dark Pomodoro Hero) */}
-        <div className="lg:col-span-5 bg-gradient-to-br from-[#0F172A] via-[#111936] to-[#0A0E24] text-white rounded-2xl p-6 shadow-md border border-slate-800 flex flex-col justify-between relative overflow-hidden">
+        <div className="md:col-span-1 xl:col-span-5 bg-gradient-to-br from-[#0F172A] via-[#111936] to-[#0A0E24] text-white rounded-2xl p-6 shadow-md border border-slate-800 flex flex-col justify-between relative overflow-hidden">
           {/* Subtle decorative glow */}
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -285,7 +288,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Card 2: Today's Priorities */}
-        <div className="lg:col-span-4 dash-card p-5 flex flex-col justify-between">
+        <div className="md:col-span-1 xl:col-span-4 dash-card p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
@@ -358,7 +361,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {/* Card 3: Upcoming Deadlines */}
-        <div className="lg:col-span-3 dash-card p-5 flex flex-col justify-between">
+        <div className="md:col-span-2 xl:col-span-3 dash-card p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 pb-3 mb-2 border-b border-slate-100 dark:border-slate-800">
               <Calendar className="w-4 h-4 text-slate-500" />

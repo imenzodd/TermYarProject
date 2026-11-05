@@ -185,18 +185,6 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
               </button>
             )}
 
-            {/* Direct link to external Vercel deployment (secondary) */}
-            <a
-              href="https://term-yar.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-all"
-              title="مشاهده نسخه قدیمی مستقر در ورسل"
-            >
-              <span>لینک ورسل خارجی</span>
-              <ArrowUpRight className="w-3 h-3 text-slate-400" />
-            </a>
-
             {/* Print / Save PDF */}
             <button
               onClick={handlePrint}
@@ -366,26 +354,16 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                     پروتوتایپ کامل با برنامه هفتگی، مدیریت امتحانات، تایمر مطالعه، امتیاز سلامت ترم و بازارچه خوابگاهی (کاملاً بهینه‌شده برای موبایل و تبلت):
                   </p>
                 </div>
-                <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 flex-wrap">
+                <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
                   {onSwitchToLiveApp && (
                     <button
                       onClick={onSwitchToLiveApp}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-600/30 transition-all active:scale-95"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-600/30 transition-all active:scale-95"
                     >
                       <Laptop className="w-4 h-4 text-cyan-300" />
                       <span>ورود به سامانه ترم‌یار (همین تب)</span>
                     </button>
                   )}
-                  <a
-                    href="https://term-yar.vercel.app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-all text-center"
-                    title="مشاهده نسخه قدیمی روی سرور ورسل"
-                  >
-                    <span>لینک ورسل قدیمی</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                  </a>
                 </div>
               </div>
 
@@ -1871,22 +1849,12 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 {onSwitchToLiveApp && (
                   <button
                     onClick={onSwitchToLiveApp}
-                    className="px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md transition-all flex items-center justify-center gap-2 flex-1 sm:flex-initial"
+                    className="px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md transition-all flex items-center justify-center gap-2 flex-1 sm:flex-initial"
                   >
                     <Laptop className="w-4 h-4 text-cyan-300" />
                     <span>ورود مستقیم به سامانه ترم‌یار</span>
                   </button>
                 )}
-                <a
-                  href="https://term-yar.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
-                  title="مشاهده نسخه قدیمی روی ورسل"
-                >
-                  <span>ورسل خارجی</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                </a>
                 <button
                   onClick={handlePrint}
                   className="px-3.5 sm:px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"

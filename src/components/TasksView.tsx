@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CheckSquare, Plus, Trash2, Calendar, Clock, Filter, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { Priority, Task, TaskType } from '../types';
 import { toPersianDigits } from '../utils/persian';
+import { BackButton } from './BackButton';
 
 interface TasksViewProps {
   tasks: Task[];
@@ -9,6 +10,7 @@ interface TasksViewProps {
   onDeleteTask: (taskId: string) => void;
   onOpenNewTaskModal: (defaultType?: TaskType) => void;
   isExamOnly?: boolean;
+  onBack?: () => void;
 }
 
 export const TasksView: React.FC<TasksViewProps> = ({
@@ -17,6 +19,7 @@ export const TasksView: React.FC<TasksViewProps> = ({
   onDeleteTask,
   onOpenNewTaskModal,
   isExamOnly = false,
+  onBack,
 }) => {
   const [filterType, setFilterType] = useState<string>(isExamOnly ? 'exam' : 'all');
   const [filterPriority, setFilterPriority] = useState<string>('all');
@@ -33,19 +36,26 @@ export const TasksView: React.FC<TasksViewProps> = ({
 
   return (
     <div className="space-y-6">
-      
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-            <CheckSquare className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-            <span>{isExamOnly ? 'تقویم و برنامه امتحانات ترم' : 'تکالیف، پروژه‌ها و مهلت‌ها'}</span>
-          </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            {isExamOnly
-              ? 'برنامه‌ریزی و آماده‌سازی برای امتحانات میان‌ترم و پایان‌ترم'
-              : 'لیست وظایف با اولویت‌بندی، تاریخ تحویل و وضعیت انجام'}
-          </p>
+        <div className="flex items-center gap-3">
+          {onBack && (
+            <BackButton
+              onBack={onBack}
+              previousPageName="داشبورد"
+            />
+          )}
+          <div>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <CheckSquare className="w-6 h-6 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <span>{isExamOnly ? 'تقویم و برنامه امتحانات ترم' : 'تکالیف، پروژه‌ها و مهلت‌ها'}</span>
+            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              {isExamOnly
+                ? 'برنامه‌ریزی و آماده‌سازی برای امتحانات میان‌ترم و پایان‌ترم'
+                : 'لیست وظایف با اولویت‌بندی، تاریخ تحویل و وضعیت انجام'}
+            </p>
+          </div>
         </div>
 
         <button

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Timer, Play, Pause, RotateCcw, CheckCircle, Flame, Coffee, Sparkles } from 'lucide-react';
 import { Course, StudyLog } from '../types';
 import { toPersianDigits, getTodayJalaliString } from '../utils/persian';
+import { BackButton } from './BackButton';
 
 interface FocusTimerViewProps {
   courses: Course[];
   studyLogs: StudyLog[];
   onAddStudyLog: (log: StudyLog) => void;
   lang?: 'en' | 'fa';
+  onBack?: () => void;
 }
 
 export const FocusTimerView: React.FC<FocusTimerViewProps> = ({
@@ -15,6 +17,7 @@ export const FocusTimerView: React.FC<FocusTimerViewProps> = ({
   studyLogs,
   onAddStudyLog,
   lang = 'fa',
+  onBack,
 }) => {
   const isFa = lang === 'fa';
   const [selectedCourse, setSelectedCourse] = useState(courses[0]?.name || (isFa ? 'مطالعه آزاد' : 'Free Study'));
@@ -74,7 +77,17 @@ export const FocusTimerView: React.FC<FocusTimerViewProps> = ({
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      
+      {/* Top Back Navigation Bar */}
+      {onBack && (
+        <div className="flex items-center justify-start pb-2 border-b border-slate-200/80 dark:border-slate-800">
+          <BackButton
+            onBack={onBack}
+            previousPageName={isFa ? 'داشبورد' : 'Dashboard'}
+            lang={lang}
+          />
+        </div>
+      )}
+
       {/* Header */}
       <div className="text-center space-y-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">

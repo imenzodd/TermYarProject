@@ -20,6 +20,8 @@ import {
   BookOpen,
   Activity,
   X,
+  ChevronsLeft,
+  ChevronsRight,
 } from 'lucide-react';
 import { UserProfile } from '../types';
 
@@ -59,6 +61,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return window.innerWidth >= 1024;
   });
 
+  const [isDesktopCollapsed, setIsDesktopCollapsed] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem('ty_sidebar_collapsed') === 'true';
+  });
+
+  const toggleDesktopCollapse = () => {
+    setIsDesktopCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem('ty_sidebar_collapsed', String(next));
+      return next;
+    });
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
@@ -92,41 +107,128 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  const renderNavContent = (isMobile: boolean = false) => (
-    <div className="flex flex-col justify-between h-full">
-      <div className="p-4 sm:p-5">
-        {/* Logo & Brand Header */}
-        <div className="flex items-center justify-between px-2 mb-6">
-          <div
-            className="flex items-center gap-3 cursor-pointer"
-            onClick={() => handleSelectTab('dashboard')}
-          >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-              {/* Geometric folded icon matching screenshot */}
+  const renderNavContent = (isMobile: boolean = false) => {
+    if (!isMobile && isDesktopCollapsed) {
+      return (
+        <div className="flex flex-col justify-between h-full py-4 items-center">
+          {/* Top: Logo icon & Expand button */}
+          <div className="flex flex-col items-center gap-3 w-full px-2">
+            <button
+              onClick={() => handleSelectTab('dashboard')}
+              className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 hover:scale-105 transition-transform shrink-0"
+              title="TermYar"
+            >
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
               </svg>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
-                TermYar
-              </span>
-              <span className="text-[10px] font-medium text-slate-400 -mt-1 tracking-wider uppercase">
-                {isFa ? 'دستیار تحصیلی و خوابگاهی' : 'Student Cockpit'}
-              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleDesktopCollapse}
+              className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors"
+              title={isFa ? 'باز کردن منو' : 'Expand sidebar'}
+            >
+              <ChevronsLeft className="w-4 h-4 rtl:rotate-180" />
+            </button>
+
+            <div className="w-8 h-px bg-slate-200 dark:bg-slate-800 my-1" />
+
+            {/* Quick collapsed icons */}
+            <div className="flex flex-col items-center gap-1.5 w-full">
+              {[
+                { tab: 'dossier', icon: FileText, label: isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Dossier' },
+                { tab: 'dashboard', icon: LayoutDashboard, label: isFa ? 'داشبورد' : 'Dashboard' },
+                { tab: 'schedule', icon: CalendarDays, label: isFa ? 'برنامه هفتگی' : 'Schedule' },
+                { tab: 'courses', icon: BookOpen, label: isFa ? 'دروس من' : 'Courses' },
+                { tab: 'tasks', icon: ClipboardList, label: isFa ? 'تکالیف و تمرین‌ها' : 'Tasks' },
+                { tab: 'exams', icon: Calendar, label: isFa ? 'امتحانات' : 'Exams' },
+                { tab: 'timer', icon: Timer, label: isFa ? 'تایمر پومودورو' : 'Timer' },
+                { tab: 'resources', icon: Layers, label: isFa ? 'بانک جزوات و منابع' : 'Vault' },
+                { tab: 'marketplace', icon: ShoppingBag, label: isFa ? 'بازارچه خوابگاه' : 'Marketplace' },
+                { tab: 'favorites', icon: Heart, label: isFa ? 'نشان‌شده‌ها' : 'Favorites' },
+                { tab: 'settings', icon: Settings, label: isFa ? 'تنظیمات' : 'Settings' },
+              ].map(({ tab, icon: Icon, label }) => {
+                const active = activeTab === tab;
+                return (
+                  <button
+                    key={tab}
+                    onClick={() => handleSelectTab(tab)}
+                    title={label}
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
+                      active
+                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
+                        : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-400 hover:text-slate-900'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {isMobile && (
+          {/* Bottom icon */}
+          <div className="flex flex-col items-center gap-2">
             <button
-              onClick={onCloseMobile}
-              className="p-1.5 -mr-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              aria-label="Close menu"
+              onClick={onOpenProfileModal}
+              className="w-10 h-10 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors text-base"
+              title={user.name || 'Profile'}
             >
-              <X className="w-5 h-5" />
+              {user.avatar || '👨‍🎓'}
             </button>
-          )}
+          </div>
         </div>
+      );
+    }
+
+    return (
+      <div className="flex flex-col justify-between h-full">
+        <div className="p-3.5 sm:p-4">
+          {/* Logo & Brand Header */}
+          <div className="flex items-center justify-between px-1 mb-5">
+            <div
+              className="flex items-center gap-2.5 cursor-pointer min-w-0"
+              onClick={() => handleSelectTab('dashboard')}
+            >
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white truncate">
+                  TermYar
+                </span>
+                <span className="text-[9px] font-medium text-slate-400 -mt-1 tracking-wider uppercase truncate">
+                  {isFa ? 'دستیار دانشجو' : 'Student Cockpit'}
+                </span>
+              </div>
+            </div>
+
+            {/* Desktop Collapse Button */}
+            {!isMobile && (
+              <button
+                type="button"
+                onClick={toggleDesktopCollapse}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+                title={isFa ? 'جمع کردن منو (فضای بازتر)' : 'Collapse sidebar'}
+                aria-label="Collapse sidebar"
+              >
+                <ChevronsRight className="w-4 h-4 rtl:rotate-180" />
+              </button>
+            )}
+
+            {isMobile && (
+              <button
+                onClick={onCloseMobile}
+                className="p-1.5 -mr-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+                aria-label="Close menu"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
 
         {/* Business Dossier Special Item */}
         <div className="mb-2">
@@ -446,12 +548,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
     </div>
   );
+};
 
   return (
     <>
-      {/* 1. Permanent Desktop Sidebar (Strictly unmounted on mobile/tablet < 1024px) */}
+      {/* 1. Permanent Desktop Sidebar */}
       {isDesktop && (
-        <aside className="desktop-sidebar hidden lg:flex w-64 xl:w-72 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none">
+        <aside
+          className={`desktop-sidebar hidden lg:flex shrink-0 bg-white dark:bg-slate-900 rtl:border-l ltr:border-r border-slate-200/90 dark:border-slate-800 flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none transition-all duration-200 z-20 ${
+            isDesktopCollapsed ? 'w-20' : 'w-60 xl:w-64'
+          }`}
+        >
           {renderNavContent(false)}
         </aside>
       )}

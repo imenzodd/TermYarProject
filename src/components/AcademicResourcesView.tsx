@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { AcademicResource, Course, ResourceFileType } from '../types';
 import { formatBytes } from '../utils/resourceStorage';
+import { BackButton } from './BackButton';
 
 interface AcademicResourcesViewProps {
   resources: AcademicResource[];
@@ -41,6 +42,7 @@ interface AcademicResourcesViewProps {
   onToggleFavorite: (resourceId: string) => void;
   onDeleteResource: (resourceId: string) => void;
   onQuickShare: (resource: AcademicResource) => void;
+  onBack?: () => void;
 }
 
 export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
@@ -52,6 +54,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
   onToggleFavorite,
   onDeleteResource,
   onQuickShare,
+  onBack,
 }) => {
   const isFa = lang === 'fa';
 
@@ -178,20 +181,29 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
     <div className="space-y-6 pb-12 animate-in fade-in">
       {/* 1. Header & Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-3 mb-1">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-              <BookOpen className="w-5 h-5" />
+        <div className="flex items-center gap-3">
+          {onBack && (
+            <BackButton
+              onBack={onBack}
+              previousPageName={isFa ? 'داشبورد' : 'Dashboard'}
+              lang={lang}
+            />
+          )}
+          <div>
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                {isFa ? 'منابع درسی و جزوات' : 'Academic Resources'}
+              </h1>
             </div>
-            <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-              {isFa ? 'منابع درسی و جزوات' : 'Academic Resources'}
-            </h1>
+            <p className="text-xs text-slate-400">
+              {isFa
+                ? 'آرشیو سازمان‌یافته، مطالعه درون‌برنامه‌ای PDF و حاشیه‌نویسی جزوات درسی'
+                : 'Organized academic vault, in-browser PDF reader, and collaborative annotations'}
+            </p>
           </div>
-          <p className="text-xs text-slate-400">
-            {isFa
-              ? 'آرشیو سازمان‌یافته، مطالعه درون‌برنامه‌ای PDF و حاشیه‌نویسی جزوات درسی'
-              : 'Organized academic vault, in-browser PDF reader, and collaborative annotations'}
-          </p>
         </div>
 
         <button

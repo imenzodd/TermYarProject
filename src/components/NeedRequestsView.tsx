@@ -12,17 +12,20 @@ import {
 } from 'lucide-react';
 import { NeedRequest } from '../types';
 import { toPersianDigits } from '../utils/persian';
+import { BackButton } from './BackButton';
 
 interface NeedRequestsViewProps {
   requests: NeedRequest[];
   onOpenNewNeedModal: () => void;
   onRespondToNeed: (id: string) => void;
+  onBack?: () => void;
 }
 
 export const NeedRequestsView: React.FC<NeedRequestsViewProps> = ({
   requests,
   onOpenNewNeedModal,
   onRespondToNeed,
+  onBack,
 }) => {
   const [selectedDorm, setSelectedDorm] = useState('all');
   const [activeRespondModal, setActiveRespondModal] = useState<NeedRequest | null>(null);
@@ -52,18 +55,26 @@ export const NeedRequestsView: React.FC<NeedRequestsViewProps> = ({
       
       {/* Clean Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-200 dark:border-slate-800">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
-              دیوار نیازمندی‌های فوری خوابگاه («کی داره؟»)
-            </h1>
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-              امانت و هماهنگی درون‌دانشگاهی
-            </span>
+        <div className="flex items-center gap-3">
+          {onBack && (
+            <BackButton
+              onBack={onBack}
+              previousPageName="بازارچه"
+            />
+          )}
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
+                دیوار نیازمندی‌های فوری خوابگاه («کی داره؟»)
+              </h1>
+              <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                امانت و هماهنگی درون‌دانشگاهی
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              اعلام نیازهای سریع دانشجویان برای شب امتحان، ژوژمان یا وسایل پخت‌وپز خوابگاهی
+            </p>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            اعلام نیازهای سریع دانشجویان برای شب امتحان، ژوژمان یا وسایل پخت‌وپز خوابگاهی
-          </p>
         </div>
 
         <button
