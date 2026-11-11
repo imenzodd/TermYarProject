@@ -39,19 +39,21 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-2xl p-4 sm:p-6 space-y-4 text-right">
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+      <div className="glass-panel bg-[#0B1020]/95 backdrop-blur-2xl rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-white/[0.12] shadow-2xl p-4 sm:p-6 space-y-4 text-right">
         
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
           <div className="flex items-center gap-2">
-            <User className="w-5 h-5 text-slate-700 dark:text-slate-300" />
-            <h2 className="font-black text-sm text-slate-900 dark:text-white">
+            <span className="p-1.5 rounded-lg bg-[#663AF3]/20 border border-[#663AF3]/35 text-[#65D5FF]">
+              <User className="w-4 h-4" />
+            </span>
+            <h2 className="font-black text-sm text-[#F1F3FA]">
               تنظیم مشخصات و اطلاعات دانشجو
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+            className="p-1.5 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -59,7 +61,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-3.5 text-xs">
           <div>
-            <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block font-bold text-[#A6AEC3] mb-1.5">
               نام و نام خانوادگی:
             </label>
             <input
@@ -68,13 +70,13 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
               placeholder="مثلاً: علی محمدی"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none focus:border-slate-500"
+              className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3] focus:ring-1 focus:ring-[#663AF3] transition-all"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-bold text-[#A6AEC3] mb-1.5">
                 دانشگاه:
               </label>
               <input
@@ -82,12 +84,12 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                 placeholder="مثلاً: دانشگاه تهران"
                 value={university}
                 onChange={(e) => setUniversity(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3]"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-bold text-[#A6AEC3] mb-1.5">
                 رشته تحصیلی:
               </label>
               <input
@@ -95,14 +97,14 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                 placeholder="مثلاً: مهندسی صنایع"
                 value={major}
                 onChange={(e) => setMajor(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3]"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-bold text-[#A6AEC3] mb-1.5">
                 شماره دانشجویی (اختیاری):
               </label>
               <input
@@ -110,12 +112,12 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                 placeholder="۴۰۱..."
                 value={studentId}
                 onChange={(e) => setStudentId(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3]"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-bold text-[#A6AEC3] mb-1.5">
                 شماره اتاق / بلوک:
               </label>
               <input
@@ -123,13 +125,13 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                 placeholder="اتاق ۲۰۳"
                 value={roomNumber}
                 onChange={(e) => setRoomNumber(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3]"
               />
             </div>
           </div>
 
           <div>
-            <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block font-bold text-[#A6AEC3] mb-1.5">
               نام خوابگاه (در صورت سکونت در خوابگاه):
             </label>
             <input
@@ -137,21 +139,21 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
               placeholder="مثلاً: خوابگاه کوی دانشگاه / خوابگاه شهید چمران"
               value={dormitory}
               onChange={(e) => setDormitory(e.target.value)}
-              className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+              className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3]"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="px-4 py-2 rounded-xl text-xs font-semibold text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors cursor-pointer"
             >
               انصراف
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-lg text-white bg-[#FF4B26] hover:bg-[#E83C18] font-bold shadow-xs cursor-pointer"
+              className="btn-primary-futuristic text-xs px-5 py-2.5 font-bold cursor-pointer"
             >
               ذخیره اطلاعات
             </button>

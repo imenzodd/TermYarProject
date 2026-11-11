@@ -293,10 +293,10 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/70 backdrop-blur-sm overflow-y-auto animate-fade-in">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full my-auto overflow-hidden flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-md overflow-y-auto animate-fade-in">
+      <div className="glass-panel bg-[#0B1020]/95 backdrop-blur-3xl border border-white/[0.1] rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full my-auto overflow-hidden flex flex-col max-h-[92vh]">
         {/* Top Header */}
-        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-slate-50/70 dark:bg-slate-800/50">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-white/[0.08] flex items-center justify-between shrink-0 bg-[#11182A]/70">
           <div className="flex items-center gap-3">
             {step === 'preview' && (
               <BackButton
@@ -305,19 +305,19 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                 variant="subtle"
               />
             )}
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-md shadow-indigo-500/20 shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] text-white flex items-center justify-center shadow-lg shadow-[#663AF3]/30 shrink-0">
               <FileSpreadsheet className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white">
+                <h3 className="font-extrabold text-sm sm:text-base text-[#F1F3FA]">
                   استخراج هوشمند برنامه هفتگی (OCR گلستان)
                 </h3>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#663AF3]/25 border border-[#663AF3]/40 text-[#C9BAFF]">
                   گزارش ۸۸
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-[11px] text-[#A6AEC3] mt-0.5">
                 تبدیل خودکار فایل PDF یا تصویر برنامه انتخاب واحد به تقویم هفتگی و درس‌های ترمیار
               </p>
             </div>
@@ -330,7 +330,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
               }
               onClose();
             }}
-            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 transition-colors"
+            className="p-1.5 sm:p-2 rounded-xl text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors"
             aria-label="بستن"
           >
             <X className="w-5 h-5" />
@@ -343,8 +343,8 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
           {step === 'upload' && (
             <div className="space-y-5">
               {errorMessage && (
-                <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 flex items-start gap-3 text-rose-700 dark:text-rose-300 text-xs">
-                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-start gap-3 text-rose-300 text-xs">
+                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
                   <div className="leading-relaxed">{errorMessage}</div>
                 </div>
               )}
@@ -354,7 +354,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className="border-2 border-dashed border-indigo-300 dark:border-indigo-700/60 hover:border-indigo-500 dark:hover:border-indigo-500 bg-indigo-50/30 dark:bg-indigo-950/10 hover:bg-indigo-50/60 rounded-2xl p-6 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all group"
+                className="border-2 border-dashed border-[#663AF3]/40 hover:border-[#663AF3] bg-[#663AF3]/5 hover:bg-[#663AF3]/10 rounded-2xl p-6 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all group"
               >
                 <input
                   ref={fileInputRef}
@@ -363,50 +363,50 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                   className="hidden"
                   onChange={handleFileInputChange}
                 />
-                <div className="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform mb-3 shadow-inner">
+                <div className="w-14 h-14 rounded-2xl bg-[#663AF3]/20 border border-[#663AF3]/35 text-[#39A7FF] flex items-center justify-center group-hover:scale-110 transition-transform mb-3 shadow-[0_0_15px_rgba(102,58,243,0.3)]">
                   <Upload className="w-7 h-7" />
                 </div>
-                <h4 className="font-bold text-sm sm:text-base text-slate-800 dark:text-slate-200">
+                <h4 className="font-bold text-sm sm:text-base text-[#F1F3FA]">
                   فایل PDF یا تصویر برنامه هفتگی گلستان را بکشید و رها کنید
                 </h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md">
+                <p className="text-xs text-[#A6AEC3] mt-1 max-w-md">
                   یا برای انتخاب فایل از حافظه کلیک کنید (پشتیبانی از PDF متنی یا اسکن‌شده، JPG و PNG)
                 </p>
-                <div className="flex items-center gap-2 mt-4 text-[11px] text-slate-400 font-medium">
-                  <span className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <div className="flex items-center gap-2 mt-4 text-[11px] text-[#707B96] font-medium">
+                  <span className="px-2.5 py-1 rounded-lg bg-[#11182A] border border-white/[0.08]">
                     PDF گلستان
                   </span>
-                  <span className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  <span className="px-2.5 py-1 rounded-lg bg-[#11182A] border border-white/[0.08]">
                     تصویر اسکن
                   </span>
-                  <span className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  <span className="px-2.5 py-1 rounded-lg bg-[#11182A] border border-white/[0.08]">
                     اسکرین‌شات جدول
                   </span>
                 </div>
               </div>
 
               {/* Sample PDF 1-Click Test Box */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-slate-900/10 dark:from-purple-950/40 dark:via-indigo-950/40 dark:to-slate-900/40 border border-indigo-200 dark:border-indigo-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+              <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-[#663AF3]/20 via-[#11182A] to-[#39A7FF]/15 border border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 glow-purple-sm">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-600/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] text-white flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(102,58,243,0.3)]">
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <div className="text-xs sm:text-sm font-bold text-[#F1F3FA] flex items-center gap-2">
                       <span>تست مستقیم با نمونه واقعی دانشگاه یزد</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
                         فایل استاندارد
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                      فایل PDF نمونه استاد شامل ۸ درس (۱۷ واحد) با جلسات چندگانه شنبه، یکشنبه، دوشنبه، سه‌شنبه و چهارشنبه
+                    <p className="text-[11px] text-[#A6AEC3] mt-0.5">
+                      فایل PDF نمونه شامل ۸ درس (۱۷ واحد) با جلسات چندگانه شنبه، یکشنبه، دوشنبه، سه‌شنبه و چهارشنبه
                     </p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={handleLoadSamplePdf}
-                  className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm transition-all active:scale-95 shrink-0 flex items-center justify-center gap-1.5"
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold btn-primary-futuristic text-white transition-all active:scale-95 shrink-0 flex items-center justify-center gap-1.5"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
                   <span>آزمایش با نمونه پیوست‌شده</span>
@@ -414,12 +414,12 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
               </div>
 
               {/* Guide Note */}
-              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-300 space-y-2">
-                <div className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                  <HelpCircle className="w-4 h-4 text-indigo-500" />
+              <div className="p-4 rounded-2xl bg-[#11182A]/80 border border-white/[0.08] text-xs text-[#A6AEC3] space-y-2">
+                <div className="font-bold text-[#F1F3FA] flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4 text-[#39A7FF]" />
                   <span>راهنمای استخراج از سیستم گلستان:</span>
                 </div>
-                <ul className="list-disc list-inside space-y-1 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                <ul className="list-disc list-inside space-y-1 text-[11px] text-[#A6AEC3] leading-relaxed">
                   <li>در سامانه گلستان وارد منوی <strong>«ثبت نام» ➔ «گزارش‌های ثبت نام» ➔ «گزارش ۸۸ (برنامه هفتگی دانشجو در طول ثبت نام)»</strong> شوید.</li>
                   <li>روی دکمه چاپ یا خروجی PDF کلیک کرده و فایل را ذخیره کنید.</li>
                   <li>فایل ذخیره‌شده را در این بخش قرار دهید؛ تمامی درس‌ها، ساعت‌ها و مکان‌های کلاس به صورت خودکار تفکیک می‌شوند.</li>
@@ -432,19 +432,19 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
           {step === 'processing' && (
             <div className="py-12 sm:py-16 flex flex-col items-center justify-center text-center space-y-4">
               <div className="relative">
-                <div className="w-16 h-16 rounded-full border-4 border-indigo-200 dark:border-indigo-900 border-t-indigo-600 dark:border-t-indigo-500 animate-spin" />
-                <Sparkles className="w-6 h-6 text-indigo-600 dark:text-indigo-400 absolute inset-0 m-auto" />
+                <div className="w-16 h-16 rounded-full border-4 border-white/10 border-t-[#663AF3] animate-spin" />
+                <Sparkles className="w-6 h-6 text-[#39A7FF] absolute inset-0 m-auto animate-pulse" />
               </div>
               <div className="space-y-1 max-w-md">
-                <h4 className="font-extrabold text-base text-slate-900 dark:text-white">
+                <h4 className="font-extrabold text-base text-[#F1F3FA]">
                   در حال استخراج هوشمند اطلاعات برنامه
                 </h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{processingStatus}</p>
+                <p className="text-xs text-[#A6AEC3]">{processingStatus}</p>
               </div>
               {/* Progress bar */}
-              <div className="w-full max-w-sm bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-200/60 dark:border-slate-700">
+              <div className="w-full max-w-sm bg-[#11182A] rounded-full h-2 overflow-hidden border border-white/[0.06]">
                 <div
-                  className="bg-gradient-to-r from-indigo-600 to-purple-600 h-full rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-[#663AF3] to-[#39A7FF] h-full rounded-full transition-all duration-300 shadow-[0_0_10px_#663AF3]"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -456,27 +456,27 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
             <div className="space-y-5">
               {/* Student Extracted Info Card */}
               {parsedData?.studentInfo && (
-                <div className="p-4 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/40 dark:to-purple-950/40 border border-indigo-200/80 dark:border-indigo-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-[#663AF3]/15 via-[#11182A] to-[#39A7FF]/15 border border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <GraduationCap className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                      <span className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white">
+                      <GraduationCap className="w-4 h-4 text-[#39A7FF]" />
+                      <span className="font-extrabold text-xs sm:text-sm text-[#F1F3FA]">
                         اطلاعات دانشجو: {parsedData.studentInfo.name} ({parsedData.studentInfo.studentId})
                       </span>
                     </div>
-                    <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-3 flex-wrap">
+                    <div className="text-[11px] text-[#A6AEC3] flex items-center gap-3 flex-wrap">
                       <span>دانشگاه: {parsedData.studentInfo.university}</span>
                       <span>رشته: {parsedData.studentInfo.major}</span>
                       <span>واحدهای اخذشده: {parsedData.studentInfo.totalCredits} واحد</span>
                     </div>
                   </div>
 
-                  <label className="flex items-center gap-2 text-xs font-semibold text-slate-700 dark:text-slate-200 cursor-pointer shrink-0">
+                  <label className="flex items-center gap-2 text-xs font-semibold text-[#F1F3FA] cursor-pointer shrink-0">
                     <input
                       type="checkbox"
                       checked={shouldUpdateProfile}
                       onChange={(e) => setShouldUpdateProfile(e.target.checked)}
-                      className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                      className="rounded border-white/20 bg-[#11182A] text-[#663AF3] focus:ring-[#663AF3]"
                     />
                     <span>به‌روزرسانی پروفایل من با این اطلاعات</span>
                   </label>
@@ -486,26 +486,26 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
               {/* Action Toolbar */}
               <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-slate-900 dark:text-white">
+                  <span className="text-xs font-bold text-[#F1F3FA]">
                     جلسات استخراج‌شده ({editableSessions.length} جلسه):
                   </span>
-                  <span className="text-[11px] text-slate-500">قابل ویرایش قبل از ثبت نهایی</span>
+                  <span className="text-[11px] text-[#707B96]">قابل ویرایش قبل از ثبت نهایی</span>
                 </div>
                 <button
                   type="button"
                   onClick={handleAddNewSession}
-                  className="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 border border-indigo-200 dark:border-indigo-800 transition-colors flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#663AF3]/20 text-[#C9BAFF] hover:bg-[#663AF3]/30 border border-[#663AF3]/40 transition-colors flex items-center gap-1.5"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>افزودن جلسه دستی</span>
                 </button>
               </div>
 
-              {/* Sessions Table (Responsive Horizontal Scroll) */}
-              <div className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 shadow-xs">
+              {/* Sessions Table */}
+              <div className="border border-white/[0.08] rounded-2xl overflow-hidden glass-card shadow-xs">
                 <div className="overflow-x-auto">
                   <table className="w-full text-right text-xs">
-                    <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800 text-[11px] font-bold">
+                    <thead className="bg-[#11182A]/90 text-[#A6AEC3] border-b border-white/[0.08] text-[11px] font-bold">
                       <tr>
                         <th className="p-3">نام درس</th>
                         <th className="p-3">روز برگزاری</th>
@@ -517,11 +517,11 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                         <th className="p-3 text-center">عملیات</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody className="divide-y divide-white/[0.06]">
                       {editableSessions.map((sess) => (
                         <tr
                           key={sess.id}
-                          className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors"
+                          className="hover:bg-white/[0.03] transition-colors"
                         >
                           <td className="p-2 sm:p-2.5 min-w-[140px]">
                             <input
@@ -530,7 +530,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                               onChange={(e) =>
                                 handleUpdateSession(sess.id, 'courseName', e.target.value)
                               }
-                              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                              className="w-full bg-[#11182A] border border-white/[0.08] rounded-lg px-2 py-1 text-xs font-semibold text-[#F1F3FA] focus:outline-none focus:border-[#663AF3]"
                             />
                           </td>
                           <td className="p-2 sm:p-2.5 min-w-[110px]">
@@ -539,10 +539,10 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                               onChange={(e) =>
                                 handleUpdateSession(sess.id, 'day', Number(e.target.value))
                               }
-                              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+                              className="w-full bg-[#11182A] border border-white/[0.08] rounded-lg px-2 py-1 text-xs text-[#F1F3FA] focus:outline-none focus:border-[#663AF3]"
                             >
                               {PERSIAN_DAY_OPTIONS.map((d) => (
-                                <option key={d.index} value={d.index}>
+                                <option key={d.index} value={d.index} className="bg-[#0B1020] text-white">
                                   {d.label}
                                 </option>
                               ))}
@@ -555,7 +555,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                               onChange={(e) =>
                                 handleUpdateSession(sess.id, 'startTime', e.target.value)
                               }
-                              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-mono text-center text-slate-800 dark:text-slate-200 focus:outline-none"
+                              className="w-full bg-[#11182A] border border-white/[0.08] rounded-lg px-2 py-1 text-xs font-mono text-center text-[#F1F3FA] focus:outline-none focus:border-[#663AF3]"
                             />
                           </td>
                           <td className="p-2 sm:p-2.5 min-w-[85px]">
@@ -565,7 +565,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                               onChange={(e) =>
                                 handleUpdateSession(sess.id, 'endTime', e.target.value)
                               }
-                              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-mono text-center text-slate-800 dark:text-slate-200 focus:outline-none"
+                              className="w-full bg-[#11182A] border border-white/[0.08] rounded-lg px-2 py-1 text-xs font-mono text-center text-[#F1F3FA] focus:outline-none focus:border-[#663AF3]"
                             />
                           </td>
                           <td className="p-2 sm:p-2.5 min-w-[120px]">
@@ -575,7 +575,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                               onChange={(e) =>
                                 handleUpdateSession(sess.id, 'professor', e.target.value)
                               }
-                              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+                              className="w-full bg-[#11182A] border border-white/[0.08] rounded-lg px-2 py-1 text-xs text-[#F1F3FA] focus:outline-none focus:border-[#663AF3]"
                             />
                           </td>
                           <td className="p-2 sm:p-2.5 min-w-[140px]">
@@ -585,7 +585,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                               onChange={(e) =>
                                 handleUpdateSession(sess.id, 'room', e.target.value)
                               }
-                              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+                              className="w-full bg-[#11182A] border border-white/[0.08] rounded-lg px-2 py-1 text-xs text-[#F1F3FA] focus:outline-none focus:border-[#663AF3]"
                             />
                           </td>
                           <td className="p-2 sm:p-2.5 w-16 text-center">
@@ -597,14 +597,14 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                               onChange={(e) =>
                                 handleUpdateSession(sess.id, 'credits', Number(e.target.value))
                               }
-                              className="w-12 mx-auto bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-1 py-1 text-xs text-center text-slate-800 dark:text-slate-200 focus:outline-none"
+                              className="w-12 mx-auto bg-[#11182A] border border-white/[0.08] rounded-lg px-1 py-1 text-xs text-center text-[#F1F3FA] focus:outline-none focus:border-[#663AF3]"
                             />
                           </td>
                           <td className="p-2 sm:p-2.5 text-center">
                             <button
                               type="button"
                               onClick={() => handleDeleteSession(sess.id)}
-                              className="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+                              className="p-1.5 rounded-lg text-[#707B96] hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                               title="حذف این جلسه"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -618,17 +618,17 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
               </div>
 
               {/* Import Mode Radio Options */}
-              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="p-4 rounded-xl bg-[#11182A]/80 border border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="text-xs">
-                  <div className="font-bold text-slate-900 dark:text-white">روش اعمال به برنامه فعلی:</div>
-                  <div className="text-slate-500 text-[11px] mt-0.5">
+                  <div className="font-bold text-[#F1F3FA]">روش اعمال به برنامه فعلی:</div>
+                  <div className="text-[#707B96] text-[11px] mt-0.5">
                     {currentCourses.length > 0
                       ? `هم‌اکنون ${currentCourses.length} درس در برنامه شما ثبت شده است.`
                       : 'برنامه شما در حال حاضر خالی است.'}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 text-xs font-semibold">
+                <div className="flex items-center gap-4 text-xs font-semibold text-[#F1F3FA]">
                   <label className="flex items-center gap-1.5 cursor-pointer">
                     <input
                       type="radio"
@@ -636,7 +636,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                       value="replace"
                       checked={importMode === 'replace'}
                       onChange={() => setImportMode('replace')}
-                      className="text-indigo-600 focus:ring-indigo-500"
+                      className="text-[#663AF3] focus:ring-[#663AF3] bg-[#0B1020] border-white/20"
                     />
                     <span>جایگزینی کامل (توصیه‌شده)</span>
                   </label>
@@ -647,7 +647,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                       value="merge"
                       checked={importMode === 'merge'}
                       onChange={() => setImportMode('merge')}
-                      className="text-indigo-600 focus:ring-indigo-500"
+                      className="text-[#663AF3] focus:ring-[#663AF3] bg-[#0B1020] border-white/20"
                     />
                     <span>ادغام با کلاس‌های فعلی</span>
                   </label>
@@ -658,13 +658,13 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
         </div>
 
         {/* Modal Footer */}
-        <div className="px-4 sm:px-6 py-3.5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/50 flex items-center justify-between gap-3 shrink-0">
+        <div className="px-4 sm:px-6 py-3.5 border-t border-white/[0.08] bg-[#11182A]/70 flex items-center justify-between gap-3 shrink-0">
           <div>
             {step === 'preview' && (
               <button
                 type="button"
                 onClick={() => setStep('upload')}
-                className="text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                className="text-xs font-semibold text-[#A6AEC3] hover:text-white transition-colors"
               >
                 آپلود فایل دیگر
               </button>
@@ -680,7 +680,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                 }
                 onClose();
               }}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 transition-colors"
+              className="px-4 py-2 rounded-xl text-xs font-semibold text-[#A6AEC3] hover:text-white hover:bg-white/[0.06] transition-colors"
             >
               انصراف
             </button>
@@ -689,7 +689,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
               <button
                 type="button"
                 onClick={handleFinalConfirm}
-                className="px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20 transition-all active:scale-95 flex items-center gap-1.5"
+                className="px-5 py-2.5 rounded-xl text-xs font-bold btn-primary-futuristic text-white transition-all active:scale-95 flex items-center gap-1.5"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>تأیید و افزودن به برنامه هفتگی</span>

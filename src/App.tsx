@@ -48,6 +48,7 @@ import {
 } from './utils/resourceStorage';
 import { calculateSemesterHealthScore } from './utils/healthScoreCalculator';
 import { BusinessDossierView } from './components/BusinessDossierView';
+import { LandingPageView } from './components/LandingPageView';
 import { LayoutDashboard, BookOpen, CheckSquare, CalendarDays, Menu, GraduationCap } from 'lucide-react';
 
 export default function App() {
@@ -89,30 +90,24 @@ export default function App() {
     document.documentElement.lang = lang;
   }, [lang]);
 
-  // Theme state
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    return localStorage.getItem('ty_dark_mode') === 'true';
-  });
+  // Theme state: Dedicated futuristic liquid glass theme
+  const [darkMode, setDarkMode] = useState<boolean>(true);
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('ty_dark_mode', String(darkMode));
-  }, [darkMode]);
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('ty_dark_mode', 'true');
+  }, []);
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleDarkMode = () => setDarkMode(true);
 
-  // Active navigation tab (defaults to 'dossier' for the academic presentation, easily toggled)
+  // Active navigation tab (defaults to 'landing' for modern SaaS landing presentation)
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (typeof window !== 'undefined' && window.location) {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('tab')) return urlParams.get('tab') as string;
     }
     const saved = localStorage.getItem('ty_active_tab_v7');
-    return saved || 'dossier';
+    return saved || 'landing';
   });
 
   useEffect(() => {
@@ -427,8 +422,26 @@ export default function App() {
     );
   }
 
+  if (activeTab === 'landing') {
+    return (
+      <LandingPageView
+        lang={lang}
+        setLang={setLang}
+        onLaunchApp={() => navigateToTab('dashboard')}
+        onOpenDossier={() => navigateToTab('dossier')}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col lg:flex-row w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen futuristic-bg text-[#F1F3FA] flex flex-col lg:flex-row w-full max-w-full overflow-x-hidden relative selection:bg-[#663AF3] selection:text-white">
+      {/* Ambient Atmospheric Lighting Layers */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute -top-32 end-0 w-[600px] h-[600px] bg-[#663AF3]/15 rounded-full blur-[140px]" />
+        <div className="absolute top-[25%] start-0 w-[500px] h-[500px] bg-[#39A7FF]/10 rounded-full blur-[130px]" />
+        <div className="absolute -bottom-32 end-[20%] w-[650px] h-[650px] bg-[#663AF3]/10 rounded-full blur-[160px]" />
+      </div>
+
       {/* 1. Navigation Sidebar (Desktop permanent + Mobile slide-over drawer) */}
       <Sidebar
         activeTab={activeTab}
@@ -444,7 +457,7 @@ export default function App() {
       />
 
       {/* 2. Main Content Flow (Header + Dynamic Dashboard) */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 relative z-10">
         {/* Top Navbar */}
         <Navbar
           user={user}
@@ -457,41 +470,11 @@ export default function App() {
           onOpenProfileModal={() => setIsProfileModalOpen(true)}
           onOpenNewTaskModal={() => openNewTaskModal('homework')}
           onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          onOpenDossier={() => navigateToTab('dossier')}
+          onOpenLanding={() => navigateToTab('landing')}
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-3.5 sm:p-5 lg:p-8 max-w-[1400px] w-full mx-auto pb-24 lg:pb-8">
-          {/* Academic Dossier Quick Access Banner */}
-          <div className="mb-5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-indigo-900/30 via-purple-900/20 to-indigo-950/40 border border-indigo-500/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-indigo-600/20 text-indigo-500 flex items-center justify-center shrink-0">
-                <GraduationCap className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <span>{lang === 'fa' ? 'پرونده تحلیلی درس تجارت الکترونیک دانشگاه (TermYar Dossier)' : 'E-Commerce Academic Business Dossier'}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 font-semibold border border-indigo-500/30">
-                    {lang === 'fa' ? '۱۰ بخش تحلیلی' : '10 Sections'}
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">
-                  {lang === 'fa' ? 'امکان‌سنجی، تفکیک ارزش کاربردی/مبادله‌ای، پاسخ ۸ سؤال ایده بالغ و سناریوهای عملیاتی' : 'Feasibility, use vs exchange value, 8 mature idea questions, and pilot strategy'}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-end">
-              <button
-                onClick={() => {
-                  setActiveTab('dossier');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm transition-all text-center"
-              >
-                {lang === 'fa' ? 'مطالعه پرونده تحلیلی' : 'Read Dossier'}
-              </button>
-            </div>
-          </div>
+        <main className="flex-1 p-3.5 sm:p-5 lg:p-8 max-w-[1400px] w-full mx-auto pb-28 lg:pb-8">
 
           {activeTab === 'dashboard' && (
             <DashboardView
@@ -646,14 +629,14 @@ export default function App() {
           )}
         </main>
 
-        {/* 3. Mobile Thumb Bottom Navigation Bar (Hidden on desktop lg+) */}
-        <nav className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/90 dark:border-slate-800 px-2 py-1.5 flex items-center justify-around shadow-lg select-none">
+        {/* 3. Mobile Thumb Floating Liquid Glass Bar (Hidden on desktop lg+) */}
+        <nav className="lg:hidden fixed bottom-3 inset-x-3 z-40 glass-panel rounded-2xl p-1.5 flex items-center justify-around shadow-2xl border border-white/[0.1] select-none">
           <button
             onClick={() => navigateToTab('dashboard')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl transition-colors ${
+            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl transition-all ${
               activeTab === 'dashboard'
-                ? 'text-indigo-600 dark:text-indigo-400 font-bold'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800'
+                ? 'nav-pill-active font-bold'
+                : 'text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05]'
             }`}
           >
             <LayoutDashboard className="w-4 h-4" />
@@ -662,10 +645,10 @@ export default function App() {
 
           <button
             onClick={() => navigateToTab('resources')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl transition-colors ${
+            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl transition-all ${
               activeTab === 'resources'
-                ? 'text-indigo-600 dark:text-indigo-400 font-bold'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800'
+                ? 'nav-pill-active font-bold'
+                : 'text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05]'
             }`}
           >
             <BookOpen className="w-4 h-4" />
@@ -674,10 +657,10 @@ export default function App() {
 
           <button
             onClick={() => navigateToTab('tasks')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl transition-colors ${
+            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl transition-all ${
               activeTab === 'tasks'
-                ? 'text-indigo-600 dark:text-indigo-400 font-bold'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800'
+                ? 'nav-pill-active font-bold'
+                : 'text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05]'
             }`}
           >
             <CheckSquare className="w-4 h-4" />
@@ -686,10 +669,10 @@ export default function App() {
 
           <button
             onClick={() => navigateToTab('schedule')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl transition-colors ${
+            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl transition-all ${
               activeTab === 'schedule'
-                ? 'text-indigo-600 dark:text-indigo-400 font-bold'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800'
+                ? 'nav-pill-active font-bold'
+                : 'text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05]'
             }`}
           >
             <CalendarDays className="w-4 h-4" />
@@ -698,7 +681,7 @@ export default function App() {
 
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            className="flex flex-col items-center gap-1 text-[10px] font-medium py-1 px-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 transition-colors"
+            className="flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05] transition-colors"
           >
             <Menu className="w-4 h-4" />
             <span>{lang === 'fa' ? 'بیشتر' : 'More'}</span>

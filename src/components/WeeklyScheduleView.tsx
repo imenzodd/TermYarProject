@@ -66,7 +66,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-white/[0.08]">
         <div className="flex items-center gap-3">
           {onBack && (
             <BackButton
@@ -76,11 +76,11 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
             />
           )}
           <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-              <CalendarDays className="w-6 h-6 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <h1 className="text-xl sm:text-2xl font-black text-[#F1F3FA] flex items-center gap-2">
+              <CalendarDays className="w-6 h-6 text-[#39A7FF] shrink-0" />
               <span>{isFa ? 'برنامه هفتگی و کلاسی دانشگاه' : 'Weekly Class Schedule'}</span>
             </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-xs text-[#A6AEC3] mt-1">
               {isFa
                 ? 'مشاهده زمان‌بندی دقیق کلاس‌ها، اساتید و شماره اتاق‌ها در طول هفته'
                 : 'Weekly timetable, classrooms, professors, and course time slots'}
@@ -90,23 +90,23 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           {/* Mobile view toggle */}
-          <div className="flex md:hidden items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs">
+          <div className="flex md:hidden items-center bg-[#11182A]/80 p-0.5 rounded-xl border border-white/[0.08] text-xs">
             <button
               onClick={() => setMobileViewMode('day')}
-              className={`px-2.5 py-1.5 rounded-lg font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
                 mobileViewMode === 'day'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold shadow-2xs'
-                  : 'text-slate-500 dark:text-slate-400'
+                  ? 'nav-pill-active text-white font-bold'
+                  : 'text-[#A6AEC3]'
               }`}
             >
               {isFa ? 'روزانه' : 'Day View'}
             </button>
             <button
               onClick={() => setMobileViewMode('table')}
-              className={`px-2.5 py-1.5 rounded-lg font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
                 mobileViewMode === 'table'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white font-bold shadow-2xs'
-                  : 'text-slate-500 dark:text-slate-400'
+                  ? 'nav-pill-active text-white font-bold'
+                  : 'text-[#A6AEC3]'
               }`}
             >
               {isFa ? 'کل هفته' : 'Full Week'}
@@ -118,7 +118,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
             <button
               type="button"
               onClick={onOpenGolestanModal}
-              className="px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 shadow-sm flex items-center gap-1.5 shrink-0 transition-all active:scale-95"
+              className="px-4 py-2 rounded-xl text-xs font-bold text-white btn-primary-futuristic flex items-center gap-1.5 shrink-0 transition-all active:scale-95"
             >
               <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
               <span>{isFa ? 'استخراج از گلستان (گزارش ۸۸)' : 'Import Golestan PDF'}</span>
@@ -137,7 +137,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
               }
               setShowAddModal(true);
             }}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-sm flex items-center gap-1.5 cursor-pointer shrink-0"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#F1F3FA] bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] flex items-center gap-1.5 cursor-pointer shrink-0 transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>{isFa ? 'افزودن کلاس دستی' : 'Add Class'}</span>
@@ -147,19 +147,19 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
       {/* Golestan OCR Feature Banner inside Weekly Schedule */}
       {onOpenGolestanModal && (
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/5 dark:from-indigo-950/40 dark:via-purple-950/30 dark:to-slate-900 border border-indigo-200/80 dark:border-indigo-800/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+        <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-[#663AF3]/20 via-[#11182A] to-[#39A7FF]/15 border border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 glow-purple-sm">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-600/10 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] text-white flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(102,58,243,0.4)]">
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
-              <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <div className="text-xs sm:text-sm font-bold text-[#F1F3FA] flex items-center gap-2">
                 <span>{isFa ? 'استخراج خودکار برنامه هفتگی از فایل گلستان (گزارش ۸۸)' : 'Import Schedule from Golestan PDF'}</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">
-                  {isFa ? 'جدید' : 'New'}
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#663AF3]/25 border border-[#663AF3]/40 text-[#C9BAFF]">
+                  {isFa ? 'هوشمند' : 'Smart'}
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="text-[11px] text-[#A6AEC3] mt-0.5">
                 {isFa
                   ? 'فایل PDF یا تصویر انتخاب واحد گلستان را بارگذاری کنید تا تمام کلاس‌ها، اساتید، ساعات و شماره اتاق‌ها خودکار ثبت شوند.'
                   : 'Upload Golestan Report 88 PDF/image to auto-populate your semester courses and timetable.'}
@@ -170,7 +170,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
           <button
             type="button"
             onClick={onOpenGolestanModal}
-            className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-xs transition-all active:scale-95 shrink-0 flex items-center justify-center gap-1.5"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold btn-primary-futuristic text-white transition-all active:scale-95 shrink-0 flex items-center justify-center gap-1.5"
           >
             <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
             <span>{isFa ? 'بارگذاری برنامه گلستان' : 'Import Golestan'}</span>
@@ -178,7 +178,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
         </div>
       )}
 
-      {/* MOBILE DAY SELECTOR VIEW (md:hidden when mobileViewMode is 'day') */}
+      {/* MOBILE DAY SELECTOR VIEW */}
       {mobileViewMode === 'day' && (
         <div className="md:hidden space-y-4">
           {/* Days bar */}
@@ -192,14 +192,14 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                   onClick={() => setActiveMobileDay(d.dayIndex)}
                   className={`flex flex-col items-center py-2 px-3 rounded-2xl min-w-[68px] shrink-0 border transition-all ${
                     isSelected
-                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/20'
+                      ? 'nav-pill-active text-white border-transparent'
                       : d.isToday
-                      ? 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'
-                      : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800'
+                      ? 'bg-[#663AF3]/15 text-[#C9BAFF] border-[#663AF3]/30'
+                      : 'bg-[#11182A]/80 text-[#A6AEC3] border-white/[0.08]'
                   }`}
                 >
                   <span className="text-xs font-bold">{d.name}</span>
-                  <span className={`text-[10px] mt-0.5 ${isSelected ? 'text-indigo-100' : 'text-slate-400'}`}>
+                  <span className={`text-[10px] mt-0.5 ${isSelected ? 'text-white/80' : 'text-[#707B96]'}`}>
                     {d.dateStr}
                   </span>
                   {count > 0 && (
@@ -207,7 +207,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                       className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full mt-1 ${
                         isSelected
                           ? 'bg-white/20 text-white'
-                          : 'bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300'
+                          : 'bg-[#663AF3]/30 text-[#C9BAFF]'
                       }`}
                     >
                       {toPersianDigits(count)} کلاس
@@ -220,8 +220,8 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
           {/* Selected Day Classes Card List */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between text-xs text-slate-500 px-1">
-              <span className="font-bold text-slate-800 dark:text-slate-200">
+            <div className="flex items-center justify-between text-xs text-[#A6AEC3] px-1">
+              <span className="font-bold text-[#F1F3FA]">
                 کلاس‌های {selectedMobileDayData.name} ({selectedMobileDayData.dateStr})
               </span>
               <span>
@@ -232,9 +232,9 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
             </div>
 
             {selectedMobileClasses.length === 0 ? (
-              <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
-                <CalendarDays className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
-                <p className="text-xs text-slate-500 font-medium">
+              <div className="p-8 text-center glass-card rounded-3xl border border-dashed border-white/[0.1]">
+                <CalendarDays className="w-8 h-8 text-[#707B96] mx-auto mb-2" />
+                <p className="text-xs text-[#A6AEC3] font-medium">
                   در این روز هیچ کلاسی ثبت نشده است. می‌توانید استراحت کنید یا به مطالعه بپردازید.
                 </p>
               </div>
@@ -242,33 +242,33 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
               selectedMobileClasses.map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2.5"
-                  style={{ borderRightWidth: '4px', borderRightColor: item.course.color }}
+                  className="p-4 rounded-2xl glass-card space-y-2.5 relative overflow-hidden"
+                  style={{ borderInlineStartWidth: '4px', borderInlineStartColor: item.course.color || '#663AF3' }}
                 >
                   <div className="flex items-center justify-between">
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">
+                    <h3 className="font-bold text-sm text-[#F1F3FA]">
                       {item.course.name}
                     </h3>
-                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-[#C9BAFF]">
                       {item.course.code}
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-xs text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-800">
+                  <div className="grid grid-cols-2 gap-2 text-xs text-[#A6AEC3] pt-2 border-t border-white/[0.08]">
                     <div className="flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+                      <Clock className="w-3.5 h-3.5 text-[#39A7FF] shrink-0" />
                       <span className="tabular-nums font-medium">
                         {toPersianDigits(item.schedule.startTime)} - {toPersianDigits(item.schedule.endTime)}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-1.5 truncate">
-                      <MapPin className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                      <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       <span className="truncate">{item.schedule.room}</span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 truncate col-span-2">
-                      <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <div className="flex items-center gap-1.5 truncate col-span-2 text-[#707B96]">
+                      <User className="w-3.5 h-3.5 text-[#707B96] shrink-0" />
                       <span>استاد: {item.course.professor}</span>
                     </div>
                   </div>
@@ -282,30 +282,30 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
       {/* Week Calendar Grid (Visible on md+ or when mobileViewMode is 'table') */}
       <div className={`${mobileViewMode === 'table' ? 'block' : 'hidden md:block'} space-y-2`}>
         {mobileViewMode === 'table' && (
-          <div className="md:hidden flex items-center justify-between px-3 py-1.5 bg-indigo-50/80 dark:bg-indigo-950/40 rounded-xl text-[11px] text-indigo-700 dark:text-indigo-300 font-medium border border-indigo-100 dark:border-indigo-900/50">
+          <div className="md:hidden flex items-center justify-between px-3 py-1.5 bg-[#663AF3]/15 rounded-xl text-[11px] text-[#C9BAFF] font-medium border border-[#663AF3]/30">
             <span>{isFa ? '💡 برای دیدن تمام روزها، جدول را به چپ یا راست بکشید' : '💡 Swipe horizontally to view all week days'}</span>
             <span className="font-mono text-xs">⟷</span>
           </div>
         )}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto">
+        <div className="glass-panel rounded-3xl border border-white/[0.08] shadow-2xl overflow-x-auto">
           <div className="min-w-[720px]">
           {/* Days Header */}
-          <div className="grid grid-cols-7 border-b border-slate-200 dark:border-slate-800 text-center bg-slate-50 dark:bg-slate-800/50">
+          <div className="grid grid-cols-7 border-b border-white/[0.08] text-center bg-[#11182A]/80">
             {weekDays.map((d) => (
               <div
                 key={d.name}
-                className={`p-3 border-l border-slate-200 dark:border-slate-800 last:border-l-0 ${
-                  d.isToday ? 'bg-indigo-50/70 dark:bg-indigo-950/40 font-bold text-indigo-600 dark:text-indigo-400' : 'text-slate-700 dark:text-slate-300'
+                className={`p-3 border-l border-white/[0.08] last:border-l-0 ${
+                  d.isToday ? 'bg-[#663AF3]/20 font-bold text-[#65D5FF]' : 'text-[#F1F3FA]'
                 }`}
               >
                 <span className="block text-xs font-bold">{d.name}</span>
-                <span className="block text-[10px] text-slate-400 mt-0.5">{d.dateStr}</span>
+                <span className="block text-[10px] text-[#707B96] mt-0.5">{d.dateStr}</span>
               </div>
             ))}
           </div>
 
           {/* Calendar Body: 7 Days Columns */}
-          <div className="grid grid-cols-7 min-h-[460px] divide-x divide-x-reverse divide-slate-100 dark:divide-slate-800/80">
+          <div className="grid grid-cols-7 min-h-[460px] divide-x divide-x-reverse divide-white/[0.06]">
             {weekDays.map((d) => {
               const dayClasses = scheduledClasses.filter((c) => c.schedule.day === d.dayIndex);
 
@@ -313,46 +313,47 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                 <div
                   key={d.name}
                   className={`p-2 space-y-2 min-h-full ${
-                    d.isToday ? 'bg-indigo-50/20 dark:bg-indigo-950/10' : ''
+                    d.isToday ? 'bg-[#663AF3]/5' : ''
                   }`}
                 >
                   {dayClasses.length === 0 ? (
-                    <div className="h-full flex items-center justify-center text-[11px] text-slate-300 dark:text-slate-600">
+                    <div className="h-full flex items-center justify-center text-[11px] text-[#707B96]/50">
                       بدون کلاس
                     </div>
                   ) : (
                     dayClasses.map((item, idx) => (
                       <div
                         key={idx}
-                        className="p-2.5 rounded-xl text-right shadow-sm border transition-transform hover:-translate-y-0.5"
+                        className="p-2.5 rounded-xl text-right shadow-md border transition-all hover:scale-[1.02] backdrop-blur-md"
                         style={{
-                          backgroundColor: `${item.course.color}15`,
-                          borderColor: `${item.course.color}40`,
+                          backgroundColor: `${item.course.color || '#663AF3'}20`,
+                          borderColor: `${item.course.color || '#663AF3'}55`,
+                          boxShadow: `0 0 12px ${item.course.color || '#663AF3'}25`,
                         }}
                       >
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1.5">
                           <span
-                            className="w-2 h-2 rounded-full shrink-0"
-                            style={{ backgroundColor: item.course.color }}
+                            className="w-2 h-2 rounded-full shrink-0 shadow-[0_0_6px_currentColor]"
+                            style={{ backgroundColor: item.course.color || '#663AF3' }}
                           />
-                          <h4 className="font-bold text-xs text-slate-900 dark:text-white truncate">
+                          <h4 className="font-bold text-xs text-[#F1F3FA] truncate">
                             {item.course.name}
                           </h4>
                         </div>
 
-                        <div className="mt-1.5 space-y-1 text-[10px] text-slate-600 dark:text-slate-400">
+                        <div className="mt-1.5 space-y-1 text-[10px] text-[#A6AEC3]">
                           <div className="flex items-center gap-1">
-                            <Clock className="w-3 h-3 text-slate-400 shrink-0" />
+                            <Clock className="w-3 h-3 text-[#707B96] shrink-0" />
                             <span className="tabular-nums">
                               {toPersianDigits(item.schedule.startTime)} - {toPersianDigits(item.schedule.endTime)}
                             </span>
                           </div>
                           <div className="flex items-center gap-1 truncate">
-                            <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                            <MapPin className="w-3 h-3 text-[#707B96] shrink-0" />
                             <span className="truncate">{item.schedule.room}</span>
                           </div>
-                          <div className="flex items-center gap-1 text-[9px] text-slate-400 truncate">
-                            <User className="w-3 h-3 text-slate-400 shrink-0" />
+                          <div className="flex items-center gap-1 text-[9px] text-[#707B96] truncate">
+                            <User className="w-3 h-3 text-[#707B96] shrink-0" />
                             <span className="truncate">{item.course.professor}</span>
                           </div>
                         </div>
@@ -369,15 +370,15 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
       {/* Add Slot Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-2xl p-4 sm:p-6 space-y-4 text-right">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-              <span className="font-black text-sm text-slate-900 dark:text-white">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+          <div className="glass-panel bg-[#0B1020]/95 backdrop-blur-2xl rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-white/[0.1] shadow-2xl p-4 sm:p-6 space-y-4 text-right">
+            <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+              <span className="font-black text-sm text-[#F1F3FA]">
                 {isFa ? 'ثبت ساعت کلاسی جدید' : 'Add New Class Slot'}
               </span>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                className="p-1.5 rounded-xl text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -385,16 +386,16 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
             <form onSubmit={handleSaveSlot} className="space-y-3 text-xs">
               <div>
-                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block font-bold text-[#F1F3FA] mb-1">
                   {isFa ? 'درس مربوطه:' : 'Select Course:'}
                 </label>
                 <select
                   value={selectedCourseId}
                   onChange={(e) => setSelectedCourseId(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                  className="w-full p-2.5 rounded-xl bg-[#11182A] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3]"
                 >
                   {courses.map((c) => (
-                    <option key={c.id} value={c.id}>
+                    <option key={c.id} value={c.id} className="bg-[#0B1020] text-white">
                       {c.name} ({c.professor})
                     </option>
                   ))}
@@ -402,16 +403,16 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block font-bold text-[#F1F3FA] mb-1">
                   {isFa ? 'روز هفته:' : 'Day of Week:'}
                 </label>
                 <select
                   value={selectedDay}
                   onChange={(e) => setSelectedDay(Number(e.target.value))}
-                  className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                  className="w-full p-2.5 rounded-xl bg-[#11182A] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3]"
                 >
                   {PERSIAN_DAYS.map((day, idx) => (
-                    <option key={day} value={idx}>
+                    <option key={day} value={idx} className="bg-[#0B1020] text-white">
                       {day}
                     </option>
                   ))}
@@ -420,31 +421,31 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
-                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  <label className="block font-bold text-[#F1F3FA] mb-1">
                     {isFa ? 'ساعت شروع:' : 'Start Time:'}
                   </label>
                   <input
                     type="time"
                     value={startTime}
                     onChange={(e) => setStartTime(e.target.value)}
-                    className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                    className="w-full p-2.5 rounded-xl bg-[#11182A] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3]"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  <label className="block font-bold text-[#F1F3FA] mb-1">
                     {isFa ? 'ساعت پایان:' : 'End Time:'}
                   </label>
                   <input
                     type="time"
                     value={endTime}
                     onChange={(e) => setEndTime(e.target.value)}
-                    className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                    className="w-full p-2.5 rounded-xl bg-[#11182A] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block font-bold text-[#F1F3FA] mb-1">
                   محل کلاس یا دانشکده:
                 </label>
                 <input
@@ -453,7 +454,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                   placeholder="مثلاً: کلاس ۱۰۲ تالارها یا سایت ۲"
                   value={room}
                   onChange={(e) => setRoom(e.target.value)}
-                  className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                  className="w-full p-2.5 rounded-xl bg-[#11182A] border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3]"
                 />
               </div>
 
@@ -461,13 +462,13 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  className="px-4 py-2 rounded-xl text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors"
                 >
                   انصراف
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 font-bold"
+                  className="px-4 py-2 rounded-xl btn-primary-futuristic text-white font-bold"
                 >
                   ثبت در تقویم
                 </button>

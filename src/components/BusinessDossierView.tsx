@@ -32,6 +32,7 @@ import { InteractiveBusinessModelCanvas } from './InteractiveBusinessModelCanvas
 import { InteractiveSemesterHealthSimulator } from './InteractiveSemesterHealthSimulator';
 import { InteractiveCustomerJourney } from './InteractiveCustomerJourney';
 import { InteractiveMarketEconomics } from './InteractiveMarketEconomics';
+import { toPersianDigits } from '../utils/persian';
 
 interface BusinessDossierViewProps {
   onSwitchToLiveApp?: () => void;
@@ -39,6 +40,7 @@ interface BusinessDossierViewProps {
 
 export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwitchToLiveApp }) => {
   const [activeSection, setActiveSection] = useState<string>('intro');
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [expandedQuestions, setExpandedQuestions] = useState<{ [key: number]: boolean }>({
     1: true,
     2: true,
@@ -53,10 +55,17 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Monitor scroll for Table of Contents spy and back to top
+  // Monitor scroll for Table of Contents spy, reading progress and back to top
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
+
+      // Compute total dossier scroll progress percentage (0 - 100%)
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight > 0) {
+        const current = (window.scrollY / scrollHeight) * 100;
+        setScrollProgress(Math.min(100, Math.max(0, current)));
+      }
 
       const sections = [
         'intro',
@@ -84,6 +93,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -129,6 +139,8 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
     { id: 'validation-plan', label: '۹. اعتبارسنجی اولیه', short: 'اعتبارسنجی', icon: CheckCircle2 },
     { id: 'synthesis', label: '۱۰. جمع‌بندی تحلیلی', short: 'جمع‌بندی', icon: Award },
   ];
+
+  const currentSectionObj = navItems.find((n) => n.id === activeSection) || navItems[0];
 
   return (
     <div className="min-h-screen bg-[#070B14] text-slate-100 font-sans selection:bg-indigo-600 selection:text-white print:bg-white print:text-black antialiased relative overflow-x-hidden">
@@ -177,7 +189,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             {onSwitchToLiveApp && (
               <button
                 onClick={onSwitchToLiveApp}
-                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md shadow-indigo-600/30 transition-all active:scale-95"
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md shadow-indigo-600/30 transition-all active:scale-95 cursor-pointer"
                 title="ورود به سامانه زنده و ریسپانسیو ترم‌یار"
               >
                 <Laptop className="w-4 h-4 text-cyan-300" />
@@ -188,7 +200,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             {/* Print / Save PDF */}
             <button
               onClick={handlePrint}
-              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-medium bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors"
+              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-medium bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors cursor-pointer"
               title="چاپ یا ذخیره به صورت فایل PDF دانشگاهی"
             >
               <Printer className="w-3.5 h-3.5 text-slate-300" />
@@ -198,7 +210,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             {/* Mobile TOC Drawer Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 sm:p-2 rounded-xl bg-slate-800/80 text-slate-300 border border-slate-700/60 transition-colors"
+              className="md:hidden p-1.5 sm:p-2 rounded-xl bg-slate-800/80 text-slate-300 border border-slate-700/60 transition-colors cursor-pointer"
               aria-label="فهرست بخش‌های پرونده"
               title="فهرست عناوین"
             >
@@ -217,7 +229,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`flex items-center gap-2 p-2 rounded-xl text-right text-xs transition-colors ${
+                  className={`flex items-center gap-2 p-2 rounded-xl text-right text-xs transition-colors cursor-pointer ${
                     isCurrent
                       ? 'bg-indigo-600 text-white font-bold'
                       : 'bg-slate-800/60 text-slate-300 hover:bg-slate-800'
@@ -234,7 +246,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   setMobileMenuOpen(false);
                   onSwitchToLiveApp();
                 }}
-                className="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl text-xs font-bold bg-slate-800 text-cyan-300 border border-cyan-500/30 mt-1"
+                className="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl text-xs font-bold bg-slate-800 text-cyan-300 border border-cyan-500/30 mt-1 cursor-pointer"
               >
                 <Laptop className="w-4 h-4" />
                 <span>ورود به تست نرم‌افزار ترم‌یار</span>
@@ -254,7 +266,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                   isCurrent
                     ? 'bg-indigo-600 text-white shadow-sm font-bold'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
@@ -268,6 +280,23 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
           })}
         </div>
       </nav>
+
+      {/* Liquid Glass Reading Progress Bar (Top Track) */}
+      <div className="sticky top-[93px] sm:top-[101px] z-30 w-full print:hidden">
+        <div className="w-full h-1.5 sm:h-2 bg-[#080B16]/80 backdrop-blur-xl border-b border-white/[0.08] relative overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+          {/* Glass background shimmer layer */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#663AF3]/10 via-[#39A7FF]/10 to-[#65D5FF]/10" />
+          
+          {/* Animated Liquid Gradient Fill */}
+          <div
+            className="h-full bg-gradient-to-r from-[#663AF3] via-[#39A7FF] to-[#65D5FF] transition-all duration-150 ease-out relative shadow-[0_0_16px_rgba(101,213,255,0.7)]"
+            style={{ width: `${scrollProgress}%` }}
+          >
+            {/* Glowing leading head */}
+            <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-l from-white/80 to-transparent blur-[1px] animate-pulse" />
+          </div>
+        </div>
+      </div>
 
       {/* Main Container */}
       <main className="max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12 space-y-12 sm:space-y-16 print:space-y-8 print:p-0">
@@ -1268,7 +1297,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
           </p>
 
           {/* Desktop Table View (md+) */}
-          <div className="hidden md:block overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-md">
+          <div className="hidden md:block overflow-x-auto rounded-2xl border border-slate-800 bg-[#0B1020] backdrop-blur-md">
             <table className="w-full text-right text-xs">
               <thead>
                 <tr className="bg-slate-950/80 text-slate-300 border-b border-slate-800">
@@ -1867,6 +1896,62 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
           </div>
         </section>
       </main>
+
+      {/* Floating Liquid Glass Reading Progress HUD Capsule */}
+      <aside
+        aria-label="نوار پیشرفت مطالعه پرونده"
+        className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-40 print:hidden animate-in fade-in slide-in-from-bottom-2 duration-300"
+      >
+        <div className="bg-[#0B1020]/90 backdrop-blur-2xl border border-white/[0.14] rounded-2xl p-2 sm:p-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)] flex items-center gap-2.5 sm:gap-3 transition-all hover:border-[#663AF3]/50 hover:shadow-[0_8px_32px_rgba(102,58,243,0.3)] group">
+          {/* Radial Circular Gauge */}
+          <div className="relative w-8 h-8 sm:w-9 sm:h-9 shrink-0 flex items-center justify-center">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+              <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="3.2" />
+              <circle
+                cx="18"
+                cy="18"
+                r="14"
+                fill="none"
+                stroke="url(#dossierProgressGradient)"
+                strokeWidth="3.4"
+                strokeDasharray="88"
+                strokeDashoffset={88 - (88 * scrollProgress) / 100}
+                strokeLinecap="round"
+                className="transition-all duration-150 ease-out"
+              />
+              <defs>
+                <linearGradient id="dossierProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#663AF3" />
+                  <stop offset="50%" stopColor="#39A7FF" />
+                  <stop offset="100%" stopColor="#65D5FF" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <span className="absolute text-[9px] sm:text-[10px] font-black text-[#F1F3FA] tabular-nums">
+              {toPersianDigits(Math.round(scrollProgress))}٪
+            </span>
+          </div>
+
+          {/* Section details */}
+          <div className="min-w-0 pr-0.5">
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#65D5FF] shadow-[0_0_8px_#65D5FF] animate-pulse shrink-0" />
+              <span className="text-[10px] text-slate-400 font-medium leading-none">پیشرفت مطالعه پرونده</span>
+            </div>
+            <div className="text-[11px] sm:text-xs font-bold text-slate-200 truncate max-w-[130px] sm:max-w-[200px] mt-1">
+              {currentSectionObj.label}
+            </div>
+          </div>
+
+          {/* Mini Linear Progress on Tablet/Desktop */}
+          <div className="hidden sm:block w-16 h-1.5 bg-white/[0.06] rounded-full overflow-hidden border border-white/[0.08] shrink-0">
+            <div
+              className="h-full bg-gradient-to-r from-[#663AF3] to-[#65D5FF] rounded-full transition-all duration-150"
+              style={{ width: `${scrollProgress}%` }}
+            />
+          </div>
+        </div>
+      </aside>
 
       {/* Floating Back to Top Button */}
       {showBackToTop && (

@@ -180,7 +180,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
   return (
     <div className="space-y-6 pb-12 animate-in fade-in">
       {/* 1. Header & Actions */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
         <div className="flex items-center gap-3">
           {onBack && (
             <BackButton
@@ -191,14 +191,14 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
           )}
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] flex items-center justify-center text-white shadow-[0_0_20px_rgba(102,58,243,0.4)]">
                 <BookOpen className="w-5 h-5" />
               </div>
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-black text-[#F1F3FA] tracking-tight">
                 {isFa ? 'منابع درسی و جزوات' : 'Academic Resources'}
               </h1>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#A6AEC3]">
               {isFa
                 ? 'آرشیو سازمان‌یافته، مطالعه درون‌برنامه‌ای PDF و حاشیه‌نویسی جزوات درسی'
                 : 'Organized academic vault, in-browser PDF reader, and collaborative annotations'}
@@ -208,7 +208,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
 
         <button
           onClick={onOpenUploadModal}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 transition-all hover:scale-[1.02] cursor-pointer"
+          className="btn-primary-futuristic text-xs px-5 py-2.5 flex items-center justify-center gap-2 cursor-pointer font-bold"
         >
           <UploadCloud className="w-4 h-4" />
           <span>{isFa ? 'بارگذاری منبع جدید' : 'Upload Resource'}</span>
@@ -216,63 +216,63 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
       </div>
 
       {/* 2. Top Metric Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Files */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-3 sm:p-4 shadow-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-1.5 sm:mb-2">
+        <div className="glass-card rounded-2xl border border-white/[0.08] p-4 shadow-sm">
+          <div className="flex items-center justify-between text-[#A6AEC3] mb-2">
             <span className="text-[11px] sm:text-xs font-medium">{isFa ? 'کل منابع' : 'Total Resources'}</span>
-            <BookOpen className="w-4 h-4 text-indigo-500" />
+            <BookOpen className="w-4 h-4 text-[#39A7FF]" />
           </div>
           <div className="flex items-baseline gap-1.5 sm:gap-2">
-            <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tabular-nums">{totalFiles}</span>
-            <span className="text-[10px] sm:text-xs text-slate-400">{isFa ? 'فایل' : 'files'}</span>
+            <span className="text-xl sm:text-2xl font-black text-[#F1F3FA] tabular-nums">{totalFiles}</span>
+            <span className="text-[10px] sm:text-xs text-[#707B96]">{isFa ? 'فایل' : 'files'}</span>
           </div>
         </div>
 
         {/* Storage Used */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-3 sm:p-4 shadow-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-1.5 sm:mb-2">
+        <div className="glass-card rounded-2xl border border-white/[0.08] p-4 shadow-sm">
+          <div className="flex items-center justify-between text-[#A6AEC3] mb-2">
             <span className="text-[11px] sm:text-xs font-medium">{isFa ? 'فضای مصرفی' : 'Storage Used'}</span>
-            <HardDrive className="w-4 h-4 text-emerald-500" />
+            <HardDrive className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="flex items-baseline gap-1 sm:gap-1.5">
-            <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tabular-nums">{totalStorageFormatted}</span>
-            <span className="text-[10px] sm:text-xs text-slate-400">/ 500MB</span>
+            <span className="text-xl sm:text-2xl font-black text-[#F1F3FA] tabular-nums">{totalStorageFormatted}</span>
+            <span className="text-[10px] sm:text-xs text-[#707B96]">/ 500MB</span>
           </div>
         </div>
 
         {/* Favorite Resources */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-3 sm:p-4 shadow-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-1.5 sm:mb-2">
+        <div className="glass-card rounded-2xl border border-white/[0.08] p-4 shadow-sm">
+          <div className="flex items-center justify-between text-[#A6AEC3] mb-2">
             <span className="text-[11px] sm:text-xs font-medium">{isFa ? 'علاقه‌مندی‌ها' : 'Favorites'}</span>
-            <Star className="w-4 h-4 text-amber-500" />
+            <Star className="w-4 h-4 text-amber-400" />
           </div>
           <div className="flex items-baseline gap-1.5 sm:gap-2">
-            <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tabular-nums">{favoriteCount}</span>
-            <span className="text-[10px] sm:text-xs text-slate-400">{isFa ? 'برگزیده' : 'starred'}</span>
+            <span className="text-xl sm:text-2xl font-black text-[#F1F3FA] tabular-nums">{favoriteCount}</span>
+            <span className="text-[10px] sm:text-xs text-[#707B96]">{isFa ? 'برگزیده' : 'starred'}</span>
           </div>
         </div>
 
         {/* Active Courses */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-3 sm:p-4 shadow-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-1.5 sm:mb-2">
+        <div className="glass-card rounded-2xl border border-white/[0.08] p-4 shadow-sm">
+          <div className="flex items-center justify-between text-[#A6AEC3] mb-2">
             <span className="text-[11px] sm:text-xs font-medium">{isFa ? 'دروس متصل' : 'Linked Courses'}</span>
-            <Sparkles className="w-4 h-4 text-purple-500" />
+            <Sparkles className="w-4 h-4 text-[#A6AEC3]" />
           </div>
           <div className="flex items-baseline gap-1.5 sm:gap-2">
-            <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tabular-nums">{courses.length}</span>
-            <span className="text-[10px] sm:text-xs text-slate-400">{isFa ? 'واحد' : 'courses'}</span>
+            <span className="text-xl sm:text-2xl font-black text-[#F1F3FA] tabular-nums">{courses.length}</span>
+            <span className="text-[10px] sm:text-xs text-[#707B96]">{isFa ? 'واحد' : 'courses'}</span>
           </div>
         </div>
       </div>
 
       {/* 3. Search Bar, Filters & View Switcher */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-4 shadow-xs space-y-4">
+      <div className="glass-panel rounded-2xl border border-white/[0.08] p-4 space-y-4">
         {/* Row 1: Search and Main Sort/View controls */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Search Input */}
           <div className="relative w-full sm:max-w-md">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-4 h-4 text-[#707B96] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
@@ -282,12 +282,12 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
                   ? 'جستجو در عنوان جزوه، کد درس، نام استاد، برچسب‌ها...'
                   : 'Search by file name, course code, tags, notes...'
               }
-              className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-hidden focus:border-indigo-500"
+              className="w-full bg-[#11182A]/90 border border-white/[0.08] rounded-xl pl-9 pr-4 py-2.5 text-xs text-[#F1F3FA] placeholder-[#707B96] focus:outline-none focus:border-[#663AF3] focus:ring-1 focus:ring-[#663AF3] transition-all"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#707B96] hover:text-[#F1F3FA]"
               >
                 ×
               </button>
@@ -299,10 +299,10 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
             {/* Favorites Toggle */}
             <button
               onClick={() => setOnlyFavorites(!onlyFavorites)}
-              className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all ${
+              className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all cursor-pointer ${
                 onlyFavorites
-                  ? 'bg-amber-50 dark:bg-amber-950/60 border-amber-300 text-amber-700 dark:text-amber-300'
-                  : 'bg-slate-50 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100'
+                  ? 'bg-amber-500/15 border-amber-500/40 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+                  : 'bg-[#11182A]/80 border-white/[0.08] text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.04]'
               }`}
             >
               <Star className={`w-3.5 h-3.5 ${onlyFavorites ? 'fill-current' : ''}`} />
@@ -313,22 +313,22 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
             <select
               value={sortOption}
               onChange={(e: any) => setSortOption(e.target.value)}
-              className="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-2 text-xs text-slate-700 dark:text-slate-300 focus:outline-hidden"
+              className="bg-[#11182A]/90 border border-white/[0.08] rounded-xl px-3 py-2 text-xs text-[#F1F3FA] focus:outline-none focus:border-[#663AF3] cursor-pointer"
             >
-              <option value="newest">{isFa ? 'جدیدترین' : 'Newest'}</option>
-              <option value="oldest">{isFa ? 'قدیمی‌ترین' : 'Oldest'}</option>
-              <option value="title">{isFa ? 'عنوان (الف-ی)' : 'Title A-Z'}</option>
-              <option value="size">{isFa ? 'بزرگترین حجم' : 'File Size'}</option>
+              <option value="newest" className="bg-[#0B1020] text-[#F1F3FA]">{isFa ? 'جدیدترین' : 'Newest'}</option>
+              <option value="oldest" className="bg-[#0B1020] text-[#F1F3FA]">{isFa ? 'قدیمی‌ترین' : 'Oldest'}</option>
+              <option value="title" className="bg-[#0B1020] text-[#F1F3FA]">{isFa ? 'عنوان (الف-ی)' : 'Title A-Z'}</option>
+              <option value="size" className="bg-[#0B1020] text-[#F1F3FA]">{isFa ? 'بزرگترین حجم' : 'File Size'}</option>
             </select>
 
             {/* Grid / List view toggle */}
-            <div className="flex items-center bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl p-0.5">
+            <div className="flex items-center bg-[#11182A]/80 border border-white/[0.08] rounded-xl p-0.5">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded-lg transition-colors ${
+                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                   viewMode === 'grid'
-                    ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-2xs'
-                    : 'text-slate-400 hover:text-slate-600'
+                    ? 'bg-gradient-to-r from-[#663AF3] to-[#39A7FF] text-white shadow-sm'
+                    : 'text-[#707B96] hover:text-[#F1F3FA]'
                 }`}
                 title="Grid View"
               >
@@ -336,10 +336,10 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded-lg transition-colors ${
+                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                   viewMode === 'list'
-                    ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-2xs'
-                    : 'text-slate-400 hover:text-slate-600'
+                    ? 'bg-gradient-to-r from-[#663AF3] to-[#39A7FF] text-white shadow-sm'
+                    : 'text-[#707B96] hover:text-[#F1F3FA]'
                 }`}
                 title="List View"
               >
@@ -351,15 +351,15 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
 
         {/* Row 2: Course Filter Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
-          <span className="text-slate-400 font-semibold shrink-0 text-[11px] uppercase tracking-wider">
+          <span className="text-[#707B96] font-semibold shrink-0 text-[11px] uppercase tracking-wider">
             {isFa ? 'درس:' : 'Course:'}
           </span>
           <button
             onClick={() => setSelectedCourseFilter('all')}
-            className={`px-3 py-1.5 rounded-xl font-medium shrink-0 transition-colors ${
+            className={`px-3 py-1.5 rounded-xl font-medium shrink-0 transition-all cursor-pointer ${
               selectedCourseFilter === 'all'
-                ? 'bg-indigo-600 text-white font-bold'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
+                ? 'bg-gradient-to-r from-[#663AF3] to-[#39A7FF] text-white font-bold shadow-[0_0_15px_rgba(102,58,243,0.35)]'
+                : 'bg-[#11182A]/80 border border-white/[0.06] text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.04]'
             }`}
           >
             {isFa ? 'همه دروس' : 'All Courses'}
@@ -368,10 +368,10 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
             <button
               key={course.id}
               onClick={() => setSelectedCourseFilter(course.id)}
-              className={`px-3 py-1.5 rounded-xl font-medium shrink-0 transition-colors ${
+              className={`px-3 py-1.5 rounded-xl font-medium shrink-0 transition-all cursor-pointer ${
                 selectedCourseFilter === course.id
-                  ? 'bg-indigo-600 text-white font-bold'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
+                  ? 'bg-gradient-to-r from-[#663AF3] to-[#39A7FF] text-white font-bold shadow-[0_0_15px_rgba(102,58,243,0.35)]'
+                  : 'bg-[#11182A]/80 border border-white/[0.06] text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.04]'
               }`}
             >
               {course.code}
@@ -381,7 +381,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
 
         {/* Row 3: File Type Filter Chips */}
         <div className="flex items-center gap-2 overflow-x-auto text-xs no-scrollbar">
-          <span className="text-slate-400 font-semibold shrink-0 text-[11px] uppercase tracking-wider">
+          <span className="text-[#707B96] font-semibold shrink-0 text-[11px] uppercase tracking-wider">
             {isFa ? 'نوع فایل:' : 'Format:'}
           </span>
           {[
@@ -395,10 +395,10 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
             <button
               key={type.id}
               onClick={() => setSelectedTypeFilter(type.id)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium shrink-0 transition-colors ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium shrink-0 transition-colors cursor-pointer ${
                 selectedTypeFilter === type.id
-                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                  ? 'bg-white/[0.12] text-white border border-white/[0.2] font-bold shadow-xs'
+                  : 'text-[#707B96] hover:text-[#F1F3FA]'
               }`}
             >
               {type.label}
@@ -409,14 +409,14 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
 
       {/* 4. Resources Cards Grid or List */}
       {filteredResources.length === 0 ? (
-        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-12 text-center space-y-3">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 flex items-center justify-center mx-auto">
+        <div className="glass-card rounded-3xl border border-white/[0.08] p-12 text-center space-y-3">
+          <div className="w-14 h-14 rounded-2xl bg-[#663AF3]/20 border border-[#663AF3]/30 text-[#65D5FF] flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(102,58,243,0.25)]">
             <BookOpen className="w-7 h-7" />
           </div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white">
+          <h3 className="text-base font-bold text-[#F1F3FA]">
             {isFa ? 'منبعی با این مشخصات یافت نشد' : 'No matching resources found'}
           </h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto">
+          <p className="text-xs text-[#A6AEC3] max-w-sm mx-auto">
             {isFa
               ? 'می‌توانید فیلترها را ریست کنید یا با بارگذاری اسلایدها و جزوات جدید، آرشیو ترم را غنی کنید.'
               : 'Try clearing filters or upload new lecture slides and study guides.'}
@@ -428,7 +428,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
               setSelectedTypeFilter('all');
               setOnlyFavorites(false);
             }}
-            className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl hover:bg-slate-200"
+            className="px-4 py-2 bg-white/[0.06] hover:bg-white/[0.1] text-[#F1F3FA] text-xs font-semibold rounded-xl border border-white/[0.08] transition-colors cursor-pointer"
           >
             {isFa ? 'پاک کردن فیلترها' : 'Reset all filters'}
           </button>
@@ -438,21 +438,21 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
           {filteredResources.map((res) => (
             <div
               key={res.id}
-              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-5 shadow-xs hover:shadow-md transition-all hover:border-indigo-300 dark:hover:border-indigo-800 flex flex-col justify-between group"
+              className="glass-card-interactive bg-[#0B1020]/75 rounded-2xl border border-white/[0.08] hover:border-[#663AF3]/40 p-5 shadow-sm transition-all flex flex-col justify-between group"
             >
               <div>
                 {/* Card Top: Format icon + Course tag + Favorite star */}
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2 min-w-0">
-                    <div className="w-9 h-9 rounded-xl bg-slate-50 dark:bg-slate-800/80 flex items-center justify-center shrink-0 border border-slate-100 dark:border-slate-700/60">
+                    <div className="w-9 h-9 rounded-xl bg-[#11182A]/90 flex items-center justify-center shrink-0 border border-white/[0.08]">
                       {renderFileTypeIcon(res.fileType)}
                     </div>
                     <div className="min-w-0">
-                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-[#663AF3]/15 text-[#65D5FF] border border-[#663AF3]/30">
                         {res.courseCode}
                       </span>
                       {res.folder && (
-                        <span className="text-[10px] text-slate-400 block truncate mt-0.5">
+                        <span className="text-[10px] text-[#707B96] block truncate mt-0.5">
                           {res.folder}
                         </span>
                       )}
@@ -462,10 +462,10 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => onToggleFavorite(res.id)}
-                      className={`p-1.5 rounded-lg transition-colors ${
+                      className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                         res.isFavorite
-                          ? 'text-amber-500 hover:text-amber-600'
-                          : 'text-slate-300 hover:text-amber-400 dark:text-slate-600'
+                          ? 'text-amber-400 hover:text-amber-300'
+                          : 'text-[#707B96] hover:text-amber-400'
                       }`}
                       title="Toggle Favorite"
                     >
@@ -477,11 +477,11 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
                 {/* Title & Description */}
                 <h3
                   onClick={() => onOpenResourceViewer(res)}
-                  className="text-sm font-bold text-slate-900 dark:text-white line-clamp-2 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-colors mb-2 leading-snug"
+                  className="text-sm font-bold text-[#F1F3FA] line-clamp-2 hover:text-[#39A7FF] cursor-pointer transition-colors mb-2 leading-snug"
                 >
                   {res.title}
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed mb-3">
+                <p className="text-xs text-[#A6AEC3] line-clamp-2 leading-relaxed mb-3">
                   {res.description}
                 </p>
 
@@ -491,7 +491,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
                     {res.tags.slice(0, 3).map((tag, idx) => (
                       <span
                         key={idx}
-                        className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                        className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-white/[0.04] text-[#A6AEC3] border border-white/[0.06]"
                       >
                         #{tag}
                       </span>
@@ -501,21 +501,21 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
               </div>
 
               {/* Card Footer: Metadata + Action buttons */}
-              <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+              <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between text-xs">
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-slate-600 dark:text-slate-400 text-[11px]">
+                    <span className="font-semibold text-[#A6AEC3] text-[11px] tabular-nums">
                       {res.fileSizeFormatted}
                     </span>
                     {getVisibilityBadge(res.visibility)}
                   </div>
-                  <span className="text-[10px] text-slate-400 block">{res.uploadDate}</span>
+                  <span className="text-[10px] text-[#707B96] block tabular-nums">{res.uploadDate}</span>
                 </div>
 
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => onQuickShare(res)}
-                    className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-indigo-600 transition-colors"
+                    className="p-1.5 rounded-lg hover:bg-white/[0.06] text-[#707B96] hover:text-[#39A7FF] transition-colors cursor-pointer"
                     title="Share link"
                   >
                     <Share2 className="w-3.5 h-3.5" />
@@ -523,7 +523,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
 
                   <button
                     onClick={() => onDeleteResource(res.id)}
-                    className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-rose-500 transition-colors"
+                    className="p-1.5 rounded-lg hover:bg-rose-500/10 text-[#707B96] hover:text-rose-400 transition-colors cursor-pointer"
                     title="Delete"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -531,7 +531,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
 
                   <button
                     onClick={() => onOpenResourceViewer(res)}
-                    className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-600 text-indigo-600 dark:text-indigo-400 hover:text-white rounded-xl text-xs font-semibold flex items-center gap-1 transition-all"
+                    className="px-3 py-1.5 bg-[#663AF3]/20 hover:bg-[#663AF3] text-[#65D5FF] hover:text-white border border-[#663AF3]/35 rounded-xl text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer shadow-xs"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     <span>{isFa ? 'مطالعه' : 'Read'}</span>
@@ -543,23 +543,23 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
         </div>
       ) : (
         /* List View */
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 overflow-hidden divide-y divide-slate-100 dark:divide-slate-800">
+        <div className="glass-panel rounded-2xl border border-white/[0.08] overflow-hidden divide-y divide-white/[0.06]">
           {filteredResources.map((res) => (
             <div
               key={res.id}
-              className="p-4 hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors flex items-center justify-between gap-4"
+              className="p-4 hover:bg-white/[0.03] transition-colors flex items-center justify-between gap-4"
             >
               <div className="flex items-center gap-3 min-w-0">
                 <button
                   onClick={() => onToggleFavorite(res.id)}
-                  className={`p-1 rounded transition-colors shrink-0 ${
-                    res.isFavorite ? 'text-amber-500' : 'text-slate-300 dark:text-slate-600 hover:text-amber-400'
+                  className={`p-1 rounded transition-colors shrink-0 cursor-pointer ${
+                    res.isFavorite ? 'text-amber-400' : 'text-[#707B96] hover:text-amber-400'
                   }`}
                 >
                   <Star className={`w-4 h-4 ${res.isFavorite ? 'fill-current' : ''}`} />
                 </button>
 
-                <div className="w-8 h-8 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-[#11182A]/90 border border-white/[0.08] flex items-center justify-center shrink-0">
                   {renderFileTypeIcon(res.fileType)}
                 </div>
 
@@ -567,15 +567,15 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
                   <div className="flex items-center gap-2">
                     <h4
                       onClick={() => onOpenResourceViewer(res)}
-                      className="text-xs font-bold text-slate-900 dark:text-white hover:text-indigo-600 cursor-pointer truncate"
+                      className="text-xs font-bold text-[#F1F3FA] hover:text-[#39A7FF] cursor-pointer truncate"
                     >
                       {res.title}
                     </h4>
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 shrink-0">
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-[#663AF3]/20 border border-[#663AF3]/30 text-[#65D5FF] shrink-0">
                       {res.courseCode}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-400 truncate max-w-md">
+                  <p className="text-[11px] text-[#A6AEC3] truncate max-w-md mt-0.5">
                     {res.description}
                   </p>
                 </div>
@@ -583,31 +583,31 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
 
               <div className="flex items-center gap-4 shrink-0">
                 {getVisibilityBadge(res.visibility)}
-                <span className="text-xs font-mono text-slate-500 hidden sm:block">
+                <span className="text-xs font-mono text-[#A6AEC3] hidden sm:block tabular-nums">
                   {res.fileSizeFormatted}
                 </span>
-                <span className="text-[11px] text-slate-400 hidden md:block">
+                <span className="text-[11px] text-[#707B96] hidden md:block tabular-nums">
                   {res.uploadDate}
                 </span>
 
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => onQuickShare(res)}
-                    className="p-1.5 text-slate-400 hover:text-indigo-600"
+                    className="p-1.5 text-[#707B96] hover:text-[#39A7FF] hover:bg-white/[0.06] rounded-lg transition-colors cursor-pointer"
                     title="Share"
                   >
                     <Share2 className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => onDeleteResource(res.id)}
-                    className="p-1.5 text-slate-400 hover:text-rose-500"
+                    className="p-1.5 text-[#707B96] hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
                     title="Delete"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => onOpenResourceViewer(res)}
-                    className="px-3 py-1 bg-indigo-600 text-white rounded-lg text-xs font-semibold hover:bg-indigo-700 transition-colors"
+                    className="btn-primary-futuristic text-xs px-3 py-1 cursor-pointer"
                   >
                     {isFa ? 'مطالعه' : 'Read'}
                   </button>

@@ -22,6 +22,7 @@ import {
   X,
   ChevronsLeft,
   ChevronsRight,
+  Compass,
 } from 'lucide-react';
 import { UserProfile } from '../types';
 
@@ -115,7 +116,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex flex-col items-center gap-3 w-full px-2">
             <button
               onClick={() => handleSelectTab('dashboard')}
-              className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 hover:scale-105 transition-transform shrink-0"
+              className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] flex items-center justify-center text-white shadow-lg shadow-[#663AF3]/30 hover:scale-105 transition-transform shrink-0"
               title="TermYar"
             >
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -126,17 +127,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               type="button"
               onClick={toggleDesktopCollapse}
-              className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors"
+              className="w-8 h-8 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] flex items-center justify-center transition-colors"
               title={isFa ? 'باز کردن منو' : 'Expand sidebar'}
             >
               <ChevronsLeft className="w-4 h-4 rtl:rotate-180" />
             </button>
 
-            <div className="w-8 h-px bg-slate-200 dark:bg-slate-800 my-1" />
+            <div className="w-8 h-px bg-white/[0.08] my-1" />
 
             {/* Quick collapsed icons */}
             <div className="flex flex-col items-center gap-1.5 w-full">
               {[
+                { tab: 'landing', icon: Compass, label: isFa ? 'صفحه اصلی و معرفی' : 'Landing Page' },
                 { tab: 'dossier', icon: FileText, label: isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Dossier' },
                 { tab: 'dashboard', icon: LayoutDashboard, label: isFa ? 'داشبورد' : 'Dashboard' },
                 { tab: 'schedule', icon: CalendarDays, label: isFa ? 'برنامه هفتگی' : 'Schedule' },
@@ -157,8 +159,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     title={label}
                     className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
                       active
-                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
-                        : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-400 hover:text-slate-900'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.06] hover:text-[#F1F3FA]'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -172,7 +174,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex flex-col items-center gap-2">
             <button
               onClick={onOpenProfileModal}
-              className="w-10 h-10 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors text-base"
+              className="w-10 h-10 rounded-xl text-[#A6AEC3] hover:bg-white/[0.06] hover:text-[#F1F3FA] flex items-center justify-center transition-colors text-base"
               title={user.name || 'Profile'}
             >
               {user.avatar || '👨‍🎓'}
@@ -191,17 +193,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
               className="flex items-center gap-2.5 cursor-pointer min-w-0"
               onClick={() => handleSelectTab('dashboard')}
             >
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-700 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] flex items-center justify-center text-white shadow-lg shadow-[#663AF3]/30 shrink-0">
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white truncate">
+                <span className="text-base font-black tracking-tight text-[#F1F3FA] truncate">
                   TermYar
                 </span>
-                <span className="text-[9px] font-medium text-slate-400 -mt-1 tracking-wider uppercase truncate">
-                  {isFa ? 'دستیار دانشجو' : 'Student Cockpit'}
+                <span className="text-[9px] font-medium text-[#707B96] -mt-0.5 tracking-wider uppercase truncate">
+                  {isFa ? 'دستیار تحصیلی مدرن' : 'Student Cockpit'}
                 </span>
               </div>
             </div>
@@ -211,7 +213,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 type="button"
                 onClick={toggleDesktopCollapse}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+                className="p-1.5 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors shrink-0"
                 title={isFa ? 'جمع کردن منو (فضای بازتر)' : 'Collapse sidebar'}
                 aria-label="Collapse sidebar"
               >
@@ -222,12 +224,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {isMobile && (
               <button
                 onClick={onCloseMobile}
-                className="p-1.5 -mr-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+                className="p-1.5 -mr-1.5 rounded-xl text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors shrink-0"
                 aria-label="Close menu"
               >
                 <X className="w-5 h-5" />
               </button>
             )}
+          </div>
+
+          {/* Landing Page Preview Item */}
+          <div className="mb-2">
+            <button
+              onClick={() => handleSelectTab('landing')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all border ${
+                activeTab === 'landing'
+                  ? 'nav-pill-active text-white border-transparent'
+                  : 'bg-white/[0.03] border-white/[0.06] text-[#A6AEC3] hover:bg-white/[0.08] hover:text-[#F1F3FA]'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Compass className="w-4 h-4 text-[#39A7FF] shrink-0" />
+                <span>{isFa ? 'صفحه اصلی و معرفی' : 'Landing Page'}</span>
+              </div>
+              <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-white/[0.08] text-[#39A7FF] border border-white/[0.06]">
+                {isFa ? 'جدید' : 'New'}
+              </span>
+            </button>
           </div>
 
         {/* Business Dossier Special Item */}
@@ -236,42 +258,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={() => handleSelectTab('dossier')}
             className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all border ${
               activeTab === 'dossier'
-                ? 'bg-gradient-to-r from-indigo-900/60 to-purple-900/60 border-indigo-500 text-white font-bold shadow-md shadow-indigo-500/20'
-                : 'bg-indigo-50/50 dark:bg-indigo-950/30 border-indigo-200/60 dark:border-indigo-800/50 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100/60'
+                ? 'nav-pill-active text-white border-transparent'
+                : 'bg-[#663AF3]/10 border-[#663AF3]/30 text-[#C9BAFF] hover:bg-[#663AF3]/20'
             }`}
           >
             <div className="flex items-center gap-2.5">
-              <FileText className="w-4 h-4 text-indigo-500 shrink-0" />
+              <FileText className="w-4 h-4 text-[#39A7FF] shrink-0" />
               <span>{isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Business Dossier'}</span>
             </div>
-            <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-indigo-500 text-white">
+            <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-[#663AF3] text-white shadow-xs">
               {isFa ? 'دانشگاهی' : 'New'}
             </span>
           </button>
         </div>
 
         {/* Dashboard Single Active Item */}
-        <div className="mb-4">
+        <div className="mb-3">
           <button
             onClick={() => handleSelectTab('dashboard')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all ${
               activeTab === 'dashboard'
-                ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-semibold shadow-xs'
-                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                ? 'nav-pill-active text-white'
+                : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
             }`}
           >
-            <LayoutDashboard className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500'}`} />
+            <LayoutDashboard className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-white' : 'text-[#707B96]'}`} />
             <span>{isFa ? 'داشبورد' : 'Dashboard'}</span>
           </button>
         </div>
 
         {/* Navigation Sections */}
-        <div className="space-y-4">
+        <div className="space-y-3.5">
           {/* Section: Study Plan */}
           <div>
             <button
               onClick={() => toggleSection('studyPlan')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-600 transition-colors"
+              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
             >
               <span>{isFa ? 'برنامه تحصیلی' : 'Study Plan'}</span>
               {collapsedSections['studyPlan'] ? (
@@ -284,24 +306,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="mt-1 space-y-0.5">
                 <button
                   onClick={() => handleSelectTab('schedule')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'schedule'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <CalendarDays className="w-4 h-4 text-slate-400" />
+                  <CalendarDays className={`w-4 h-4 ${activeTab === 'schedule' ? 'text-white' : 'text-[#707B96]'}`} />
                   <span>{isFa ? 'برنامه هفتگی' : 'Weekly Schedule'}</span>
                 </button>
                 <button
                   onClick={() => handleSelectTab('courses')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'courses'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <GraduationCap className="w-4 h-4 text-slate-400" />
+                  <GraduationCap className={`w-4 h-4 ${activeTab === 'courses' ? 'text-white' : 'text-[#707B96]'}`} />
                   <span>{isFa ? 'دروس من' : 'My Courses'}</span>
                 </button>
               </div>
@@ -312,7 +334,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div>
             <button
               onClick={() => toggleSection('tasks')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-600 transition-colors"
+              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
             >
               <span>{isFa ? 'تکالیف و ارزیابی‌ها' : 'Tasks & Assessments'}</span>
               {collapsedSections['tasks'] ? (
@@ -325,36 +347,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="mt-1 space-y-0.5">
                 <button
                   onClick={() => handleSelectTab('tasks')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'tasks'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <FileCheck className="w-4 h-4 text-slate-400" />
+                  <FileCheck className={`w-4 h-4 ${activeTab === 'tasks' ? 'text-white' : 'text-[#707B96]'}`} />
                   <span>{isFa ? 'تکالیف و تمرین‌ها' : 'Assignments'}</span>
                 </button>
                 <button
                   onClick={() => handleSelectTab('exams')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'exams'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <ClipboardList className="w-4 h-4 text-slate-400" />
+                  <ClipboardList className={`w-4 h-4 ${activeTab === 'exams' ? 'text-white' : 'text-[#707B96]'}`} />
                   <span>{isFa ? 'امتحانات' : 'Exams'}</span>
-                </button>
-                <button
-                  onClick={() => handleSelectTab('schedule')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                    activeTab === 'calendar'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
-                  }`}
-                >
-                  <Calendar className="w-4 h-4 text-slate-400" />
-                  <span>{isFa ? 'تقویم ترم' : 'Calendar'}</span>
                 </button>
               </div>
             )}
@@ -364,7 +375,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div>
             <button
               onClick={() => toggleSection('progress')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-600 transition-colors"
+              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
             >
               <span>{isFa ? 'مطالعه و پیشرفت' : 'Study & Progress'}</span>
               {collapsedSections['progress'] ? (
@@ -377,50 +388,50 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="mt-1 space-y-0.5">
                 <button
                   onClick={() => handleSelectTab('timer')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'timer'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <Timer className="w-4 h-4 text-slate-400" />
+                  <Timer className={`w-4 h-4 ${activeTab === 'timer' ? 'text-white' : 'text-[#707B96]'}`} />
                   <span>{isFa ? 'تایمر مطالعه (پومودورو)' : 'Study Timer'}</span>
                 </button>
                 <button
                   onClick={() => handleSelectTab('statistics')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'statistics'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <BarChart2 className="w-4 h-4 text-slate-400" />
+                  <BarChart2 className={`w-4 h-4 ${activeTab === 'statistics' ? 'text-white' : 'text-[#707B96]'}`} />
                   <span>{isFa ? 'آمار مطالعه' : 'Statistics'}</span>
                 </button>
                 <button
                   onClick={() => handleSelectTab('reports')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'reports'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <FileText className="w-4 h-4 text-slate-400" />
+                  <FileText className={`w-4 h-4 ${activeTab === 'reports' ? 'text-white' : 'text-[#707B96]'}`} />
                   <span>{isFa ? 'گزارش‌های تحصیلی' : 'Reports'}</span>
                 </button>
                 <button
                   onClick={() => handleSelectTab('health_score')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'health_score'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Activity className="w-4 h-4 text-emerald-500" />
+                    <Activity className="w-4 h-4 text-emerald-400" />
                     <span>{isFa ? 'سلامت ترم (هوشمند)' : 'Semester Health'}</span>
                   </div>
-                  <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold">
+                  <span className="text-[10px] bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-full font-bold">
                     100
                   </span>
                 </button>
@@ -432,7 +443,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div>
             <button
               onClick={() => toggleSection('resources')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-600 transition-colors"
+              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
             >
               <span>{isFa ? 'منابع و خدمات دانشجویی' : 'Academic Resources'}</span>
               {collapsedSections['resources'] ? (
@@ -445,34 +456,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="mt-1 space-y-0.5">
                 <button
                   onClick={() => handleSelectTab('resources')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'resources'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <BookOpen className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                    <BookOpen className={`w-4 h-4 ${activeTab === 'resources' ? 'text-white' : 'text-[#39A7FF]'}`} />
                     <span>{isFa ? 'منابع درسی و جزوات' : 'Academic Resources'}</span>
                   </div>
-                  <span className="text-[10px] bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded font-medium">
+                  <span className="text-[10px] bg-[#663AF3]/20 border border-[#663AF3]/30 text-[#C9BAFF] px-2 py-0.5 rounded-full font-medium">
                     {isFa ? 'کتابخانه' : 'Library'}
                   </span>
                 </button>
 
                 <button
                   onClick={() => handleSelectTab('marketplace')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'marketplace'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <ShoppingBag className="w-4 h-4 text-slate-400" />
+                    <ShoppingBag className={`w-4 h-4 ${activeTab === 'marketplace' ? 'text-white' : 'text-[#707B96]'}`} />
                     <span>{isFa ? 'بازارچه اجاره و خرید خوابگاه' : 'Marketplace'}</span>
                   </div>
-                  <span className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-1.5 py-0.5 rounded font-medium">
+                  <span className="text-[10px] bg-white/[0.06] border border-white/[0.08] text-[#A6AEC3] px-2 py-0.5 rounded-full font-medium">
                     {isFa ? 'خوابگاه' : 'Dorm'}
                   </span>
                 </button>
@@ -484,7 +495,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div>
             <button
               onClick={() => toggleSection('account')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-600 transition-colors"
+              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
             >
               <span>{isFa ? 'حساب کاربری' : 'Account'}</span>
               {collapsedSections['account'] ? (
@@ -497,31 +508,31 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="mt-1 space-y-0.5">
                 <button
                   onClick={() => onOpenProfileModal ? onOpenProfileModal() : handleSelectTab('profile')}
-                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900 transition-colors"
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA] transition-colors"
                 >
-                  <User className="w-4 h-4 text-slate-400" />
+                  <User className="w-4 h-4 text-[#707B96]" />
                   <span>{isFa ? 'مشخصات دانشجو' : 'Profile'}</span>
                 </button>
                 <button
                   onClick={() => handleSelectTab('favorites')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'favorites'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <Heart className={`w-4 h-4 ${activeTab === 'favorites' ? 'text-rose-500 fill-current' : 'text-slate-400'}`} />
+                  <Heart className={`w-4 h-4 ${activeTab === 'favorites' ? 'text-white fill-current' : 'text-rose-400'}`} />
                   <span>{isFa ? 'نشان‌شده‌ها' : 'Favorites'}</span>
                 </button>
                 <button
                   onClick={() => handleSelectTab('settings')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                     activeTab === 'settings'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-medium'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900'
+                      ? 'nav-pill-active text-white'
+                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
                   }`}
                 >
-                  <Settings className={`w-4 h-4 ${activeTab === 'settings' ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400'}`} />
+                  <Settings className={`w-4 h-4 ${activeTab === 'settings' ? 'text-white' : 'text-[#707B96]'}`} />
                   <span>{isFa ? 'تنظیمات' : 'Settings'}</span>
                 </button>
               </div>
@@ -530,17 +541,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
 
-      {/* Bottom Semester Card from Screenshot */}
-      <div className="p-4 border-t border-slate-100 dark:border-slate-800/80">
-        <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl flex items-center gap-3 border border-slate-200/60 dark:border-slate-700/60">
-          <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+      {/* Bottom Semester Card */}
+      <div className="p-3 sm:p-4 border-t border-white/[0.08]">
+        <div className="p-3 bg-[#11182A]/80 border border-white/[0.08] rounded-2xl flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3]/30 to-[#39A7FF]/30 border border-[#663AF3]/40 text-[#C9BAFF] flex items-center justify-center shrink-0">
             <GraduationCap className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+            <div className="text-xs font-bold text-[#F1F3FA] truncate">
               {isFa ? 'نیم‌سال بهار ۱۴۰۴' : 'Spring 2025'}
             </div>
-            <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+            <div className="text-[11px] text-[#707B96] truncate">
               {isFa ? 'ترم تحصیلی جاری' : 'Current Semester'}
             </div>
           </div>
@@ -555,7 +566,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* 1. Permanent Desktop Sidebar */}
       {isDesktop && (
         <aside
-          className={`desktop-sidebar hidden lg:flex shrink-0 bg-white dark:bg-slate-900 rtl:border-l ltr:border-r border-slate-200/90 dark:border-slate-800 flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none transition-all duration-200 z-20 ${
+          className={`desktop-sidebar hidden lg:flex shrink-0 bg-[#0B1020]/90 backdrop-blur-2xl rtl:border-l ltr:border-r border-white/[0.08] flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none transition-all duration-200 z-20 ${
             isDesktopCollapsed ? 'w-20' : 'w-60 xl:w-64'
           }`}
         >
@@ -566,16 +577,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* 2. Mobile Drawer Backdrop Overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-xs lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden transition-opacity duration-300"
           onClick={onCloseMobile}
           aria-hidden="true"
         />
       )}
 
-      {/* 3. Mobile Slide-out Drawer (Mounted ONLY when isMobileOpen is true) */}
+      {/* 3. Mobile Slide-out Drawer */}
       {isMobileOpen && (
         <aside
-          className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-white dark:bg-slate-900 shadow-2xl flex flex-col justify-between h-full overflow-y-auto select-none lg:hidden"
+          className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-[#0B1020]/98 backdrop-blur-3xl border-e border-white/[0.1] shadow-2xl flex flex-col justify-between h-full overflow-y-auto select-none lg:hidden"
         >
           {renderNavContent(true)}
         </aside>

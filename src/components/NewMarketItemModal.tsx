@@ -69,20 +69,22 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-2xl p-4 sm:p-6 space-y-4 text-right">
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+      <div className="glass-panel bg-[#0B1020]/95 backdrop-blur-2xl rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto border border-white/[0.12] shadow-2xl p-4 sm:p-6 space-y-4 text-right">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-indigo-600" />
-            <h2 className="font-black text-sm sm:text-base text-slate-900 dark:text-white">
+            <span className="p-1.5 rounded-lg bg-[#663AF3]/20 border border-[#663AF3]/35 text-[#65D5FF]">
+              <ShoppingBag className="w-4 h-4" />
+            </span>
+            <h2 className="font-black text-sm sm:text-base text-[#F1F3FA]">
               ثبت آگهی کالا (اجاره موقت یا فروش در خوابگاه)
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+            className="p-1.5 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -92,7 +94,7 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
           
           {/* Title */}
           <div>
-            <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block font-bold text-[#A6AEC3] mb-1.5">
               عنوان وسیله یا کالا:
             </label>
             <input
@@ -101,50 +103,50 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
               placeholder="مثلاً: قابلمه تفال نچسب ۲۴ سانت / ماشین حساب کاسیو ۹۹۱"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500"
+              className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3] focus:ring-1 focus:ring-[#663AF3] transition-all"
             />
           </div>
 
           {/* Deal Type & Category */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-bold text-[#A6AEC3] mb-1.5">
                 نوع معامله:
               </label>
               <select
                 value={dealType}
                 onChange={(e) => setDealType(e.target.value as DealType)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3] cursor-pointer"
               >
-                <option value="rent">فقط اجاره روزانه</option>
-                <option value="sell">فقط فروش قطعی</option>
-                <option value="both">هم اجاره و هم فروش</option>
+                <option value="rent" className="bg-[#0B1020]">فقط اجاره روزانه</option>
+                <option value="sell" className="bg-[#0B1020]">فقط فروش قطعی</option>
+                <option value="both" className="bg-[#0B1020]">هم اجاره و هم فروش</option>
               </select>
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-bold text-[#A6AEC3] mb-1.5">
                 دسته‌بندی:
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as MarketCategory)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3] cursor-pointer"
               >
-                <option value="dorm_essentials">لوازم خوابگاه (قابلمه، اتو، کتری...)</option>
-                <option value="engineering_tools">ابزار مهندسی و معماری</option>
-                <option value="books_notes">کتاب و جزوه</option>
-                <option value="electronics">دیجیتال و کابل</option>
-                <option value="lab_medical">پزشکی و آزمایشگاه</option>
+                <option value="dorm_essentials" className="bg-[#0B1020]">لوازم خوابگاه (قابلمه، اتو، کتری...)</option>
+                <option value="engineering_tools" className="bg-[#0B1020]">ابزار مهندسی و معماری</option>
+                <option value="books_notes" className="bg-[#0B1020]">کتاب و جزوه</option>
+                <option value="electronics" className="bg-[#0B1020]">دیجیتال و کابل</option>
+                <option value="lab_medical" className="bg-[#0B1020]">پزشکی و آزمایشگاه</option>
               </select>
             </div>
           </div>
 
           {/* Pricing Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-indigo-50/50 dark:bg-indigo-950/30 rounded-2xl border border-indigo-100 dark:border-indigo-900/40">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-[#11182A]/80 rounded-2xl border border-white/[0.08]">
             {dealType !== 'sell' && (
               <div>
-                <label className="block font-bold text-indigo-900 dark:text-indigo-200 mb-1">
+                <label className="block font-bold text-[#65D5FF] mb-1">
                   کرایه روزانه (تومان):
                 </label>
                 <input
@@ -153,14 +155,14 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
                   min="5000"
                   value={rentPriceDaily}
                   onChange={(e) => setRentPriceDaily(Number(e.target.value))}
-                  className="w-full p-2 rounded-lg bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800 text-slate-800 dark:text-slate-200 outline-none"
+                  className="w-full p-2 rounded-xl bg-[#0B1020] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3]"
                 />
               </div>
             )}
 
             {dealType !== 'sell' && (
               <div>
-                <label className="block font-bold text-indigo-900 dark:text-indigo-200 mb-1">
+                <label className="block font-bold text-[#65D5FF] mb-1">
                   مبلغ ودیعه امانت (تومان):
                 </label>
                 <input
@@ -169,14 +171,14 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
                   min="0"
                   value={deposit}
                   onChange={(e) => setDeposit(Number(e.target.value))}
-                  className="w-full p-2 rounded-lg bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800 text-slate-800 dark:text-slate-200 outline-none"
+                  className="w-full p-2 rounded-xl bg-[#0B1020] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3]"
                 />
               </div>
             )}
 
             {dealType !== 'rent' && (
               <div className="sm:col-span-2">
-                <label className="block font-bold text-emerald-900 dark:text-emerald-200 mb-1">
+                <label className="block font-bold text-emerald-400 mb-1">
                   قیمت فروش قطعی (تومان):
                 </label>
                 <input
@@ -185,7 +187,7 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
                   min="10000"
                   value={sellPrice}
                   onChange={(e) => setSellPrice(Number(e.target.value))}
-                  className="w-full p-2 rounded-lg bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-800 text-slate-800 dark:text-slate-200 outline-none"
+                  className="w-full p-2 rounded-xl bg-[#0B1020] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-emerald-500"
                 />
               </div>
             )}
@@ -194,7 +196,7 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
           {/* Dorm Location & Condition */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-bold text-[#A6AEC3] mb-1.5">
                 محل تحویل در خوابگاه:
               </label>
               <input
@@ -203,29 +205,29 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
                 placeholder="خوابگاه طرشت ۲ - بلوک ۱"
                 value={dormLocation}
                 onChange={(e) => setDormLocation(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3]"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-bold text-[#A6AEC3] mb-1.5">
                 وضعیت سلامت کالا:
               </label>
               <select
                 value={condition}
                 onChange={(e) => setCondition(e.target.value as any)}
-                className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+                className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3] cursor-pointer"
               >
-                <option value="در حد نو">در حد نو</option>
-                <option value="تمیز و سالم">تمیز و سالم</option>
-                <option value="کارکرده">کارکرده</option>
+                <option value="در حد نو" className="bg-[#0B1020]">در حد نو</option>
+                <option value="تمیز و سالم" className="bg-[#0B1020]">تمیز و سالم</option>
+                <option value="کارکرده" className="bg-[#0B1020]">کارکرده</option>
               </select>
             </div>
           </div>
 
           {/* Image Selection */}
           <div>
-            <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+            <label className="block font-bold text-[#A6AEC3] mb-1.5">
               انتخاب عکس کالای مشابه:
             </label>
             <div className="grid grid-cols-4 gap-2">
@@ -233,10 +235,10 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
                 <div
                   key={img.url}
                   onClick={() => setSelectedImage(img.url)}
-                  className={`p-1 rounded-xl border cursor-pointer text-center space-y-1 transition-all ${
+                  className={`p-1.5 rounded-xl border cursor-pointer text-center space-y-1 transition-all ${
                     selectedImage === img.url
-                      ? 'border-indigo-600 bg-indigo-50/60 dark:bg-indigo-950/60 ring-2 ring-indigo-500'
-                      : 'border-slate-200 dark:border-slate-700 opacity-60 hover:opacity-100'
+                      ? 'border-[#39A7FF] bg-[#663AF3]/20 ring-2 ring-[#39A7FF]/50 shadow-[0_0_15px_rgba(57,167,255,0.3)]'
+                      : 'border-white/[0.08] bg-[#11182A]/60 opacity-60 hover:opacity-100'
                   }`}
                 >
                   <img
@@ -245,7 +247,7 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
                     referrerPolicy="no-referrer"
                     className="w-full aspect-[4/3] object-cover rounded-lg"
                   />
-                  <span className="block text-[10px] font-medium text-slate-700 dark:text-slate-300 truncate">
+                  <span className="block text-[10px] font-medium text-[#A6AEC3] truncate">
                     {img.label}
                   </span>
                 </div>
@@ -255,7 +257,7 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
 
           {/* Description */}
           <div>
-            <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block font-bold text-[#A6AEC3] mb-1.5">
               توضیحات و شرایط هماهنگی:
             </label>
             <textarea
@@ -263,13 +265,13 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
               placeholder="مثلاً: سالم با باتری نو، تست دم در خوابگاه، تخفیف برای اجاره هفتگی..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none"
+              className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#F1F3FA] placeholder-[#707B96] outline-none focus:border-[#663AF3] transition-all"
             />
           </div>
 
           {/* Telegram ID */}
           <div>
-            <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block font-bold text-[#A6AEC3] mb-1.5">
               آیدی تلگرام جهت پیام دانشجویان:
             </label>
             <input
@@ -277,22 +279,22 @@ export const NewMarketItemModal: React.FC<NewMarketItemModalProps> = ({
               placeholder="@your_id"
               value={telegram}
               onChange={(e) => setTelegram(e.target.value)}
-              className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 outline-none text-left font-mono"
+              className="w-full p-2.5 rounded-xl bg-[#11182A]/90 border border-white/[0.08] text-[#65D5FF] placeholder-[#707B96] outline-none focus:border-[#663AF3] text-left font-mono"
             />
           </div>
 
           {/* Submit */}
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="px-4 py-2 rounded-xl text-xs font-semibold text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors cursor-pointer"
             >
               انصراف
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-lg text-white bg-[#FF4B26] hover:bg-[#E83C18] font-bold shadow-xs cursor-pointer"
+              className="btn-primary-futuristic text-xs px-5 py-2.5 font-bold cursor-pointer"
             >
               انتشار فوری آگهی
             </button>

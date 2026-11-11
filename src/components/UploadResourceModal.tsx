@@ -228,19 +228,19 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/75 backdrop-blur-md animate-in fade-in">
+      <div className="glass-panel bg-[#0B1020]/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl border border-white/[0.12] shadow-2xl max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden text-right">
         {/* Header */}
-        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#663AF3]/20 border border-[#663AF3]/35 flex items-center justify-center text-[#65D5FF] shrink-0 shadow-[0_0_15px_rgba(102,58,243,0.3)]">
               <UploadCloud className="w-5 h-5" />
             </div>
             <div className="min-w-0">
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white truncate">
+              <h3 className="text-sm sm:text-base font-bold text-[#F1F3FA] truncate">
                 {isFa ? 'بارگذاری منابع درسی و جزوه' : 'Upload Academic Materials'}
               </h3>
-              <p className="text-[11px] sm:text-xs text-slate-400 truncate">
+              <p className="text-[11px] sm:text-xs text-[#A6AEC3] truncate">
                 {isFa ? 'پشتیبانی از PDF, DOCX, PPTX, XLSX و تصاویر تا ۲۵ مگابایت' : 'Supported formats: PDF, DOCX, PPTX, XLSX, Images (Max 25MB)'}
               </p>
             </div>
@@ -248,7 +248,7 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center transition-colors shrink-0 ml-2"
+            className="w-8 h-8 rounded-full hover:bg-white/[0.06] text-[#707B96] hover:text-[#F1F3FA] flex items-center justify-center transition-colors shrink-0 ml-2 cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -267,8 +267,8 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
             onClick={() => fileInputRef.current?.click()}
             className={`border-2 border-dashed rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center cursor-pointer transition-all ${
               isDragging
-                ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/30'
-                : 'border-slate-200 dark:border-slate-800 hover:border-indigo-400 hover:bg-slate-50/50 dark:hover:bg-slate-800/30'
+                ? 'border-[#39A7FF] bg-[#663AF3]/20 shadow-[0_0_25px_rgba(57,167,255,0.25)]'
+                : 'border-white/[0.12] bg-[#11182A]/50 hover:border-[#663AF3]/50 hover:bg-[#11182A]/80'
             }`}
           >
             <input
@@ -279,13 +279,13 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
               onChange={(e) => e.target.files && handleFilesSelected(e.target.files)}
               className="hidden"
             />
-            <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto mb-3 shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-[#663AF3]/20 border border-[#663AF3]/30 text-[#65D5FF] flex items-center justify-center mx-auto mb-3 shadow-[0_0_15px_rgba(102,58,243,0.3)]">
               <UploadCloud className="w-7 h-7" />
             </div>
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+            <h4 className="text-sm font-bold text-[#F1F3FA] mb-1">
               {isFa ? 'فایل‌ها را به اینجا بکشید یا برای انتخاب کلیک کنید' : 'Drag & drop files here, or browse files'}
             </h4>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            <p className="text-xs text-[#A6AEC3] max-w-sm mx-auto">
               {isFa
                 ? 'جزوات دست‌نویس، اسلایدهای اساتید، حل‌المسائل و کتابچه‌های فرمول'
                 : 'Lecture notes, professor slides, solution manuals, and formula cheat sheets'}
@@ -296,12 +296,12 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
           {queue.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-900 dark:text-white">
+                <span className="text-xs font-bold text-[#F1F3FA]">
                   {isFa ? `فایل‌های آماده بارگذاری (${queue.length})` : `Upload Queue (${queue.length})`}
                 </span>
                 <button
                   onClick={() => setQueue([])}
-                  className="text-xs text-rose-500 hover:underline"
+                  className="text-xs text-rose-400 hover:underline cursor-pointer"
                 >
                   {isFa ? 'پاک کردن لیست' : 'Clear all'}
                 </button>
@@ -311,16 +311,16 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
                 {queue.map((item) => (
                   <div
                     key={item.id}
-                    className="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 space-y-3"
+                    className="p-4 rounded-2xl border border-white/[0.08] bg-[#11182A]/70 space-y-3"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <FileText className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                        <FileText className="w-5 h-5 text-[#39A7FF] shrink-0" />
                         <div className="min-w-0">
-                          <span className="text-xs font-bold text-slate-900 dark:text-white truncate block">
+                          <span className="text-xs font-bold text-[#F1F3FA] truncate block">
                             {item.file.name}
                           </span>
-                          <span className="text-[10px] text-slate-400">
+                          <span className="text-[10px] text-[#707B96]">
                             {formatBytes(item.file.size)}
                           </span>
                         </div>
@@ -328,13 +328,13 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
 
                       <div className="flex items-center gap-2">
                         {item.status === 'completed' && (
-                          <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
+                          <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
                             <CheckCircle2 className="w-4 h-4" />
                             <span>{isFa ? 'تکمیل شد' : 'Done'}</span>
                           </span>
                         )}
                         {item.status === 'uploading' && (
-                          <span className="text-xs font-semibold text-indigo-600 flex items-center gap-1">
+                          <span className="text-xs font-semibold text-[#65D5FF] flex items-center gap-1">
                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
                             <span>{item.progress}%</span>
                           </span>
@@ -342,7 +342,7 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
                         {item.status === 'pending' && (
                           <button
                             onClick={() => handleRemoveFromQueue(item.id)}
-                            className="p-1 text-slate-400 hover:text-rose-500 transition-colors"
+                            className="p-1 text-[#707B96] hover:text-rose-400 transition-colors cursor-pointer"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -351,30 +351,30 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
                     </div>
 
                     {/* Metadata fields */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-white/[0.06]">
                       <div>
-                        <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">
+                        <label className="text-[10px] font-bold text-[#707B96] uppercase block mb-1">
                           {isFa ? 'عنوان نمایشی' : 'Display Title'}
                         </label>
                         <input
                           type="text"
                           value={item.title}
                           onChange={(e) => handleUpdateItem(item.id, { title: e.target.value })}
-                          className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white"
+                          className="w-full bg-[#0B1020] border border-white/[0.08] rounded-xl px-2.5 py-1.5 text-xs text-[#F1F3FA] focus:border-[#663AF3] outline-none"
                         />
                       </div>
 
                       <div>
-                        <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">
+                        <label className="text-[10px] font-bold text-[#707B96] uppercase block mb-1">
                           {isFa ? 'درس مرتبط' : 'Associated Course'}
                         </label>
                         <select
                           value={item.courseId}
                           onChange={(e) => handleUpdateItem(item.id, { courseId: e.target.value })}
-                          className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white"
+                          className="w-full bg-[#0B1020] border border-white/[0.08] rounded-xl px-2.5 py-1.5 text-xs text-[#F1F3FA] focus:border-[#663AF3] outline-none cursor-pointer"
                         >
                           {courses.map((c) => (
-                            <option key={c.id} value={c.id}>
+                            <option key={c.id} value={c.id} className="bg-[#0B1020]">
                               {c.code} - {c.name}
                             </option>
                           ))}
@@ -382,16 +382,16 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
                       </div>
 
                       <div>
-                        <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">
+                        <label className="text-[10px] font-bold text-[#707B96] uppercase block mb-1">
                           {isFa ? 'پوشه یا دسته‌بندی' : 'Folder Category'}
                         </label>
                         <select
                           value={item.folder}
                           onChange={(e) => handleUpdateItem(item.id, { folder: e.target.value })}
-                          className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white"
+                          className="w-full bg-[#0B1020] border border-white/[0.08] rounded-xl px-2.5 py-1.5 text-xs text-[#F1F3FA] focus:border-[#663AF3] outline-none cursor-pointer"
                         >
                           {folderPresets.map((f, idx) => (
-                            <option key={idx} value={isFa ? f.fa : f.en}>
+                            <option key={idx} value={isFa ? f.fa : f.en} className="bg-[#0B1020]">
                               {isFa ? f.fa : f.en}
                             </option>
                           ))}
@@ -399,7 +399,7 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
                       </div>
 
                       <div>
-                        <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">
+                        <label className="text-[10px] font-bold text-[#707B96] uppercase block mb-1">
                           {isFa ? 'برچسب‌ها (با کاما جدا کنید)' : 'Tags (Comma separated)'}
                         </label>
                         <input
@@ -407,7 +407,7 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
                           value={item.tagsString}
                           onChange={(e) => handleUpdateItem(item.id, { tagsString: e.target.value })}
                           placeholder="Midterm, Formulas, Summary"
-                          className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white"
+                          className="w-full bg-[#0B1020] border border-white/[0.08] rounded-xl px-2.5 py-1.5 text-xs text-[#F1F3FA] placeholder-[#707B96] focus:border-[#663AF3] outline-none"
                         />
                       </div>
                     </div>
@@ -419,10 +419,10 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 flex items-center justify-between">
+        <div className="px-6 py-4 border-t border-white/[0.08] bg-[#0B1020]/80 flex items-center justify-between">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900"
+            className="px-4 py-2 text-xs font-semibold text-[#A6AEC3] hover:text-[#F1F3FA] cursor-pointer"
           >
             {isFa ? 'انصراف' : 'Cancel'}
           </button>
@@ -430,7 +430,7 @@ export const UploadResourceModal: React.FC<UploadResourceModalProps> = ({
           <button
             onClick={handleStartUpload}
             disabled={queue.length === 0 || isProcessing}
-            className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-indigo-600/20 flex items-center gap-2"
+            className="btn-primary-futuristic text-xs px-6 py-2.5 font-bold flex items-center gap-2 cursor-pointer disabled:opacity-40"
           >
             {isProcessing && <Loader2 className="w-4 h-4 animate-spin" />}
             <span>
