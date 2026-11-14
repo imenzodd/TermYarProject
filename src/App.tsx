@@ -445,13 +445,12 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen futuristic-bg text-slate-900 dark:text-[#F1F3FA] flex flex-col lg:flex-row w-full max-w-full overflow-x-hidden relative selection:bg-[#663AF3] selection:text-white transition-colors">
-      {/* Ambient Atmospheric Lighting Layers (Dark mode only for clean white clarity in Light mode) */}
+    <div className="min-h-screen futuristic-bg text-slate-900 dark:text-[#F1F3FA] flex flex-col lg:flex-row w-full max-w-full overflow-x-clip relative selection:bg-[#663AF3] selection:text-white transition-colors">
+      {/* Subtle Atmospheric Lighting Layer (Dark mode only, restrained opacity for visual calm) */}
       {darkMode && (
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-          <div className="absolute -top-32 end-0 w-[600px] h-[600px] bg-[#663AF3]/15 rounded-full blur-[140px]" />
-          <div className="absolute top-[25%] start-0 w-[500px] h-[500px] bg-[#39A7FF]/10 rounded-full blur-[130px]" />
-          <div className="absolute -bottom-32 end-[20%] w-[650px] h-[650px] bg-[#663AF3]/10 rounded-full blur-[160px]" />
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-45" aria-hidden="true">
+          <div className="absolute -top-32 end-0 w-[520px] h-[520px] bg-[#663AF3]/10 rounded-full blur-[140px]" />
+          <div className="absolute top-[25%] start-0 w-[440px] h-[440px] bg-[#39A7FF]/8 rounded-full blur-[130px]" />
         </div>
       )}
 
@@ -484,10 +483,12 @@ export default function App() {
           onOpenNewTaskModal={() => openNewTaskModal('homework')}
           onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           onOpenLanding={() => navigateToTab('landing')}
+          tasks={tasks}
+          onNavigateTab={navigateToTab}
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-3.5 sm:p-5 lg:p-8 max-w-[1400px] w-full mx-auto pb-28 lg:pb-8">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-[1360px] w-full mx-auto pb-24 lg:pb-8">
 
           {activeTab === 'dashboard' && (
             <DashboardView
@@ -496,6 +497,7 @@ export default function App() {
               courses={courses}
               marketItems={marketItems}
               needRequests={needRequests}
+              studyLogs={studyLogs}
               lang={lang}
               healthData={healthData}
               onOpenHealthModal={() => setIsHealthModalOpen(true)}
@@ -511,6 +513,7 @@ export default function App() {
               onOpenNewMarketModal={() => setIsNewMarketModalOpen(true)}
               onOpenProfileModal={() => setIsProfileModalOpen(true)}
               onOpenGolestanModal={() => setIsGolestanModalOpen(true)}
+              onAddStudyLog={handleAddStudyLog}
             />
           )}
 
@@ -642,14 +645,18 @@ export default function App() {
           )}
         </main>
 
-        {/* 3. Mobile Thumb Floating Liquid Glass Bar (Hidden on desktop lg+) */}
-        <nav className="lg:hidden fixed bottom-3 inset-x-3 z-40 glass-panel rounded-2xl p-1.5 flex items-center justify-around shadow-2xl border border-white/[0.1] select-none">
+        {/* 3. Mobile Thumb Floating Navigation Bar (Hidden on desktop lg+) */}
+        <nav
+          aria-label={lang === 'fa' ? 'ناوبری سریع موبایل' : 'Mobile quick navigation'}
+          className="lg:hidden fixed bottom-3 inset-x-3 z-40 bg-white/95 dark:bg-[#0D1324]/95 backdrop-blur-lg rounded-2xl p-1.5 flex items-center justify-around shadow-lg border border-slate-200 dark:border-white/[0.1] select-none"
+        >
           <button
+            type="button"
             onClick={() => navigateToTab('dashboard')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl transition-all ${
+            className={`flex flex-col items-center gap-1 text-[10px] py-1.5 px-3 rounded-xl transition-colors cursor-pointer ${
               activeTab === 'dashboard'
-                ? 'nav-pill-active font-bold'
-                : 'text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05]'
+                ? 'bg-[#663AF3]/12 dark:bg-[#663AF3]/22 text-[#663AF3] dark:text-[#C9BAFF] font-bold'
+                : 'text-slate-500 dark:text-[#A6AEC3] hover:text-slate-900 dark:hover:text-[#F1F3FA] font-medium'
             }`}
           >
             <LayoutDashboard className="w-4 h-4" />
@@ -657,11 +664,12 @@ export default function App() {
           </button>
 
           <button
+            type="button"
             onClick={() => navigateToTab('resources')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl transition-all ${
+            className={`flex flex-col items-center gap-1 text-[10px] py-1.5 px-3 rounded-xl transition-colors cursor-pointer ${
               activeTab === 'resources'
-                ? 'nav-pill-active font-bold'
-                : 'text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05]'
+                ? 'bg-[#663AF3]/12 dark:bg-[#663AF3]/22 text-[#663AF3] dark:text-[#C9BAFF] font-bold'
+                : 'text-slate-500 dark:text-[#A6AEC3] hover:text-slate-900 dark:hover:text-[#F1F3FA] font-medium'
             }`}
           >
             <BookOpen className="w-4 h-4" />
@@ -669,11 +677,12 @@ export default function App() {
           </button>
 
           <button
+            type="button"
             onClick={() => navigateToTab('tasks')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl transition-all ${
+            className={`flex flex-col items-center gap-1 text-[10px] py-1.5 px-3 rounded-xl transition-colors cursor-pointer ${
               activeTab === 'tasks'
-                ? 'nav-pill-active font-bold'
-                : 'text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05]'
+                ? 'bg-[#663AF3]/12 dark:bg-[#663AF3]/22 text-[#663AF3] dark:text-[#C9BAFF] font-bold'
+                : 'text-slate-500 dark:text-[#A6AEC3] hover:text-slate-900 dark:hover:text-[#F1F3FA] font-medium'
             }`}
           >
             <CheckSquare className="w-4 h-4" />
@@ -681,11 +690,12 @@ export default function App() {
           </button>
 
           <button
+            type="button"
             onClick={() => navigateToTab('schedule')}
-            className={`flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl transition-all ${
+            className={`flex flex-col items-center gap-1 text-[10px] py-1.5 px-3 rounded-xl transition-colors cursor-pointer ${
               activeTab === 'schedule'
-                ? 'nav-pill-active font-bold'
-                : 'text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05]'
+                ? 'bg-[#663AF3]/12 dark:bg-[#663AF3]/22 text-[#663AF3] dark:text-[#C9BAFF] font-bold'
+                : 'text-slate-500 dark:text-[#A6AEC3] hover:text-slate-900 dark:hover:text-[#F1F3FA] font-medium'
             }`}
           >
             <CalendarDays className="w-4 h-4" />
@@ -693,8 +703,9 @@ export default function App() {
           </button>
 
           <button
+            type="button"
             onClick={() => setIsMobileMenuOpen(true)}
-            className="flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.05] transition-colors"
+            className="flex flex-col items-center gap-1 text-[10px] font-medium py-1.5 px-3 rounded-xl text-slate-500 dark:text-[#A6AEC3] hover:text-slate-900 dark:hover:text-[#F1F3FA] transition-colors cursor-pointer"
           >
             <Menu className="w-4 h-4" />
             <span>{lang === 'fa' ? 'بیشتر' : 'More'}</span>

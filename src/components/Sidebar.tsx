@@ -3,22 +3,14 @@ import {
   LayoutDashboard,
   CalendarDays,
   GraduationCap,
-  FileCheck,
   ClipboardList,
   Calendar,
   Timer,
-  BarChart2,
   FileText,
   ShoppingBag,
-  User,
   Heart,
   Settings,
-  ChevronDown,
-  ChevronRight,
   Layers,
-  Sparkles,
-  BookOpen,
-  Activity,
   X,
   ChevronsLeft,
   ChevronsRight,
@@ -42,21 +34,15 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
+  pendingTasksCount = 0,
   user,
   lang = 'en',
   onOpenProfileModal,
   isMobileOpen = false,
   onCloseMobile,
 }) => {
-  const [collapsedSections, setCollapsedSections] = useState<{ [key: string]: boolean }>({});
-
-  const toggleSection = (section: string) => {
-    setCollapsedSections((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
-
   const isFa = lang === 'fa';
 
-  // Dynamic screen width check to ensure desktop sidebar is 100% NOT mounted into DOM on mobile
   const [isDesktop, setIsDesktop] = useState<boolean>(() => {
     if (typeof window === 'undefined') return true;
     return window.innerWidth >= 1024;
@@ -108,383 +94,247 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  const renderNavContent = (isMobile: boolean = false) => {
-    if (!isMobile && isDesktopCollapsed) {
+  const primaryGroups = [
+    {
+      id: 'core',
+      label: isFa ? 'فضای کاری' : 'Workspace',
+      items: [
+        { tab: 'dashboard', icon: LayoutDashboard, label: isFa ? 'داشبورد' : 'Dashboard' },
+        { tab: 'schedule', icon: CalendarDays, label: isFa ? 'برنامه هفتگی' : 'Weekly Schedule' },
+        { tab: 'courses', icon: GraduationCap, label: isFa ? 'دروس من' : 'My Courses' },
+      ],
+    },
+    {
+      id: 'productivity',
+      label: isFa ? 'برنامه‌ریزی و تمرکز' : 'Study & Focus',
+      items: [
+        {
+          tab: 'tasks',
+          icon: ClipboardList,
+          label: isFa ? 'تکالیف و تمرین‌ها' : 'Tasks',
+          count: pendingTasksCount > 0 ? pendingTasksCount : undefined,
+        },
+        { tab: 'exams', icon: Calendar, label: isFa ? 'امتحانات' : 'Exams' },
+        { tab: 'timer', icon: Timer, label: isFa ? 'تایمر پومودورو' : 'Focus Timer' },
+      ],
+    },
+    {
+      id: 'campus',
+      label: isFa ? 'منابع و دانشگاه' : 'Campus & Vault',
+      items: [
+        { tab: 'resources', icon: Layers, label: isFa ? 'بانک جزوات و منابع' : 'Notes Vault' },
+        { tab: 'marketplace', icon: ShoppingBag, label: isFa ? 'بازارچه خوابگاه' : 'Marketplace' },
+      ],
+    },
+  ];
+
+  const secondaryItems = [
+    { tab: 'favorites', icon: Heart, label: isFa ? 'نشان‌شده‌ها' : 'Favorites' },
+    { tab: 'settings', icon: Settings, label: isFa ? 'تنظیمات' : 'Settings' },
+    { tab: 'dossier', icon: FileText, label: isFa ? 'پرونده تحلیلی' : 'Dossier' },
+    { tab: 'landing', icon: Compass, label: isFa ? 'صفحه معرفی' : 'Landing Page' },
+  ];
+
+  const renderNavItem = (
+    item: { tab: string; icon: React.ComponentType<{ className?: string }>; label: string; count?: number },
+    collapsed: boolean
+  ) => {
+    const Icon = item.icon;
+    const isActive = activeTab === item.tab;
+
+    if (collapsed) {
       return (
-        <div className="flex flex-col justify-between h-full py-4 items-center">
-          {/* Top: Logo icon & Expand button */}
-          <div className="flex flex-col items-center gap-3 w-full px-2">
-            <button
-              onClick={() => handleSelectTab('dashboard')}
-              className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] flex items-center justify-center text-white shadow-lg shadow-[#663AF3]/30 hover:scale-105 transition-transform shrink-0 cursor-pointer"
-              title="TermYar"
-            >
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </button>
-
-            <button
-              type="button"
-              onClick={toggleDesktopCollapse}
-              className="w-8 h-8 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] flex items-center justify-center transition-colors cursor-pointer"
-              title={isFa ? 'باز کردن منو' : 'Expand sidebar'}
-            >
-              <ChevronsLeft className="w-4 h-4 rtl:rotate-180" />
-            </button>
-
-            <div className="w-8 h-px bg-white/[0.08] my-1" />
-
-            {/* Quick collapsed icons */}
-            <div className="flex flex-col items-center gap-1.5 w-full">
-              {[
-                { tab: 'landing', icon: Compass, label: isFa ? 'صفحه اصلی و معرفی' : 'Landing Page' },
-                { tab: 'dossier', icon: FileText, label: isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Dossier' },
-                { tab: 'dashboard', icon: LayoutDashboard, label: isFa ? 'داشبورد' : 'Dashboard' },
-                { tab: 'schedule', icon: CalendarDays, label: isFa ? 'برنامه هفتگی' : 'Schedule' },
-                { tab: 'courses', icon: BookOpen, label: isFa ? 'دروس من' : 'Courses' },
-                { tab: 'tasks', icon: ClipboardList, label: isFa ? 'تکالیف و تمرین‌ها' : 'Tasks' },
-                { tab: 'exams', icon: Calendar, label: isFa ? 'امتحانات' : 'Exams' },
-                { tab: 'timer', icon: Timer, label: isFa ? 'تایمر پومودورو' : 'Timer' },
-                { tab: 'resources', icon: Layers, label: isFa ? 'بانک جزوات و منابع' : 'Vault' },
-                { tab: 'marketplace', icon: ShoppingBag, label: isFa ? 'بازارچه خوابگاه' : 'Marketplace' },
-                { tab: 'favorites', icon: Heart, label: isFa ? 'نشان‌شده‌ها' : 'Favorites' },
-                { tab: 'settings', icon: Settings, label: isFa ? 'تنظیمات' : 'Settings' },
-              ].map(({ tab, icon: Icon, label }) => {
-                const active = activeTab === tab;
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => handleSelectTab(tab)}
-                    title={label}
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
-                      active
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.06] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Bottom user avatar */}
-          <div className="flex flex-col items-center gap-2">
-            <button
-              onClick={onOpenProfileModal}
-              className="w-10 h-10 rounded-xl text-[#A6AEC3] hover:bg-white/[0.06] hover:text-[#F1F3FA] flex items-center justify-center transition-colors text-base cursor-pointer"
-              title={user.name || 'Profile'}
-            >
-              {user.avatar || '👨‍🎓'}
-            </button>
-          </div>
-        </div>
+        <button
+          key={item.tab}
+          type="button"
+          onClick={() => handleSelectTab(item.tab)}
+          title={item.label}
+          aria-label={item.label}
+          className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-150 cursor-pointer shrink-0 ${
+            isActive
+              ? 'bg-[#663AF3]/12 dark:bg-[#663AF3]/20 text-[#663AF3] dark:text-[#C9BAFF]'
+              : 'text-slate-500 dark:text-[#A6AEC3] hover:bg-slate-100 dark:hover:bg-white/[0.06] hover:text-slate-900 dark:hover:text-[#F1F3FA]'
+          }`}
+        >
+          {isActive && (
+            <span
+              aria-hidden="true"
+              className="absolute start-0 top-2.5 bottom-2.5 w-[3px] rounded-full bg-[#663AF3] dark:bg-[#8E73FF]"
+            />
+          )}
+          <Icon className="w-4 h-4 shrink-0" />
+        </button>
       );
     }
 
     return (
-      <div className="flex flex-col justify-between h-full">
-        <div className="p-3.5 sm:p-4">
-          {/* Logo & Brand Header */}
-          <div className="flex items-center justify-between px-1 mb-5">
-            <div
-              className="flex items-center gap-2.5 cursor-pointer min-w-0"
-              onClick={() => handleSelectTab('dashboard')}
-            >
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] flex items-center justify-center text-white shadow-lg shadow-[#663AF3]/30 shrink-0">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-base font-black tracking-tight text-[#F1F3FA] truncate">
-                  TermYar
-                </span>
-                <span className="text-[9px] font-medium text-[#707B96] -mt-0.5 tracking-wider uppercase truncate">
-                  {isFa ? 'دستیار تحصیلی مدرن' : 'Student Cockpit'}
-                </span>
-              </div>
-            </div>
+      <button
+        key={item.tab}
+        type="button"
+        onClick={() => handleSelectTab(item.tab)}
+        className={`relative w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl text-[13px] transition-colors duration-150 cursor-pointer shrink-0 ${
+          isActive
+            ? 'bg-[#663AF3]/10 dark:bg-[#663AF3]/18 text-[#5227D8] dark:text-white font-semibold'
+            : 'text-slate-600 dark:text-[#A6AEC3] hover:bg-slate-100/80 dark:hover:bg-white/[0.05] hover:text-slate-900 dark:hover:text-[#F1F3FA] font-medium'
+        }`}
+      >
+        {/* Subtle active vertical accent indicator */}
+        {isActive && (
+          <span
+            aria-hidden="true"
+            className="absolute start-0 top-2 bottom-2 w-[3px] rounded-full bg-[#663AF3] dark:bg-[#8E73FF]"
+          />
+        )}
 
-            {/* Desktop Collapse Button */}
-            {!isMobile && (
-              <button
-                type="button"
-                onClick={toggleDesktopCollapse}
-                className="p-1.5 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
-                title={isFa ? 'جمع کردن منو (فضای بازتر)' : 'Collapse sidebar'}
-                aria-label="Collapse sidebar"
-              >
-                <ChevronsRight className="w-4 h-4 rtl:rotate-180" />
-              </button>
-            )}
-
-            {isMobile && (
-              <button
-                onClick={onCloseMobile}
-                className="p-1.5 -mr-1.5 rounded-xl text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
-                aria-label="Close menu"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            )}
-          </div>
-
-          {/* Landing Page Preview Item */}
-          <div className="mb-2">
-            <button
-              onClick={() => handleSelectTab('landing')}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all border cursor-pointer ${
-                activeTab === 'landing'
-                  ? 'nav-pill-active text-white border-transparent'
-                  : 'bg-slate-50 dark:bg-white/[0.03] border-slate-200 dark:border-white/[0.06] text-slate-700 dark:text-[#A6AEC3] hover:bg-slate-100 dark:hover:bg-white/[0.08] hover:text-slate-900 dark:hover:text-[#F1F3FA]'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <Compass className={`w-4 h-4 shrink-0 ${activeTab === 'landing' ? 'text-white' : 'text-[#0284C7] dark:text-[#39A7FF]'}`} />
-                <span>{isFa ? 'صفحه اصلی و معرفی' : 'Landing Page'}</span>
-              </div>
-              <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full border ${
-                activeTab === 'landing'
-                  ? 'bg-white/20 text-white border-white/20'
-                  : 'bg-sky-50 dark:bg-white/[0.08] text-sky-700 dark:text-[#39A7FF] border-sky-200 dark:border-white/[0.06]'
-              }`}>
-                {isFa ? 'جدید' : 'New'}
-              </span>
-            </button>
-          </div>
-
-          {/* Business Dossier Special Item (Single official button) */}
-          <div className="mb-2">
-            <button
-              onClick={() => handleSelectTab('dossier')}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all border cursor-pointer ${
-                activeTab === 'dossier'
-                  ? 'nav-pill-active text-white border-transparent'
-                  : 'bg-indigo-50 dark:bg-[#663AF3]/10 border-indigo-200 dark:border-[#663AF3]/30 text-indigo-800 dark:text-[#C9BAFF] hover:bg-indigo-100 dark:hover:bg-[#663AF3]/20'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <FileText className={`w-4 h-4 shrink-0 ${activeTab === 'dossier' ? 'text-white' : 'text-indigo-600 dark:text-[#39A7FF]'}`} />
-                <span>{isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Business Dossier'}</span>
-              </div>
-              <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-[#663AF3] text-white shadow-xs">
-                {isFa ? 'دانشگاهی' : 'New'}
-              </span>
-            </button>
-          </div>
-
-          {/* Dashboard Single Active Item */}
-          <div className="mb-3">
-            <button
-              onClick={() => handleSelectTab('dashboard')}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all cursor-pointer ${
-                activeTab === 'dashboard'
-                  ? 'nav-pill-active text-white'
-                  : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-              }`}
-            >
-              <LayoutDashboard className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-white' : 'text-[#707B96]'}`} />
-              <span>{isFa ? 'داشبورد' : 'Dashboard'}</span>
-            </button>
-          </div>
-
-          {/* Navigation Sections */}
-          <div className="space-y-3.5">
-            {/* Section: Study Plan */}
-            <div>
-              <button
-                onClick={() => toggleSection('studyPlan')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors cursor-pointer"
-              >
-                <span>{isFa ? 'برنامه تحصیلی' : 'Study Plan'}</span>
-                {collapsedSections['studyPlan'] ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
-              </button>
-              {!collapsedSections['studyPlan'] && (
-                <div className="mt-1 space-y-0.5">
-                  <button
-                    onClick={() => handleSelectTab('schedule')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'schedule'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <CalendarDays className={`w-4 h-4 ${activeTab === 'schedule' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'برنامه هفتگی' : 'Weekly Schedule'}</span>
-                  </button>
-                  <button
-                    onClick={() => handleSelectTab('courses')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'courses'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <GraduationCap className={`w-4 h-4 ${activeTab === 'courses' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'دروس من' : 'My Courses'}</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Section: Tasks & Assessments */}
-            <div>
-              <button
-                onClick={() => toggleSection('tasks')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors cursor-pointer"
-              >
-                <span>{isFa ? 'تکالیف و ارزیابی‌ها' : 'Tasks & Assessments'}</span>
-                {collapsedSections['tasks'] ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
-              </button>
-              {!collapsedSections['tasks'] && (
-                <div className="mt-1 space-y-0.5">
-                  <button
-                    onClick={() => handleSelectTab('tasks')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'tasks'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <ClipboardList className={`w-4 h-4 ${activeTab === 'tasks' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'تکالیف و تمرین‌ها' : 'Tasks'}</span>
-                  </button>
-                  <button
-                    onClick={() => handleSelectTab('exams')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'exams'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <Calendar className={`w-4 h-4 ${activeTab === 'exams' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'امتحانات' : 'Exams'}</span>
-                  </button>
-                  <button
-                    onClick={() => handleSelectTab('timer')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'timer'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <Timer className={`w-4 h-4 ${activeTab === 'timer' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'تایمر پومودورو' : 'Timer'}</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Section: Academic Resources & Market */}
-            <div>
-              <button
-                onClick={() => toggleSection('resources')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors cursor-pointer"
-              >
-                <span>{isFa ? 'منابع و خدمات دانشجویی' : 'Resources & Services'}</span>
-                {collapsedSections['resources'] ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
-              </button>
-              {!collapsedSections['resources'] && (
-                <div className="mt-1 space-y-0.5">
-                  <button
-                    onClick={() => handleSelectTab('resources')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'resources'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <Layers className={`w-4 h-4 ${activeTab === 'resources' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'بانک جزوات و منابع' : 'Vault'}</span>
-                  </button>
-                  <button
-                    onClick={() => handleSelectTab('marketplace')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'marketplace'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <ShoppingBag className={`w-4 h-4 ${activeTab === 'marketplace' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'بازارچه خوابگاه' : 'Marketplace'}</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Section: General */}
-            <div>
-              <button
-                onClick={() => toggleSection('general')}
-                className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors cursor-pointer"
-              >
-                <span>{isFa ? 'عمومی' : 'General'}</span>
-                {collapsedSections['general'] ? (
-                  <ChevronRight className="w-3.5 h-3.5" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5" />
-                )}
-              </button>
-              {!collapsedSections['general'] && (
-                <div className="mt-1 space-y-0.5">
-                  <button
-                    onClick={() => handleSelectTab('favorites')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'favorites'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <Heart className={`w-4 h-4 ${activeTab === 'favorites' ? 'text-white fill-current' : 'text-rose-400'}`} />
-                    <span>{isFa ? 'نشان‌شده‌ها' : 'Favorites'}</span>
-                  </button>
-                  <button
-                    onClick={() => handleSelectTab('settings')}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
-                      activeTab === 'settings'
-                        ? 'nav-pill-active text-white'
-                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                    }`}
-                  >
-                    <Settings className={`w-4 h-4 ${activeTab === 'settings' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'تنظیمات' : 'Settings'}</span>
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <Icon
+            className={`w-4 h-4 shrink-0 ${
+              isActive
+                ? 'text-[#663AF3] dark:text-[#C9BAFF]'
+                : 'text-slate-400 dark:text-[#707B96]'
+            }`}
+          />
+          <span className="truncate">{item.label}</span>
         </div>
 
-        {/* Bottom Semester Card */}
-        <div className="p-3 sm:p-4 border-t border-slate-200 dark:border-white/[0.08]">
-          <div className="p-3 bg-slate-50 dark:bg-[#11182A]/80 border border-slate-200 dark:border-white/[0.08] rounded-2xl flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3]/15 to-[#39A7FF]/15 dark:from-[#663AF3]/30 dark:to-[#39A7FF]/30 border border-[#663AF3]/25 dark:border-[#663AF3]/40 text-indigo-700 dark:text-[#C9BAFF] flex items-center justify-center shrink-0">
-              <GraduationCap className="w-4 h-4" />
+        {typeof item.count === 'number' && (
+          <span
+            className={`text-[11px] font-semibold tabular-nums shrink-0 ${
+              isActive
+                ? 'text-[#663AF3] dark:text-[#C9BAFF]'
+                : 'text-slate-400 dark:text-[#707B96]'
+            }`}
+          >
+            {item.count}
+          </span>
+        )}
+      </button>
+    );
+  };
+
+  const renderNavContent = (isMobile: boolean = false) => {
+    const collapsed = !isMobile && isDesktopCollapsed;
+
+    return (
+      <div className="flex flex-col h-full min-h-0">
+        {/* Top Brand Header */}
+        <div
+          className={`flex items-center ${
+            collapsed ? 'flex-col gap-2.5 py-4 px-2' : 'justify-between px-4 pt-4 pb-3'
+          } shrink-0 border-b border-slate-100 dark:border-white/[0.06]`}
+        >
+          <button
+            type="button"
+            onClick={() => handleSelectTab('dashboard')}
+            className="flex items-center gap-2.5 cursor-pointer min-w-0 text-start"
+            title="TermYar"
+          >
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] flex items-center justify-center text-white shadow-sm shrink-0">
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
             </div>
-            <div className="min-w-0">
-              <div className="text-xs font-bold text-slate-900 dark:text-[#F1F3FA] truncate">
-                {isFa ? 'نیم‌سال بهار ۱۴۰۴' : 'Spring 2025'}
+            {!collapsed && (
+              <div className="flex flex-col min-w-0">
+                <span className="text-[15px] font-extrabold tracking-tight text-slate-900 dark:text-[#F1F3FA] truncate">
+                  {isFa ? 'ترم‌یار' : 'TermYar'}
+                </span>
+                <span className="text-[10px] font-medium text-slate-500 dark:text-[#707B96] -mt-0.5 truncate">
+                  {isFa ? 'فضای کار دانشجویی' : 'Academic Workspace'}
+                </span>
               </div>
-              <div className="text-[11px] text-slate-500 dark:text-[#707B96] truncate">
-                {isFa ? 'ترم تحصیلی جاری' : 'Current Semester'}
+            )}
+          </button>
+
+          {!isMobile ? (
+            <button
+              type="button"
+              onClick={toggleDesktopCollapse}
+              className="p-1.5 rounded-lg text-slate-400 dark:text-[#707B96] hover:text-slate-800 dark:hover:text-[#F1F3FA] hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
+              title={
+                collapsed
+                  ? isFa ? 'باز کردن منو' : 'Expand sidebar'
+                  : isFa ? 'جمع کردن منو' : 'Collapse sidebar'
+              }
+              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {collapsed ? (
+                <ChevronsLeft className="w-4 h-4 rtl:rotate-180" />
+              ) : (
+                <ChevronsRight className="w-4 h-4 rtl:rotate-180" />
+              )}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={onCloseMobile}
+              className="p-1.5 rounded-lg text-slate-400 dark:text-[#707B96] hover:text-slate-800 dark:hover:text-[#F1F3FA] hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
+              aria-label={isFa ? 'بستن منو' : 'Close menu'}
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
+        </div>
+
+        {/* Upper Primary Navigation + Flexible Spacer */}
+        <div
+          className={`flex-1 min-h-0 overflow-y-auto ${
+            collapsed ? 'px-2 py-3 flex flex-col items-center gap-1.5' : 'px-3 py-3.5 space-y-5'
+          }`}
+        >
+          {primaryGroups.map((group) => (
+            <div key={group.id} className={collapsed ? 'flex flex-col items-center gap-1 w-full' : ''}>
+              {!collapsed && (
+                <div className="px-3 mb-1.5 text-[11px] font-semibold text-slate-400 dark:text-[#707B96]">
+                  {group.label}
+                </div>
+              )}
+              <div className={collapsed ? 'flex flex-col items-center gap-1 w-full' : 'space-y-0.5'}>
+                {group.items.map((item) => renderNavItem(item, collapsed))}
               </div>
             </div>
+          ))}
+        </div>
+
+        {/* Lower Secondary Navigation + Account Footer anchored to bottom */}
+        <div
+          className={`shrink-0 border-t border-slate-200/80 dark:border-white/[0.08] ${
+            collapsed ? 'px-2 py-3 flex flex-col items-center gap-1.5' : 'px-3 py-3 space-y-3'
+          }`}
+        >
+          <div className={collapsed ? 'flex flex-col items-center gap-1 w-full' : 'space-y-0.5'}>
+            {secondaryItems.map((item) => renderNavItem(item, collapsed))}
           </div>
+
+          {/* Account / Current Term Compact Footer */}
+          {collapsed ? (
+            <button
+              type="button"
+              onClick={onOpenProfileModal}
+              className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-[#11182A] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-[#F1F3FA] hover:border-[#663AF3]/40 flex items-center justify-center transition-colors text-xs font-bold cursor-pointer mt-1"
+              title={user.name || (isFa ? 'پروفایل دانشجو' : 'Student Profile')}
+            >
+              {user.name ? user.name.slice(0, 2) : 'TY'}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={onOpenProfileModal}
+              className="w-full p-2.5 bg-slate-50 dark:bg-[#11182A]/75 hover:bg-slate-100 dark:hover:bg-[#151D33] border border-slate-200/90 dark:border-white/[0.08] rounded-xl flex items-center gap-2.5 transition-colors cursor-pointer text-start"
+            >
+              <div className="w-8 h-8 rounded-lg bg-[#663AF3]/10 dark:bg-[#663AF3]/20 text-[#663AF3] dark:text-[#C9BAFF] flex items-center justify-center shrink-0">
+                <GraduationCap className="w-4 h-4" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-xs font-bold text-slate-900 dark:text-[#F1F3FA] truncate">
+                  {user.name || (isFa ? 'حساب دانشجویی' : 'Student Account')}
+                </div>
+                <div className="text-[11px] text-slate-500 dark:text-[#707B96] truncate">
+                  {isFa ? 'نیم‌سال بهار ۱۴۰۴' : 'Spring 2025 Term'}
+                </div>
+              </div>
+            </button>
+          )}
         </div>
       </div>
     );
@@ -492,30 +342,38 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* 1. Permanent Desktop Sidebar */}
+      {/* Permanent Full-Height Desktop Sidebar (Fixed viewport height + layout width spacer) */}
       {isDesktop && (
-        <aside
-          className={`desktop-sidebar hidden lg:flex shrink-0 bg-white dark:bg-[#0B1020]/90 backdrop-blur-2xl rtl:border-l ltr:border-r border-slate-200 dark:border-white/[0.08] flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none transition-all duration-200 z-20 ${
-            isDesktopCollapsed ? 'w-20' : 'w-60 xl:w-64'
+        <div
+          className={`desktop-sidebar hidden lg:block shrink-0 transition-[width] duration-200 ${
+            isDesktopCollapsed ? 'w-[72px]' : 'w-60 xl:w-64'
           }`}
         >
-          {renderNavContent(false)}
-        </aside>
+          <aside
+            aria-label={isFa ? 'منوی ناوبری اصلی' : 'Sidebar navigation'}
+            className={`desktop-sidebar hidden lg:flex fixed inset-y-0 start-0 bg-white dark:bg-[#0B1020] rtl:border-l ltr:border-r border-slate-200 dark:border-white/[0.08] flex-col select-none transition-[width] duration-200 z-30 ${
+              isDesktopCollapsed ? 'w-[72px]' : 'w-60 xl:w-64'
+            }`}
+          >
+            {renderNavContent(false)}
+          </aside>
+        </div>
       )}
 
-      {/* 2. Mobile Drawer Backdrop Overlay */}
+      {/* Mobile Drawer Backdrop */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-900/40 dark:bg-black/70 backdrop-blur-xs lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 z-40 bg-slate-900/40 dark:bg-black/70 backdrop-blur-xs lg:hidden transition-opacity duration-200"
           onClick={onCloseMobile}
           aria-hidden="true"
         />
       )}
 
-      {/* 3. Mobile Slide-out Drawer */}
+      {/* Mobile Slide-out Full-Height Drawer */}
       {isMobileOpen && (
         <aside
-          className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-white dark:bg-[#0B1020]/98 backdrop-blur-3xl border-e border-slate-200 dark:border-white/[0.1] shadow-2xl flex flex-col justify-between h-full overflow-y-auto select-none lg:hidden"
+          aria-label={isFa ? 'منوی ناوبری موبایل' : 'Mobile navigation drawer'}
+          className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-white dark:bg-[#0B1020] border-e border-slate-200 dark:border-white/[0.1] shadow-2xl flex flex-col h-full select-none lg:hidden"
         >
           {renderNavContent(true)}
         </aside>
