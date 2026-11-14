@@ -109,19 +109,23 @@ export default function App() {
 
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
-  // Active navigation tab (defaults to 'landing' for modern SaaS landing presentation)
+  // Active navigation tab (always starts on 'landing' when opening the site link unless ?tab= is explicitly specified)
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (typeof window !== 'undefined' && window.location) {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('tab')) return urlParams.get('tab') as string;
+      const requestedTab = urlParams.get('tab');
+      if (requestedTab) return requestedTab;
     }
-    const saved = localStorage.getItem('ty_active_tab_v7');
-    return saved || 'landing';
+    return 'landing';
   });
 
   useEffect(() => {
-    localStorage.setItem('ty_active_tab_v7', activeTab);
-  }, [activeTab]);
+    try {
+      localStorage.removeItem('ty_active_tab_v7');
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
 
   // Search query
   const [searchQuery, setSearchQuery] = useState<string>('');
