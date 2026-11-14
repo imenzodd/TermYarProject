@@ -459,3 +459,36 @@ html.light select option {
 .animate-fadeIn {
   animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Seamless Infinite Horizontal Marquee */
+@keyframes ty-marquee-ltr {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.ty-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: ty-marquee-ltr 44s linear infinite;
+}
+
+.ty-marquee-wrapper:hover .ty-marquee-track,
+.ty-marquee-wrapper:focus-within .ty-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ty-marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .animate-fadeIn {
+    animation: none !important;
+  }
+}
+
