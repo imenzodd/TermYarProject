@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { CheckSquare, Plus, Trash2, Calendar, Clock, Filter, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { CheckSquare, Plus, Trash2, Calendar, Clock, Filter, AlertCircle, CheckCircle2, CalendarPlus, Check } from 'lucide-react';
 import { Priority, Task, TaskType } from '../types';
 import { toPersianDigits } from '../utils/persian';
+import { exportExamsToIcs } from '../utils/scheduleExport';
 import { BackButton } from './BackButton';
 
 interface TasksViewProps {
@@ -24,6 +25,17 @@ export const TasksView: React.FC<TasksViewProps> = ({
   const [filterType, setFilterType] = useState<string>(isExamOnly ? 'exam' : 'all');
   const [filterPriority, setFilterPriority] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [icsExportedCount, setIcsExportedCount] = useState<number | null>(null);
+
+  const examTasks = tasks.filter((t) => t.type === 'exam');
+
+  const handleExportExamsIcs = () => {
+    const result = exportExamsToIcs(tasks, 'fa');
+    if (result.count > 0) {
+      setIcsExportedCount(result.count);
+      setTimeout(() => setIcsExportedCount(null), 3000);
+    }
+  };
 
   const filteredTasks = tasks.filter((task) => {
     if (isExamOnly && task.type !== 'exam') return false;
@@ -60,13 +72,40 @@ export const TasksView: React.FC<TasksViewProps> = ({
           </div>
         </div>
 
-        <button
-          onClick={() => onOpenNewTaskModal(isExamOnly ? 'exam' : 'homework')}
-          className="btn-primary-futuristic text-xs px-4 py-2.5 flex items-center gap-2 self-start sm:self-auto cursor-pointer font-bold"
-        >
-          <Plus className="w-4 h-4" />
-          <span>{isExamOnly ? 'ثبت تاریخ امتحان جدید' : 'افزودن کار یا تکلیف'}</span>
-        </button>
+        <div className="flex items-center gap-2 flex-wrap self-start sm:self-auto">
+          {(isExamOnly || filterType === 'exam' || examTasks.length > 0) && (
+            <button
+              type="button"
+              onClick={handleExportExamsIcs}
+              disabled={examTasks.length === 0}
+              title="دانلود فایل .ics برای افزودن خودکار تمام امتحانات به Google Calendar و تقویم گوشی"
+              className={`px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all border ${
+                icsExportedCount !== null
+                  ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/40'
+                  : 'bg-white dark:bg-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.12] text-slate-800 dark:text-[#F1F3FA] border-slate-200 dark:border-white/[0.1] shadow-xs'
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
+            >
+              {icsExportedCount !== null ? (
+                <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+              ) : (
+                <CalendarPlus className="w-4 h-4 text-[#39A7FF] shrink-0" />
+              )}
+              <span>
+                {icsExportedCount !== null
+                  ? `${toPersianDigits(icsExportedCount)} امتحان آماده ایمپورت در تقویم ✓`
+                  : 'خروجی تقویم امتحانات (.ics)'}
+              </span>
+            </button>
+          )}
+
+          <button
+            onClick={() => onOpenNewTaskModal(isExamOnly ? 'exam' : 'homework')}
+            className="btn-primary-futuristic text-xs px-4 py-2.5 flex items-center gap-2 cursor-pointer font-bold"
+          >
+            <Plus className="w-4 h-4" />
+            <span>{isExamOnly ? 'ثبت تاریخ امتحان جدید' : 'افزودن کار یا تکلیف'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Filters Bar */}

@@ -40,6 +40,7 @@ import { NewMarketItemModal } from './components/NewMarketItemModal';
 import { NewNeedRequestModal } from './components/NewNeedRequestModal';
 import { ProfileModal } from './components/ProfileModal';
 import { GolestanScheduleImportModal } from './components/GolestanScheduleImportModal';
+import { cleanPersianText, timeToMinutes } from './utils/golestanParser';
 import {
   loadAllResources,
   saveResourceToVault,
@@ -136,10 +137,25 @@ export default function App() {
     return saved ? JSON.parse(saved) : initialProfile;
   });
 
-  // Courses
+  // Courses (normalize any legacy presentation-form Persian chars & sort schedule chronologically)
   const [courses, setCourses] = useState<Course[]>(() => {
     const saved = localStorage.getItem('ty_courses_v6');
-    return saved ? JSON.parse(saved) : initialCourses;
+    const parsed: Course[] = saved ? JSON.parse(saved) : initialCourses;
+    return parsed.map((c) => ({
+      ...c,
+      name: cleanPersianText(c.name),
+      professor: cleanPersianText(c.professor),
+      schedule: [...(c.schedule || [])]
+        .map((s) => ({
+          ...s,
+          room: cleanPersianText(s.room),
+          building: s.building ? cleanPersianText(s.building) : s.building,
+        }))
+        .sort((a, b) => {
+          if (a.day !== b.day) return a.day - b.day;
+          return timeToMinutes(a.startTime) - timeToMinutes(b.startTime);
+        }),
+    }));
   });
 
   // Tasks
@@ -602,6 +618,8 @@ export default function App() {
               lang={lang}
               onOpenGolestanModal={() => setIsGolestanModalOpen(true)}
               onBack={handleGoBack}
+              studentName={user.name}
+              university={user.university}
             />
           )}
 

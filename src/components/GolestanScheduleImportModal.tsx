@@ -23,7 +23,9 @@ import {
   GolestanExtractedSession,
   GolestanParsedResult,
   parseGolestanPdfBuffer,
+  parseGolestanImageFile,
   toEnDigits,
+  timeToMinutes,
   getYazdUniversityGolestanFallback,
 } from '../utils/golestanParser';
 import { BackButton } from './BackButton';
@@ -88,29 +90,43 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
         throw new Error('فرمت فایل پشتیبانی نمی‌شود. لطفاً فایل PDF یا تصویر JPG/PNG انتخاب کنید.');
       }
 
-      await new Promise((r) => setTimeout(r, 400));
+      await new Promise((r) => setTimeout(r, 300));
       setProgressPercent(45);
-      setProcessingStatus('در حال استخراج لایه‌های متنی و مختصات ستون‌های روزهای هفته...');
 
-      const arrayBuffer = await file.arrayBuffer();
-      const uint8 = new Uint8Array(arrayBuffer);
-
-      await new Promise((r) => setTimeout(r, 500));
-      setProgressPercent(75);
-      setProcessingStatus('در حال تفکیک کلاس‌ها، ساعات شروع/پایان و مکان‌های برگزاری...');
-
-      const result = await parseGolestanPdfBuffer(uint8);
+      let result: GolestanParsedResult;
+      if (isPdf) {
+        setProcessingStatus('در حال استخراج لایه‌های متنی، اصلاح حروف فارسی و مختصات ستون‌های هفته...');
+        const arrayBuffer = await file.arrayBuffer();
+        const uint8 = new Uint8Array(arrayBuffer);
+        await new Promise((r) => setTimeout(r, 300));
+        setProgressPercent(75);
+        setProcessingStatus('در حال تفکیک کلاس‌ها، ساعات شروع/پایان و مرتب‌سازی زمانی...');
+        result = await parseGolestanPdfBuffer(uint8);
+      } else {
+        setProcessingStatus('در حال اجرای موتور OCR فارسی روی تصویر برنامه...');
+        setProgressPercent(65);
+        result = await parseGolestanImageFile(file);
+        setProgressPercent(85);
+      }
 
       if (result.courses.length === 0 && result.sessions.length === 0) {
-        throw new Error('جدول برنامه هفتگی گلستان در فایل شناسایی نشد. اطمینان حاصل کنید فایل گزارش ۸۸ گلستان است.');
+        throw new Error(
+          result.warnings?.[0] ||
+            'جدول برنامه هفتگی گلستان در فایل شناسایی نشد. اطمینان حاصل کنید فایل گزارش ۸۸ گلستان است.'
+        );
       }
+
+      const sortedSessions = [...result.sessions].sort((a, b) => {
+        if (a.day !== b.day) return a.day - b.day;
+        return timeToMinutes(a.startTime) - timeToMinutes(b.startTime);
+      });
 
       setProgressPercent(100);
       setProcessingStatus('استخراج موفقیت‌آمیز بود!');
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 250));
 
       setParsedData(result);
-      setEditableSessions(result.sessions);
+      setEditableSessions(sortedSessions);
       setStep('preview');
       setHasUnsavedChanges(true);
     } catch (err: any) {
@@ -269,7 +285,13 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
       }
     });
 
-    const finalCourses = Array.from(courseMap.values());
+    const finalCourses = Array.from(courseMap.values()).map((c) => ({
+      ...c,
+      schedule: [...c.schedule].sort((a, b) => {
+        if (a.day !== b.day) return a.day - b.day;
+        return timeToMinutes(a.startTime) - timeToMinutes(b.startTime);
+      }),
+    }));
 
     // Update profile if requested
     let updatedProfile: UserProfile | undefined = undefined;

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { CalendarDays, Clock, MapPin, User, Plus, X, Sparkles, FileSpreadsheet } from 'lucide-react';
+import { CalendarDays, Clock, MapPin, User, Plus, X, Sparkles, ImageDown, Check } from 'lucide-react';
 import { Course, CourseSchedule } from '../types';
 import { PERSIAN_DAYS, getJalaliWeekDays, toPersianDigits } from '../utils/persian';
+import { cleanPersianText, timeToMinutes } from '../utils/golestanParser';
+import { exportScheduleToPng } from '../utils/scheduleExport';
 import { BackButton } from './BackButton';
 
 interface WeeklyScheduleViewProps {
@@ -10,6 +12,8 @@ interface WeeklyScheduleViewProps {
   lang?: 'en' | 'fa';
   onOpenGolestanModal?: () => void;
   onBack?: () => void;
+  studentName?: string;
+  university?: string;
 }
 
 export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
@@ -18,9 +22,13 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
   lang = 'fa',
   onOpenGolestanModal,
   onBack,
+  studentName,
+  university,
 }) => {
   const isFa = lang === 'fa';
   const [showAddModal, setShowAddModal] = useState(false);
+  const [isExportingPng, setIsExportingPng] = useState(false);
+  const [exportSaved, setExportSaved] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(courses[0]?.id || '');
   const [selectedDay, setSelectedDay] = useState(0);
   const [startTime, setStartTime] = useState('10:30');
@@ -30,7 +38,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
   const weekDays = getJalaliWeekDays();
   const timeSlots = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'];
 
-  // Flatten all class schedules with course info
+  // Flatten all class schedules with course info and sort chronologically (earliest at top -> latest at bottom)
   const scheduledClasses: Array<{
     course: Course;
     schedule: CourseSchedule;
@@ -42,6 +50,14 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
     });
   });
 
+  scheduledClasses.sort((a, b) => {
+    const startDiff = timeToMinutes(a.schedule.startTime) - timeToMinutes(b.schedule.startTime);
+    if (startDiff !== 0) return startDiff;
+    const endDiff = timeToMinutes(a.schedule.endTime) - timeToMinutes(b.schedule.endTime);
+    if (endDiff !== 0) return endDiff;
+    return a.course.name.localeCompare(b.course.name, 'fa');
+  });
+
   const [activeMobileDay, setActiveMobileDay] = useState<number>(() => {
     const today = weekDays.find((d) => d.isToday);
     return today ? today.dayIndex : 0;
@@ -50,6 +66,24 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
   const selectedMobileDayData = weekDays.find((d) => d.dayIndex === activeMobileDay) || weekDays[0];
   const selectedMobileClasses = scheduledClasses.filter((c) => c.schedule.day === activeMobileDay);
+
+  const handleExportPng = async () => {
+    if (courses.length === 0 || isExportingPng) return;
+    setIsExportingPng(true);
+    try {
+      await exportScheduleToPng(courses, {
+        studentName,
+        university,
+        lang,
+      });
+      setExportSaved(true);
+      setTimeout(() => setExportSaved(false), 2600);
+    } catch (err) {
+      console.error('PNG schedule export failed:', err);
+    } finally {
+      setIsExportingPng(false);
+    }
+  };
 
   const handleSaveSlot = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,6 +147,34 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
             </button>
           </div>
 
+          {/* Clean PNG Image Export Button */}
+          <button
+            type="button"
+            onClick={handleExportPng}
+            disabled={courses.length === 0 || isExportingPng}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shrink-0 transition-all border ${
+              exportSaved
+                ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/40'
+                : 'bg-white dark:bg-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.12] text-slate-800 dark:text-[#F1F3FA] border-slate-200 dark:border-white/[0.1] shadow-xs'
+            } disabled:opacity-50 disabled:cursor-not-allowed`}
+            title={isFa ? 'ذخیره تصویر باکیفیت برنامه هفتگی در گالری' : 'Save weekly schedule as clean PNG image'}
+          >
+            {exportSaved ? (
+              <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+            ) : (
+              <ImageDown className="w-3.5 h-3.5 text-[#39A7FF] shrink-0" />
+            )}
+            <span>
+              {exportSaved
+                ? isFa
+                  ? 'تصویر ذخیره شد ✓'
+                  : 'Saved ✓'
+                : isFa
+                ? 'خروجی عکس تمیز'
+                : 'Save Image'}
+            </span>
+          </button>
+
           {/* Golestan OCR Import Button */}
           {onOpenGolestanModal && (
             <button
@@ -137,7 +199,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
               }
               setShowAddModal(true);
             }}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#F1F3FA] bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] flex items-center gap-1.5 cursor-pointer shrink-0 transition-colors"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-800 dark:text-[#F1F3FA] bg-white dark:bg-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.12] border border-slate-200 dark:border-white/[0.08] flex items-center gap-1.5 cursor-pointer shrink-0 transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>{isFa ? 'افزودن کلاس دستی' : 'Add Class'}</span>
@@ -247,7 +309,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="font-bold text-sm text-[#F1F3FA]">
-                      {item.course.name}
+                      {cleanPersianText(item.course.name)}
                     </h3>
                     <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-[#C9BAFF]">
                       {item.course.code}
@@ -264,12 +326,12 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
                     <div className="flex items-center gap-1.5 truncate">
                       <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span className="truncate">{item.schedule.room}</span>
+                      <span className="truncate">{cleanPersianText(item.schedule.room)}</span>
                     </div>
 
                     <div className="flex items-center gap-1.5 truncate col-span-2 text-[#707B96]">
                       <User className="w-3.5 h-3.5 text-[#707B96] shrink-0" />
-                      <span>استاد: {item.course.professor}</span>
+                      <span>استاد: {cleanPersianText(item.course.professor)}</span>
                     </div>
                   </div>
                 </div>
@@ -337,7 +399,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                             style={{ backgroundColor: item.course.color || '#663AF3' }}
                           />
                           <h4 className="font-bold text-xs text-[#F1F3FA] truncate">
-                            {item.course.name}
+                            {cleanPersianText(item.course.name)}
                           </h4>
                         </div>
 
@@ -350,11 +412,11 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                           </div>
                           <div className="flex items-center gap-1 truncate">
                             <MapPin className="w-3 h-3 text-[#707B96] shrink-0" />
-                            <span className="truncate">{item.schedule.room}</span>
+                            <span className="truncate">{cleanPersianText(item.schedule.room)}</span>
                           </div>
                           <div className="flex items-center gap-1 text-[9px] text-[#707B96] truncate">
                             <User className="w-3 h-3 text-[#707B96] shrink-0" />
-                            <span className="truncate">{item.course.professor}</span>
+                            <span className="truncate">{cleanPersianText(item.course.professor)}</span>
                           </div>
                         </div>
                       </div>

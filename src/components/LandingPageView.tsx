@@ -9,6 +9,8 @@ import {
   PartyPopper,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  ShieldCheck,
   CheckCircle2,
   Activity,
   Quote,
@@ -88,6 +90,9 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
   // Active channel in the Retro TV showcase (1 to 4)
   const [activeChannel, setActiveChannel] = useState(1);
 
+  // Active FAQ item index
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
   // Confetti overlay trigger
   const [confettiActive, setConfettiActive] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -99,6 +104,7 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
   const whyUsRef = useRef<HTMLElement>(null);
   const leaderboardRef = useRef<HTMLElement>(null);
   const communityRef = useRef<HTMLElement>(null);
+  const faqRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
 
   // Scroll-linked subtle parallax on hero visual frame
@@ -1323,6 +1329,128 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
         </section>
 
         {/* ========================================================================= */}
+        {/* 8.5 TRUST & TRANSPARENCY FAQ SECTION                                      */}
+        {/* ========================================================================= */}
+        <section
+          ref={faqRef}
+          className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF8F3] border-b border-[#18181B]/10 text-start"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55, ease: EASE_OUT_EXPO }}
+            className="max-w-4xl mx-auto"
+          >
+            <div className="text-center mb-10 sm:mb-12">
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-[#2F5E27] bg-[#84A97D]/20 border border-[#84A97D]/40 px-3 py-1 rounded-full mb-3">
+                <ShieldCheck className="w-4 h-4" />
+                <span>{isFa ? 'شفافیت و اعتماد دانشجویی' : 'TRUST & TRANSPARENCY'}</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] leading-tight [text-wrap:balance]">
+                {isFa ? 'سوالات متداول پیش از شروع' : 'Frequently Asked Questions'}
+              </h2>
+              <p className="text-sm sm:text-base text-[#475569] mt-2.5 max-w-xl mx-auto leading-relaxed">
+                {isFa
+                  ? 'پاسخ شفاف و کوتاه به مهم‌ترین دغدغه‌های دانشجویان درباره امنیت، حریم خصوصی و نحوه کار ترم‌یار.'
+                  : 'Clear answers to common student questions about Golestan privacy, data storage, and pricing.'}
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {(isFa
+                ? [
+                    {
+                      q: 'آیا رمز عبور یا حساب سامانه گلستان من ذخیره می‌شود؟',
+                      a: 'خیر، به هیچ عنوان. ترم‌یار اصلاً نام کاربری و رمز گلستان شما را درخواست نمی‌کند. شما تنها فایل PDF گزارش ۸۸ یا تصویر برنامه هفتگی را انتخاب می‌کنید و پردازش آن به‌صورت کاملاً محلی در مرورگر خودتان انجام می‌شود.',
+                    },
+                    {
+                      q: 'اطلاعات درسی، تکالیف و جزوه‌های من کجا نگهداری می‌شوند؟',
+                      a: 'تمام داده‌های تحصیلی شما (برنامه کلاسی، تکالیف، تاریخ امتحانات، لاگ‌های مطالعه و فایل‌های PDF بانک جزوات) به‌صورت مستقیم در حافظه مرورگر دستگاه خودتان (Local Storage و IndexedDB) ذخیره می‌شوند و به هیچ سرور ثالثی ارسال نمی‌گردند.',
+                    },
+                    {
+                      q: 'آیا استفاده از ترم‌یار رایگان است؟',
+                      a: 'بله. تمام امکانات اصلی ترم‌یار شامل استخراج هوشمند برنامه گلستان، برنامه هفتگی، تایمر پومودورو، محاسبه‌گر نمره سلامت ترم، خروجی تصویر برنامه و تقویم امتحانات (.ics) برای دانشجویان کاملاً رایگان است.',
+                    },
+                    {
+                      q: 'اگر فایل PDF یا اسکرین‌شات برنامه گلستان بدخط یا به‌هم‌ریخته باشد چه می‌شود؟',
+                      a: 'موتور پردازش ترم‌یار حروف یونیکد قدیمی خروجی‌های گلستان را به‌صورت خودکار استانداردسازی می‌کند، کلاس‌های هر روز را از صبح به عصر مرتب می‌چیند و پیش از ثبت نهایی یک جدول قابل ویرایش در اختیارتان می‌گذارد.',
+                    },
+                    {
+                      q: 'آیا می‌توانم برنامه هفتگی و امتحانات را روی گوشی و گوگل کلندر هم داشته باشم؟',
+                      a: 'بله. در بخش برنامه هفتگی می‌توانید با یک کلیک «خروجی عکس تمیز» بگیرید و در گالری گوشی ذخیره کنید، و در بخش امتحانات با «خروجی تقویم (.ics)» کل امتحانات ترم را همراه با یادآور به Google Calendar اضافه کنید.',
+                    },
+                  ]
+                : [
+                    {
+                      q: 'Does TermYar store my university portal password?',
+                      a: 'Never. TermYar never asks for your portal login credentials. You only upload your exported Report 88 PDF or schedule screenshot, and all extraction runs locally inside your browser.',
+                    },
+                    {
+                      q: 'Where are my courses, tasks, and PDF notes stored?',
+                      a: 'All of your academic data — timetables, deadlines, study logs, and uploaded PDFs — stay locally on your own device via browser LocalStorage and IndexedDB, with zero third-party tracking.',
+                    },
+                    {
+                      q: 'Is TermYar free for students?',
+                      a: 'Yes. All core features including Golestan PDF extraction, weekly timetable sorting, PNG image export, .ics exam calendar export, Pomodoro focus timer, and Semester Health diagnostics are 100% free.',
+                    },
+                    {
+                      q: 'Can I save my weekly schedule to my phone or Google Calendar?',
+                      a: 'Yes! Export a crisp, gallery-ready PNG poster from the Weekly Schedule tab, or export your exam dates as a standard .ics calendar file with automatic reminders for Google Calendar.',
+                    },
+                  ]
+              ).map((item, idx) => {
+                const isOpen = openFaqIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                      isOpen
+                        ? 'bg-white border-[#18181B]/30 shadow-[0_12px_30px_-10px_rgba(15,23,42,0.12)]'
+                        : 'bg-white/75 hover:bg-white border-[#18181B]/12'
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                      aria-expanded={isOpen}
+                      className="w-full px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between gap-4 text-start cursor-pointer"
+                    >
+                      <span className="font-extrabold text-sm sm:text-base text-[#0F172A] leading-snug">
+                        {item.q}
+                      </span>
+                      <span
+                        className={`w-8 h-8 rounded-xl border border-[#18181B]/15 flex items-center justify-center shrink-0 transition-transform duration-200 ${
+                          isOpen ? 'bg-[#F6D35F] text-[#18181B] rotate-180' : 'bg-[#FAF8F3] text-[#475569]'
+                        }`}
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.22, ease: EASE_OUT_EXPO }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-5 sm:px-6 pb-5 pt-0 text-xs sm:text-sm text-[#475569] leading-[1.9] border-t border-[#18181B]/8 mt-0.5 pt-3.5">
+                            {item.a}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </section>
+
+        {/* ========================================================================= */}
         {/* 9. PRE-FOOTER & AUTHENTIC STUDY GROUP FINALE                              */}
         {/* ========================================================================= */}
         <section
@@ -1441,6 +1569,13 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
                 className="hover:underline cursor-pointer whitespace-nowrap"
               >
                 {isFa ? 'دستاوردها' : 'Achievements'}
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection(faqRef)}
+                className="hover:underline cursor-pointer whitespace-nowrap"
+              >
+                {isFa ? 'سوالات متداول' : 'FAQ'}
               </button>
             </div>
 
