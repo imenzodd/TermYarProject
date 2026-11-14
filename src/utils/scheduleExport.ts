@@ -1,5 +1,5 @@
 import { Course, CourseSchedule, Task } from '../types';
-import { cleanPersianText, timeToMinutes, toEnDigits } from './golestanParser';
+import { repairLegacyGolestanGluedText, timeToMinutes, toEnDigits } from './golestanParser';
 import { PERSIAN_DAYS, toPersianDigits } from './persian';
 
 interface ExportScheduleOptions {
@@ -153,8 +153,8 @@ export async function exportScheduleToPng(
 
   const totalUnits = courses.reduce((sum, c) => sum + (Number(c.units ?? c.credits) || 0), 0);
   const subParts = [
-    studentName ? cleanPersianText(studentName) : '',
-    university ? cleanPersianText(university) : '',
+    studentName ? repairLegacyGolestanGluedText(studentName) : '',
+    university ? repairLegacyGolestanGluedText(university) : '',
     isFa
       ? `${toPersianDigits(courses.length)} درس · ${toPersianDigits(totalUnits)} واحد`
       : `${courses.length} Courses · ${totalUnits} Credits`,
@@ -245,7 +245,7 @@ export async function exportScheduleToPng(
       // Course Title
       ctx.fillStyle = '#0F172A';
       ctx.font = `800 14px ${fontStack}`;
-      const cleanName = cleanPersianText(item.course.name);
+      const cleanName = repairLegacyGolestanGluedText(item.course.name);
       ctx.fillText(truncateText(ctx, cleanName, maxTextW), textX, cardY + 30);
 
       // Time Range
@@ -259,13 +259,13 @@ export async function exportScheduleToPng(
       // Room
       ctx.fillStyle = '#475569';
       ctx.font = `500 12px ${fontStack}`;
-      const cleanRoom = cleanPersianText(item.schedule.room || 'کلاس دانشگاهی');
+      const cleanRoom = repairLegacyGolestanGluedText(item.schedule.room || 'کلاس دانشگاهی');
       ctx.fillText(truncateText(ctx, `📍 ${cleanRoom}`, maxTextW), textX, cardY + 84);
 
       // Professor
       ctx.fillStyle = '#64748B';
       ctx.font = `500 11.5px ${fontStack}`;
-      const cleanProf = cleanPersianText(item.course.professor || '');
+      const cleanProf = repairLegacyGolestanGluedText(item.course.professor || '');
       ctx.fillText(truncateText(ctx, `👤 ${cleanProf}`, maxTextW), textX, cardY + 109);
     });
   });

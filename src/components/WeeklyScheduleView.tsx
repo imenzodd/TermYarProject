@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CalendarDays, Clock, MapPin, User, Plus, X, Sparkles, ImageDown, Check } from 'lucide-react';
 import { Course, CourseSchedule } from '../types';
 import { PERSIAN_DAYS, getJalaliWeekDays, toPersianDigits } from '../utils/persian';
-import { cleanPersianText, timeToMinutes } from '../utils/golestanParser';
+import { repairLegacyGolestanGluedText, timeToMinutes } from '../utils/golestanParser';
 import { exportScheduleToPng } from '../utils/scheduleExport';
 import { BackButton } from './BackButton';
 
@@ -309,7 +309,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="font-bold text-sm text-[#F1F3FA]">
-                      {cleanPersianText(item.course.name)}
+                      {repairLegacyGolestanGluedText(item.course.name)}
                     </h3>
                     <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-[#C9BAFF]">
                       {item.course.code}
@@ -326,12 +326,12 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
                     <div className="flex items-center gap-1.5 truncate">
                       <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span className="truncate">{cleanPersianText(item.schedule.room)}</span>
+                      <span className="truncate">{repairLegacyGolestanGluedText(item.schedule.room)}</span>
                     </div>
 
                     <div className="flex items-center gap-1.5 truncate col-span-2 text-[#707B96]">
                       <User className="w-3.5 h-3.5 text-[#707B96] shrink-0" />
-                      <span>استاد: {cleanPersianText(item.course.professor)}</span>
+                      <span>استاد: {repairLegacyGolestanGluedText(item.course.professor)}</span>
                     </div>
                   </div>
                 </div>
@@ -399,7 +399,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                             style={{ backgroundColor: item.course.color || '#663AF3' }}
                           />
                           <h4 className="font-bold text-xs text-[#F1F3FA] truncate">
-                            {cleanPersianText(item.course.name)}
+                            {repairLegacyGolestanGluedText(item.course.name)}
                           </h4>
                         </div>
 
@@ -412,11 +412,11 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                           </div>
                           <div className="flex items-center gap-1 truncate">
                             <MapPin className="w-3 h-3 text-[#707B96] shrink-0" />
-                            <span className="truncate">{cleanPersianText(item.schedule.room)}</span>
+                            <span className="truncate">{repairLegacyGolestanGluedText(item.schedule.room)}</span>
                           </div>
                           <div className="flex items-center gap-1 text-[9px] text-[#707B96] truncate">
                             <User className="w-3 h-3 text-[#707B96] shrink-0" />
-                            <span className="truncate">{cleanPersianText(item.course.professor)}</span>
+                            <span className="truncate">{repairLegacyGolestanGluedText(item.course.professor)}</span>
                           </div>
                         </div>
                       </div>

@@ -81,6 +81,53 @@ export function cleanPersianText(str: string): string {
     .trim();
 }
 
+// Repairs Persian strings that were glued together by older PDF extraction (before space tokens were preserved)
+export function repairLegacyGolestanGluedText(str: string): string {
+  let s = cleanPersianText(str);
+  if (!s) return '';
+
+  // Specific legacy glued strings from pre-fix localStorage cache
+  const exactMap: Array<[RegExp, string]> = [
+    [/دانشخانواده/g, 'دانش خانواده'],
+    [/وجمعیت/g, 'و جمعیت'],
+    [/هوشمصنوعی/g, 'هوش مصنوعی'],
+    [/مبانیرایانشامن/g, 'مبانی رایانش امن'],
+    [/آزمایشگاهشبکه\s*های\s*کامپیو/g, 'آزمایشگاه شبکه‌های کامپیو'],
+    [/آزمایشگاهشبکه‌هایکامپیو/g, 'آزمایشگاه شبکه‌های کامپیو'],
+    [/آزمایشگاهسیستم\s*های\s*عام/g, 'آزمایشگاه سیستم‌های عام'],
+    [/آزمایشگاهسیستمهایعام/g, 'آزمایشگاه سیستم‌های عام'],
+    [/مدیریتپروژه\s*های\s*فن\s*آوری/g, 'مدیریت پروژه‌های فن‌آوری'],
+    [/مدیریتپروژه‌هایفن‌آوری/g, 'مدیریت پروژه‌های فن‌آوری'],
+    [/پردیسفنیو/g, 'پردیس فنی و'],
+    [/پردیسفنی\s*مهندسی/g, 'پردیس فنی و مهندسی'],
+    [/ساختمانشماره/g, 'ساختمان شماره'],
+    [/ادیبنیافضلاله/g, 'ادیب‌نیا فضل‌اله'],
+    [/مصطفویسیداکبر/g, 'مصطفوی سیداکبر'],
+    [/سلطانیمهدی/g, 'سلطانی مهدی'],
+    [/درهمیولی/g, 'درهمی ولی'],
+    [/دانشسیدمحمد/g, 'دانش سید محمد'],
+    [/شرعیمایا/g, 'شرعی مایا'],
+    [/محمدترابسامان/g, 'محمدتراب سامان'],
+    [/سمعیلیزینیمح/g, 'سمعیلی زینی مح'],
+  ];
+
+  for (const [pattern, replacement] of exactMap) {
+    s = s.replace(pattern, replacement);
+  }
+
+  // Safe boundary spacing around numbers inside Persian strings (e.g., کلاس۱۰۱معاد -> کلاس ۱۰۱ معاد)
+  s = s
+    .replace(/([\u0621-\u06CC\u200C])([0-9۰-۹])/g, '$1 $2')
+    .replace(/([0-9۰-۹])([\u0621-\u06CC])/g, '$1 $2');
+
+  // Safe academic prefix separation (never splits آزمایشگاهی/آزمایشگاهها or ساختمانی/ساختمانها)
+  s = s
+    .replace(/آزمایشگاه(?!(?:ی|ها)\b)([\u0621-\u06CC])/g, 'آزمایشگاه $1')
+    .replace(/ساختمان(?!(?:ی|ها)\b)([\u0621-\u06CC])/g, 'ساختمان $1');
+
+  return s.replace(/\s+/g, ' ').trim();
+}
+
 // Normalize clock string in RTL PDFs (supports both reversed '۰۰:۸۰'/'۰۳:۷۱' and normal '08:00'/'15:30')
 export function normalizeReversedClock(rawPart: string): string {
   const forwardRaw = toEnDigits(rawPart).replace(/[^0-9:]/g, '');
@@ -513,7 +560,7 @@ export async function parseGolestanPdfBuffer(pdfData: Uint8Array): Promise<Goles
     { dayIndex: 0, dayName: 'شنبه', minX: 245, maxX: 305 },
   ];
 
-  // Helper to assemble RTL lines with X-gap spacing & NFKC Persian shaping
+  // Helper to assemble RTL lines with preserved PDF spaces + X-gap spacing & NFKC Persian shaping
   function assembleRtl(items: Array<{ str: string; x: number; y: number; w: number }>): string {
     const lines: { [key: number]: Array<{ str: string; x: number; y: number; w: number }> } = {};
     items.forEach((it) => {
@@ -527,11 +574,11 @@ export async function parseGolestanPdfBuffer(pdfData: Uint8Array): Promise<Goles
       let res = '';
       for (let i = 0; i < rowItems.length; i++) {
         const curr = rowItems[i];
-        if (i > 0) {
+        if (i > 0 && curr.str !== ' ') {
           const prev = rowItems[i - 1];
           // Check horizontal gap between RTL adjacent glyphs/words
           const gap = prev.x - (curr.x + curr.w);
-          if (gap > 2.2 && !res.endsWith(' ') && !curr.str.startsWith(' ')) {
+          if (gap > 1.8 && !res.endsWith(' ') && !curr.str.startsWith(' ')) {
             res += ' ';
           }
         }
@@ -542,8 +589,8 @@ export async function parseGolestanPdfBuffer(pdfData: Uint8Array): Promise<Goles
     return cleanPersianText(lineTexts.filter(Boolean).join(' '));
   }
 
-  // 1. Extract Student Info from Header (y >= 620)
-  const headerItems = nonEmptyItems.filter((it) => it.y >= 620);
+  // 1. Extract Student Info from Header (y >= 620) - keep explicit ' ' space tokens from allItems!
+  const headerItems = allItems.filter((it) => it.y >= 620);
   const headerText = assembleRtl(headerItems);
 
   const studentInfo: GolestanParsedResult['studentInfo'] = {
@@ -602,7 +649,8 @@ export async function parseGolestanPdfBuffer(pdfData: Uint8Array): Promise<Goles
     const anchorY = rowAnchorYs[i];
     const topY = i === 0 ? 610 : (rowAnchorYs[i - 1] + rowAnchorYs[i]) / 2;
     const bottomY = i === rowAnchorYs.length - 1 ? 330 : (rowAnchorYs[i] + rowAnchorYs[i + 1]) / 2;
-    const rowItems = nonEmptyItems.filter((it) => it.y <= topY && it.y > bottomY);
+    // Keep explicit space tokens from allItems so Persian word spacing is preserved
+    const rowItems = allItems.filter((it) => it.y <= topY && it.y > bottomY);
 
     const rawCode = assembleRtl(rowItems.filter((it) => it.x >= 505));
     const rawName = assembleRtl(rowItems.filter((it) => it.x >= 405 && it.x < 505));
