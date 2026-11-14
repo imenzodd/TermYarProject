@@ -20,6 +20,8 @@ import {
   ArrowRight,
   Sliders,
   Database,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { UserProfile } from '../types';
 import { BackButton } from './BackButton';
@@ -230,7 +232,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
           {/* 2. Golestan Schedule Import Shortcut Card */}
           {onOpenGolestanModal && (
-            <div className="glass-card p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-[#663AF3]/20 via-[#11182A] to-[#39A7FF]/15 border border-white/[0.1] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="glass-card p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-indigo-50 via-white to-sky-50 dark:from-[#663AF3]/20 dark:via-[#11182A] dark:to-[#39A7FF]/15 border border-indigo-200 dark:border-white/[0.1] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-lg bg-[#663AF3] text-white flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(102,58,243,0.4)]">
@@ -239,7 +241,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   <h4 className="font-extrabold text-sm text-[#F1F3FA]">
                     {isFa ? 'استخراج خودکار برنامه هفتگی از گلستان' : 'Import Schedule from Golestan PDF'}
                   </h4>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
                     {isFa ? 'هوشمند' : 'Smart OCR'}
                   </span>
                 </div>
@@ -255,7 +257,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onClick={onOpenGolestanModal}
                 className="btn-primary-futuristic w-full sm:w-auto px-4 py-2.5 text-xs font-bold shrink-0 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-[#65D5FF]" />
+                <Sparkles className="w-4 h-4 text-[#65D5FF] dark:text-[#65D5FF]" />
                 <span>{isFa ? 'بارگذاری فایل گلستان' : 'Open Golestan Importer'}</span>
               </button>
             </div>
@@ -357,25 +359,52 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 </div>
               </div>
 
-              {/* Visual Theme Display */}
-              <div className="p-3.5 bg-[#11182A]/80 rounded-2xl border border-white/[0.06] flex items-center justify-between gap-3">
+              {/* Visual Theme Switcher (Light / Dark) */}
+              <div className="p-3.5 bg-[#11182A]/80 rounded-2xl border border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3]/20 to-[#39A7FF]/20 border border-white/[0.08] flex items-center justify-center text-[#65D5FF] shrink-0">
-                    <Sparkles className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3]/15 to-[#39A7FF]/15 dark:from-[#663AF3]/20 dark:to-[#39A7FF]/20 border border-slate-200 dark:border-white/[0.08] flex items-center justify-center text-indigo-600 dark:text-[#65D5FF] shrink-0">
+                    {darkMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-amber-500" />}
                   </div>
                   <div>
                     <div className="text-xs font-bold text-[#F1F3FA]">
-                      {isFa ? 'پوسته بصری سامانه' : 'Visual System'}
+                      {isFa ? 'پوسته بصری سامانه (روشن / تیره)' : 'Theme Mode (Light / Dark)'}
                     </div>
                     <div className="text-[11px] text-[#A6AEC3] mt-0.5">
-                      {isFa ? 'تم اختصاصی شیشه‌ای تیره (Liquid Glass Dark Space)' : 'Futuristic Liquid Glass Dark'}
+                      {darkMode
+                        ? isFa ? 'تم شیشه‌ای تیره (Dark Liquid Glass)' : 'Futuristic Liquid Glass Dark'
+                        : isFa ? 'تم روشن و سفید (هم‌راستا با صفحه اصلی)' : 'Crisp Light Editorial'}
                     </div>
                   </div>
                 </div>
 
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#663AF3]/20 text-[#65D5FF] border border-[#663AF3]/30 shrink-0">
-                  {isFa ? 'فعال • استاندارد' : 'Active • Standard'}
-                </span>
+                {toggleDarkMode && (
+                  <div className="flex items-center gap-1 bg-white dark:bg-[#0B1020] p-1 rounded-xl border border-slate-200 dark:border-white/[0.08] self-end sm:self-auto shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => { if (darkMode) toggleDarkMode(); }}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                        !darkMode
+                          ? 'bg-gradient-to-r from-[#663AF3] to-[#39A7FF] text-white shadow-xs'
+                          : 'text-[#A6AEC3] hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Sun className="w-3.5 h-3.5" />
+                      <span>{isFa ? 'روشن' : 'Light'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { if (!darkMode) toggleDarkMode(); }}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                        darkMode
+                          ? 'bg-gradient-to-r from-[#663AF3] to-[#39A7FF] text-white shadow-xs'
+                          : 'text-[#A6AEC3] hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <Moon className="w-3.5 h-3.5" />
+                      <span>{isFa ? 'تیره' : 'Dark'}</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -429,7 +458,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 <Bell className="w-3.5 h-3.5 text-[#39A7FF]" />
                 <span>{isFa ? 'صدای زنگ پایان تایمر' : 'Timer Sound'}</span>
               </span>
-              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${soundEnabled ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300' : 'bg-white/[0.04] border-white/[0.08] text-[#707B96]'}`}>
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${soundEnabled ? 'bg-emerald-50 dark:bg-emerald-500/15 border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300' : 'bg-white/[0.04] border-white/[0.08] text-[#707B96]'}`}>
                 {soundEnabled ? (isFa ? 'فعال' : 'ON') : (isFa ? 'غیرفعال' : 'OFF')}
               </span>
             </button>
@@ -463,38 +492,38 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
               <button
                 onClick={onResetToSampleData}
-                className="w-full p-3.5 bg-amber-500/10 hover:bg-amber-500/15 rounded-2xl border border-amber-500/20 text-right transition-colors flex items-center justify-between cursor-pointer"
+                className="w-full p-3.5 bg-amber-50 dark:bg-amber-500/10 hover:bg-amber-100 dark:hover:bg-amber-500/15 rounded-2xl border border-amber-200 dark:border-amber-500/20 text-right transition-colors flex items-center justify-between cursor-pointer"
               >
                 <div className="flex items-center gap-2.5">
-                  <RefreshCw className="w-4 h-4 text-amber-400 shrink-0" />
+                  <RefreshCw className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
                   <div>
-                    <div className="text-xs font-bold text-amber-300">
+                    <div className="text-xs font-bold text-amber-800 dark:text-amber-300">
                       {isFa ? 'بازنشانی داده‌های نمونه اولیه' : 'Reset to Sample Data'}
                     </div>
-                    <div className="text-[10px] text-amber-400/60">
+                    <div className="text-[10px] text-amber-700/80 dark:text-amber-400/60">
                       {isFa ? 'بارگذاری دروس و اطلاعات پیش‌فرض' : 'Restore initial courses'}
                     </div>
                   </div>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-amber-400/60 rtl:rotate-180" />
+                <ArrowRight className="w-3.5 h-3.5 text-amber-600/70 dark:text-amber-400/60 rtl:rotate-180" />
               </button>
 
               <button
                 onClick={onClearAllData}
-                className="w-full p-3.5 bg-rose-500/10 hover:bg-rose-500/15 rounded-2xl border border-rose-500/20 text-right transition-colors flex items-center justify-between cursor-pointer"
+                className="w-full p-3.5 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/15 rounded-2xl border border-rose-200 dark:border-rose-500/20 text-right transition-colors flex items-center justify-between cursor-pointer"
               >
                 <div className="flex items-center gap-2.5">
-                  <Trash2 className="w-4 h-4 text-rose-400 shrink-0" />
+                  <Trash2 className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
                   <div>
-                    <div className="text-xs font-bold text-rose-300">
+                    <div className="text-xs font-bold text-rose-800 dark:text-rose-300">
                       {isFa ? 'پاک‌سازی تمام داده‌ها' : 'Clear All Data'}
                     </div>
-                    <div className="text-[10px] text-rose-400/60">
+                    <div className="text-[10px] text-rose-700/80 dark:text-rose-400/60">
                       {isFa ? 'خالی کردن تمامی رکوردها' : 'Start with fresh empty canvas'}
                     </div>
                   </div>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-rose-400/60 rtl:rotate-180" />
+                <ArrowRight className="w-3.5 h-3.5 text-rose-600/70 dark:text-rose-400/60 rtl:rotate-180" />
               </button>
             </div>
           </div>

@@ -181,7 +181,7 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all cursor-pointer font-medium ${
                 selectedCategory === cat.id
-                  ? 'bg-white/[0.12] text-white border border-white/[0.2] font-bold shadow-xs'
+                  ? 'bg-indigo-600 text-white border border-indigo-600 dark:bg-white/[0.12] dark:text-white dark:border-white/[0.2] font-bold shadow-xs'
                   : 'bg-[#11182A]/80 text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.04] border border-white/[0.06]'
               }`}
             >
@@ -224,7 +224,7 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
                 />
                 
                 <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5">
-                  <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-[#0B1020]/80 text-[#F1F3FA] border border-white/[0.1] backdrop-blur-md">
+                  <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-white/95 dark:bg-[#0B1020]/80 text-slate-900 dark:text-[#F1F3FA] border border-slate-200 dark:border-white/[0.1] backdrop-blur-md shadow-xs">
                     {item.dealType === 'rent' ? 'اجاره روزانه' : item.dealType === 'sell' ? 'فروشی' : 'اجاره / فروش'}
                   </span>
                 </div>
@@ -239,19 +239,19 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
                     className={`absolute top-2.5 left-2.5 p-1.5 rounded-full backdrop-blur-md transition-all shadow-xs cursor-pointer ${
                       favoriteIds.includes(item.id)
                         ? 'bg-rose-500 text-white scale-105 shadow-[0_0_12px_rgba(244,63,94,0.4)]'
-                        : 'bg-[#0B1020]/70 text-white/80 hover:text-white hover:bg-[#0B1020] border border-white/[0.1]'
+                        : 'bg-slate-900/70 text-white/90 hover:text-white hover:bg-slate-900 border border-white/20'
                     }`}
                   >
                     <Heart className={`w-3.5 h-3.5 ${favoriteIds.includes(item.id) ? 'fill-current' : ''}`} />
                   </button>
                 )}
 
-                <div className="absolute bottom-2 right-2 left-2 flex items-center justify-between text-[10px] text-white bg-[#0B1020]/85 border border-white/[0.08] backdrop-blur-md px-2.5 py-1 rounded-lg">
+                <div className="absolute bottom-2 right-2 left-2 flex items-center justify-between text-[10px] text-slate-900 dark:text-white bg-white/95 dark:bg-[#0B1020]/85 border border-slate-200 dark:border-white/[0.08] backdrop-blur-md px-2.5 py-1 rounded-lg shadow-xs">
                   <div className="flex items-center gap-1 truncate">
                     <MapPin className="w-3 h-3 text-[#39A7FF] shrink-0" />
-                    <span className="truncate">{item.dormLocation}</span>
+                    <span className="truncate font-medium">{item.dormLocation}</span>
                   </div>
-                  <span className="shrink-0 text-[#A6AEC3]">{item.condition}</span>
+                  <span className="shrink-0 text-slate-600 dark:text-[#A6AEC3]">{item.condition}</span>
                 </div>
               </div>
 
@@ -424,8 +424,8 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
               </div>
 
               {reservationSuccess ? (
-                <div className="p-3 bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 rounded-xl text-center text-xs font-bold flex items-center justify-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-400" />
+                <div className="p-3 bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 rounded-xl text-center text-xs font-bold flex items-center justify-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   <span>درخواست ثبت شد! پیام برای صاحب کالا در تلگرام ارسال گردید.</span>
                 </div>
               ) : (
@@ -449,12 +449,12 @@ export const MarketplaceView: React.FC<MarketplaceViewProps> = ({
                   </div>
 
                   {showContactPhone && (
-                    <div className="p-3 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-emerald-200 text-xs flex items-center justify-between animate-in fade-in">
+                    <div className="p-3 bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 rounded-xl text-emerald-900 dark:text-emerald-200 text-xs flex items-center justify-between animate-in fade-in">
                       <div className="flex items-center gap-2">
-                        <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <Phone className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         <div>
-                          <span className="font-bold block text-white">شماره تماس مستقیم:</span>
-                          <span className="font-mono text-sm tracking-wider font-semibold block dir-ltr text-right text-emerald-300">
+                          <span className="font-bold block text-slate-900 dark:text-white">شماره تماس مستقیم:</span>
+                          <span className="font-mono text-sm tracking-wider font-semibold block dir-ltr text-right text-emerald-700 dark:text-emerald-300">
                             {activeItemModal.contactPhone || '۰۹۱۲۳۴۵۶۷۸۹'}
                           </span>
                         </div>

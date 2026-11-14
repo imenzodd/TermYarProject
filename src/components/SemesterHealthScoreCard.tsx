@@ -34,32 +34,32 @@ export const SemesterHealthScoreCard: React.FC<SemesterHealthScoreCardProps> = (
     switch (status) {
       case 'excellent':
         return {
-          ring: 'stroke-emerald-400',
-          badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-          dot: 'bg-emerald-400',
-          accent: 'text-emerald-400',
+          ring: 'stroke-emerald-500 dark:stroke-emerald-400',
+          badge: 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30',
+          dot: 'bg-emerald-500 dark:bg-emerald-400',
+          accent: 'text-emerald-600 dark:text-emerald-400',
         };
       case 'good':
         return {
-          ring: 'stroke-[#39A7FF]',
-          badge: 'bg-[#39A7FF]/15 text-[#65D5FF] border-[#39A7FF]/30',
-          dot: 'bg-[#39A7FF]',
-          accent: 'text-[#39A7FF]',
+          ring: 'stroke-[#0284C7] dark:stroke-[#39A7FF]',
+          badge: 'bg-sky-50 dark:bg-[#39A7FF]/15 text-sky-700 dark:text-[#65D5FF] border-sky-200 dark:border-[#39A7FF]/30',
+          dot: 'bg-[#0284C7] dark:bg-[#39A7FF]',
+          accent: 'text-[#0284C7] dark:text-[#39A7FF]',
         };
       case 'needs_attention':
         return {
-          ring: 'stroke-amber-400',
-          badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-          dot: 'bg-amber-400',
-          accent: 'text-amber-400',
+          ring: 'stroke-amber-500 dark:stroke-amber-400',
+          badge: 'bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-500/30',
+          dot: 'bg-amber-500 dark:bg-amber-400',
+          accent: 'text-amber-600 dark:text-amber-400',
         };
       case 'at_risk':
       default:
         return {
-          ring: 'stroke-rose-400',
-          badge: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-          dot: 'bg-rose-400',
-          accent: 'text-rose-400',
+          ring: 'stroke-rose-500 dark:stroke-rose-400',
+          badge: 'bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-500/30',
+          dot: 'bg-rose-500 dark:bg-rose-400',
+          accent: 'text-rose-600 dark:text-rose-400',
         };
     }
   };
@@ -76,8 +76,8 @@ export const SemesterHealthScoreCard: React.FC<SemesterHealthScoreCardProps> = (
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-2.5 pb-3 border-b border-white/[0.08] mb-4">
         <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-xl bg-[#663AF3]/20 border border-[#663AF3]/35 flex items-center justify-center text-[#C9BAFF] shrink-0">
-            <Activity className="w-4 h-4 text-[#39A7FF]" />
+          <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-[#663AF3]/20 border border-indigo-200 dark:border-[#663AF3]/35 flex items-center justify-center text-indigo-700 dark:text-[#C9BAFF] shrink-0">
+            <Activity className="w-4 h-4 text-[#0284C7] dark:text-[#39A7FF]" />
           </div>
           <div className="min-w-0">
             <h3 className="text-xs sm:text-sm font-bold text-[#F1F3FA] flex items-center gap-1.5 flex-wrap">
@@ -94,7 +94,7 @@ export const SemesterHealthScoreCard: React.FC<SemesterHealthScoreCardProps> = (
 
         <button
           onClick={onOpenAnalysisModal}
-          className="text-xs font-semibold text-[#C9BAFF] hover:text-white flex items-center gap-1 transition-colors px-2.5 py-1 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] shrink-0 self-end sm:self-auto"
+          className="text-xs font-semibold text-indigo-700 dark:text-[#C9BAFF] hover:text-indigo-900 dark:hover:text-white flex items-center gap-1 transition-colors px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-white/[0.06] hover:bg-indigo-50 dark:hover:bg-white/[0.1] border border-slate-200 dark:border-white/[0.08] shrink-0 self-end sm:self-auto cursor-pointer"
         >
           <span>{isFa ? 'تحلیل جامع' : 'Full Analysis'}</span>
           <ChevronRight className={`w-3.5 h-3.5 ${isFa ? 'rotate-180' : ''}`} />
@@ -252,7 +252,7 @@ export const SemesterHealthScoreCard: React.FC<SemesterHealthScoreCardProps> = (
 
       {/* Missing data notice if applicable */}
       {hasMissingData && (
-        <div className="mt-3 p-2 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center gap-2 text-[11px] text-amber-300">
+        <div className="mt-3 p-2 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl flex items-center gap-2 text-[11px] text-amber-800 dark:text-amber-300">
           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
           <span>
             {isFa
@@ -264,13 +264,13 @@ export const SemesterHealthScoreCard: React.FC<SemesterHealthScoreCardProps> = (
 
       {/* Quick Actionable Recommendation Banner */}
       {topRecommendation && (
-        <div className="mt-3 pt-3 border-t border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div className="mt-3 pt-3 border-t border-slate-200 dark:border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div className="flex items-center gap-2 text-xs min-w-0">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span className="text-[#A6AEC3] truncate">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 shrink-0" />
+            <span className="text-slate-600 dark:text-[#A6AEC3] truncate">
               {isFa ? topRecommendation.titleFa : topRecommendation.title}
             </span>
-            <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
+            <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300">
               +{topRecommendation.impactPts} pts
             </span>
           </div>
@@ -283,7 +283,7 @@ export const SemesterHealthScoreCard: React.FC<SemesterHealthScoreCardProps> = (
                 onOpenAnalysisModal();
               }
             }}
-            className="shrink-0 text-[11px] font-semibold text-[#C9BAFF] hover:text-white flex items-center gap-1 self-start sm:self-auto transition-colors"
+            className="shrink-0 text-[11px] font-semibold text-indigo-700 dark:text-[#C9BAFF] hover:text-indigo-900 dark:hover:text-white flex items-center gap-1 self-start sm:self-auto transition-colors cursor-pointer"
           >
             <span>{isFa ? topRecommendation.actionLabelFa : topRecommendation.actionLabel}</span>
             <ArrowRight className={`w-3 h-3 ${isFa ? 'rotate-180' : ''}`} />

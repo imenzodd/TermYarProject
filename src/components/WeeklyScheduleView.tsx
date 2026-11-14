@@ -147,7 +147,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
 
       {/* Golestan OCR Feature Banner inside Weekly Schedule */}
       {onOpenGolestanModal && (
-        <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-[#663AF3]/20 via-[#11182A] to-[#39A7FF]/15 border border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 glow-purple-sm">
+        <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-indigo-50 via-white to-sky-50 dark:from-[#663AF3]/20 dark:via-[#11182A] dark:to-[#39A7FF]/15 border border-indigo-200 dark:border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 glow-purple-sm">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] text-white flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(102,58,243,0.4)]">
               <Sparkles className="w-5 h-5 text-white" />
@@ -155,7 +155,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
             <div>
               <div className="text-xs sm:text-sm font-bold text-[#F1F3FA] flex items-center gap-2">
                 <span>{isFa ? 'استخراج خودکار برنامه هفتگی از فایل گلستان (گزارش ۸۸)' : 'Import Schedule from Golestan PDF'}</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#663AF3]/25 border border-[#663AF3]/40 text-[#C9BAFF]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-[#663AF3]/25 border border-indigo-200 dark:border-[#663AF3]/40 text-indigo-700 dark:text-[#C9BAFF]">
                   {isFa ? 'هوشمند' : 'Smart'}
                 </span>
               </div>
@@ -395,7 +395,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                   className="w-full p-2.5 rounded-xl bg-[#11182A] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3]"
                 >
                   {courses.map((c) => (
-                    <option key={c.id} value={c.id} className="bg-[#0B1020] text-white">
+                    <option key={c.id} value={c.id} className="bg-white dark:bg-[#0B1020] text-slate-900 dark:text-white">
                       {c.name} ({c.professor})
                     </option>
                   ))}
@@ -412,7 +412,7 @@ export const WeeklyScheduleView: React.FC<WeeklyScheduleViewProps> = ({
                   className="w-full p-2.5 rounded-xl bg-[#11182A] border border-white/[0.08] text-[#F1F3FA] outline-none focus:border-[#663AF3]"
                 >
                   {PERSIAN_DAYS.map((day, idx) => (
-                    <option key={day} value={idx} className="bg-[#0B1020] text-white">
+                    <option key={day} value={idx} className="bg-white dark:bg-[#0B1020] text-slate-900 dark:text-white">
                       {day}
                     </option>
                   ))}

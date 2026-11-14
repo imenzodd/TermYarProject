@@ -26,7 +26,9 @@ import {
   Menu,
   X,
   Compass,
-  ArrowRight
+  ArrowRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { InteractiveBusinessModelCanvas } from './InteractiveBusinessModelCanvas';
 import { InteractiveSemesterHealthSimulator } from './InteractiveSemesterHealthSimulator';
@@ -36,9 +38,15 @@ import { toPersianDigits } from '../utils/persian';
 
 interface BusinessDossierViewProps {
   onSwitchToLiveApp?: () => void;
+  darkMode?: boolean;
+  onToggleDarkMode?: () => void;
 }
 
-export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwitchToLiveApp }) => {
+export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({
+  onSwitchToLiveApp,
+  darkMode = true,
+  onToggleDarkMode,
+}) => {
   const [activeSection, setActiveSection] = useState<string>('intro');
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [expandedQuestions, setExpandedQuestions] = useState<{ [key: number]: boolean }>({
@@ -143,9 +151,9 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
   const currentSectionObj = navItems.find((n) => n.id === activeSection) || navItems[0];
 
   return (
-    <div className="min-h-screen bg-[#070B14] text-slate-100 font-sans selection:bg-indigo-600 selection:text-white print:bg-white print:text-black antialiased relative overflow-x-hidden">
-      {/* Background Decorative Ambient Gradients */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden print:hidden">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#070B14] text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-600 selection:text-white print:bg-white print:text-black antialiased relative overflow-x-hidden transition-colors duration-200">
+      {/* Background Decorative Ambient Gradients (Dark mode only for clean white light canvas) */}
+      <div className="hidden dark:block fixed inset-0 pointer-events-none overflow-hidden print:hidden">
         <div className="absolute top-0 right-1/4 w-[280px] sm:w-[600px] h-[280px] sm:h-[500px] bg-indigo-600/10 rounded-full blur-[100px] sm:blur-[140px]" />
         <div className="absolute top-1/3 left-4 sm:left-10 w-[240px] sm:w-[500px] h-[240px] sm:h-[400px] bg-purple-600/10 rounded-full blur-[90px] sm:blur-[130px]" />
         <div className="absolute bottom-1/4 right-4 sm:right-10 w-[260px] sm:w-[550px] h-[260px] sm:h-[450px] bg-cyan-600/10 rounded-full blur-[100px] sm:blur-[150px]" />
@@ -159,7 +167,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
       </div>
 
       {/* Top Academic Banner */}
-      <header className="sticky top-0 z-40 bg-[#0B0F19]/95 backdrop-blur-xl border-b border-slate-800/80 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 transition-all print:hidden">
+      <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800/80 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 transition-all print:hidden">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           {/* Brand Left */}
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
@@ -170,14 +178,14 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                <span className="font-extrabold text-xs sm:text-base lg:text-lg tracking-tight text-white truncate">
+                <span className="font-extrabold text-xs sm:text-base lg:text-lg tracking-tight text-slate-900 dark:text-white truncate">
                   پرونده تحلیلی کسب‌وکار ترم‌یار
                 </span>
-                <span className="hidden md:inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                <span className="hidden md:inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30">
                   پروژه درس تجارت الکترونیک
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 hidden sm:block truncate">
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 hidden sm:block truncate">
                 امکان‌سنجی جامع، تحلیل تقاضای بازار، تفکیک ارزش‌ها و ارزیابی نسخه اولیه
               </p>
             </div>
@@ -185,6 +193,27 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
 
           {/* Global Action CTAs */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Theme Switcher Button */}
+            {onToggleDarkMode && (
+              <button
+                onClick={onToggleDarkMode}
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700/60 transition-all cursor-pointer"
+                title={darkMode ? 'تغییر به تم روشن (سفید)' : 'تغییر به تم تیره (شیشه‌ای)'}
+              >
+                {darkMode ? (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span className="hidden sm:inline text-[11px]">تم روشن</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                    <span className="hidden sm:inline text-[11px]">تم تیره</span>
+                  </>
+                )}
+              </button>
+            )}
+
             {/* Primary Action: Switch to modern interactive TermYar cockpit */}
             {onSwitchToLiveApp && (
               <button
@@ -192,7 +221,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md shadow-indigo-600/30 transition-all active:scale-95 cursor-pointer"
                 title="ورود به سامانه زنده و ریسپانسیو ترم‌یار"
               >
-                <Laptop className="w-4 h-4 text-cyan-300" />
+                <Laptop className="w-4 h-4 text-cyan-200 dark:text-cyan-300" />
                 <span>ورود به سامانه ترم‌یار</span>
               </button>
             )}
@@ -200,17 +229,17 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             {/* Print / Save PDF */}
             <button
               onClick={handlePrint}
-              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-medium bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors cursor-pointer"
+              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-medium bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60 transition-colors cursor-pointer"
               title="چاپ یا ذخیره به صورت فایل PDF دانشگاهی"
             >
-              <Printer className="w-3.5 h-3.5 text-slate-300" />
+              <Printer className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
               <span className="hidden md:inline text-[11px]">چاپ / خروجی PDF</span>
             </button>
 
             {/* Mobile TOC Drawer Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 sm:p-2 rounded-xl bg-slate-800/80 text-slate-300 border border-slate-700/60 transition-colors cursor-pointer"
+              className="md:hidden p-1.5 sm:p-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60 transition-colors cursor-pointer"
               aria-label="فهرست بخش‌های پرونده"
               title="فهرست عناوین"
             >
@@ -221,7 +250,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
 
         {/* Mobile Dropdown Drawer for 10 Sections */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-2 pt-2 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 gap-1.5 bg-slate-900/95 p-3 rounded-2xl shadow-2xl max-h-[70vh] overflow-y-auto">
+          <div className="md:hidden mt-2 pt-2 border-t border-slate-200 dark:border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 gap-1.5 bg-white dark:bg-slate-900/95 p-3 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[70vh] overflow-y-auto">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isCurrent = activeSection === item.id;
@@ -232,10 +261,10 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   className={`flex items-center gap-2 p-2 rounded-xl text-right text-xs transition-colors cursor-pointer ${
                     isCurrent
                       ? 'bg-indigo-600 text-white font-bold'
-                      : 'bg-slate-800/60 text-slate-300 hover:bg-slate-800'
+                      : 'bg-slate-100 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isCurrent ? 'text-white' : 'text-indigo-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 shrink-0 ${isCurrent ? 'text-white' : 'text-indigo-600 dark:text-indigo-400'}`} />
                   <span className="truncate">{item.label}</span>
                 </button>
               );
@@ -246,7 +275,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   setMobileMenuOpen(false);
                   onSwitchToLiveApp();
                 }}
-                className="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl text-xs font-bold bg-slate-800 text-cyan-300 border border-cyan-500/30 mt-1 cursor-pointer"
+                className="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl text-xs font-bold bg-indigo-50 dark:bg-slate-800 text-indigo-700 dark:text-cyan-300 border border-indigo-200 dark:border-cyan-500/30 mt-1 cursor-pointer"
               >
                 <Laptop className="w-4 h-4" />
                 <span>ورود به تست نرم‌افزار ترم‌یار</span>
@@ -257,7 +286,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
       </header>
 
       {/* Sub-Header Horizontal Table of Contents (Sticky on md+ screens) */}
-      <nav className="sticky top-[53px] sm:top-[61px] z-30 bg-[#0B0F19]/85 backdrop-blur-md border-b border-slate-800/60 px-3 sm:px-6 lg:px-8 py-2 overflow-x-auto no-scrollbar print:hidden">
+      <nav className="sticky top-[53px] sm:top-[61px] z-30 bg-white/95 dark:bg-[#0B0F19]/85 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/60 px-3 sm:px-6 lg:px-8 py-2 overflow-x-auto no-scrollbar print:hidden">
         <div className="flex items-center gap-1.5 sm:gap-2 min-w-max mx-auto max-w-7xl">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -269,7 +298,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                   isCurrent
                     ? 'bg-indigo-600 text-white shadow-sm font-bold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${isCurrent ? 'text-white' : 'text-slate-500'}`} />
@@ -281,9 +310,9 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         </div>
       </nav>
 
-      {/* Liquid Glass Reading Progress Bar (Top Track) */}
+      {/* Reading Progress Bar (Top Track) */}
       <div className="sticky top-[93px] sm:top-[101px] z-30 w-full print:hidden">
-        <div className="w-full h-1.5 sm:h-2 bg-[#080B16]/80 backdrop-blur-xl border-b border-white/[0.08] relative overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+        <div className="w-full h-1.5 sm:h-2 bg-slate-200/90 dark:bg-[#080B16]/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/[0.08] relative overflow-hidden shadow-sm dark:shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
           {/* Glass background shimmer layer */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#663AF3]/10 via-[#39A7FF]/10 to-[#65D5FF]/10" />
           
@@ -305,81 +334,81 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* ========================================================= */}
         <section id="intro" className="scroll-mt-32">
           {/* Header Card */}
-          <div className="relative rounded-2xl sm:rounded-3xl p-4 sm:p-7 lg:p-10 bg-gradient-to-br from-slate-900/90 via-[#0E1528]/80 to-slate-900/90 border border-indigo-500/20 backdrop-blur-xl shadow-2xl overflow-hidden print:border-slate-300 print:bg-white print:text-black">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative rounded-2xl sm:rounded-3xl p-4 sm:p-7 lg:p-10 bg-white dark:bg-gradient-to-br dark:from-slate-900/90 dark:via-[#0E1528]/80 dark:to-slate-900/90 border border-slate-200 dark:border-indigo-500/20 dark:backdrop-blur-xl shadow-lg dark:shadow-2xl overflow-hidden print:border-slate-300 print:bg-white print:text-black">
+            <div className="hidden dark:block absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 space-y-4 sm:space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-2.5">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 text-xs font-semibold">
                   <Sparkles className="w-3.5 h-3.5 shrink-0" />
                   <span>بخش اول: معرفی طرح کسب‌وکار دانشگاهی</span>
                 </div>
-                <div className="text-[11px] sm:text-xs text-slate-400 print:text-slate-600">
+                <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 print:text-slate-600">
                   درس تجارت الکترونیک • مخاطب: دانشجویان آموزش عالی ایران
                 </div>
               </div>
 
               <div>
-                <h1 className="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight break-words print:text-black">
+                <h1 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-snug sm:leading-tight break-words print:text-black">
                   ترم‌یار (TermYar) — پلتفرم یکپارچه مدیریت زیست‌بوم تحصیلی و اقتصاد خرد دانشجویی
                 </h1>
-                <p className="mt-2.5 sm:mt-3 text-xs sm:text-base text-slate-300 leading-relaxed max-w-4xl print:text-slate-700">
+                <p className="mt-2.5 sm:mt-3 text-xs sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl print:text-slate-700">
                   ترمیار راهکاری نرم‌افزاری با معماری مدرن وب است که با حذف مرز میان «مدیریت زمان و تکالیف دانشگاهی» و «بازارچه تبادل منابع و کتاب‌های خوابگاهی»، تمامی نیازهای جاری دوره تحصیل دانشجو را در یک پنجره واحد، هوشمند و بدون اختلال متمرکز می‌سازد.
                 </p>
               </div>
 
               {/* Grid 4 pillars */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-1">
-                <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1.5 sm:space-y-2 print:border-slate-300">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs">
+                <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] space-y-1.5 sm:space-y-2 print:border-slate-300">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 flex items-center justify-center font-bold text-xs">
                     ۰۱
                   </div>
-                  <h4 className="font-bold text-xs sm:text-sm text-white print:text-black">چشم‌انداز (Vision)</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed print:text-slate-600">
+                  <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white print:text-black">چشم‌انداز (Vision)</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 leading-relaxed print:text-slate-600">
                     تبدیل شدن به استاندارد بومی سامانه‌های همراه تحصیلی برای بیش از ۵۰۰ هزار دانشجوی فعال در دانشگاه‌های معتبر کشور تا سال ۱۴۰۶.
                   </p>
                 </div>
 
-                <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1.5 sm:space-y-2 print:border-slate-300">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xs">
+                <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] space-y-1.5 sm:space-y-2 print:border-slate-300">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 flex items-center justify-center font-bold text-xs">
                     ۰۲
                   </div>
-                  <h4 className="font-bold text-xs sm:text-sm text-white print:text-black">مأموریت (Mission)</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed print:text-slate-600">
+                  <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white print:text-black">مأموریت (Mission)</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 leading-relaxed print:text-slate-600">
                     کاهش اضطراب شب امتحان و فرسایش ذهنی دانشجو با یکپارچه‌سازی برنامه هفتگی، مدیریت تکالیف و تقویم امتحانات با دسترسی بی‌واسطه به منابع.
                   </p>
                 </div>
 
-                <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1.5 sm:space-y-2 print:border-slate-300">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs">
+                <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] space-y-1.5 sm:space-y-2 print:border-slate-300">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-100 dark:bg-cyan-500/20 text-cyan-700 dark:text-cyan-400 flex items-center justify-center font-bold text-xs">
                     ۰۳
                   </div>
-                  <h4 className="font-bold text-xs sm:text-sm text-white print:text-black">مخاطب هدف (Audience)</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed print:text-slate-600">
+                  <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white print:text-black">مخاطب هدف (Audience)</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 leading-relaxed print:text-slate-600">
                     دانشجویان کارشناسی و ارشد دانشگاه‌های دولتی و آزاد (به‌ویژه دانشجویان خوابگاهی و دور از خانواده که نیازمند خودمدیریتی بالا هستند).
                   </p>
                 </div>
 
-                <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-1.5 sm:space-y-2 print:border-slate-300">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] space-y-1.5 sm:space-y-2 print:border-slate-300">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-xs">
                     ۰۴
                   </div>
-                  <h4 className="font-bold text-xs sm:text-sm text-white print:text-black">ارزش پیشنهادی (Value)</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed print:text-slate-600">
+                  <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white print:text-black">ارزش پیشنهادی (Value)</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 leading-relaxed print:text-slate-600">
                     ترکیب LMS شخصی‌سازی‌شده + خزانه آفلاین جزوات + بازارچه همتا‌به‌همتا (P2P) درون‌دانشگاهی بدون کارمزدهای سرسام‌آور یا تبلیغات تلگرامی.
                   </p>
                 </div>
               </div>
 
               {/* Callout box linking to Live prototype */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+              <div className="p-4 sm:p-5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <div className="space-y-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                    <span className="text-xs sm:text-sm font-bold text-white">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse shrink-0" />
+                    <span className="text-xs sm:text-sm font-bold text-indigo-950 dark:text-white">
                       نسخه زنده، ریسپانسیو و فارسی ترم‌یار در همین برنامه پیاده‌سازی شده است
                     </span>
                   </div>
-                  <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+                  <p className="text-[11px] sm:text-xs text-indigo-900/80 dark:text-slate-300 leading-relaxed">
                     پروتوتایپ کامل با برنامه هفتگی، مدیریت امتحانات، تایمر مطالعه، امتیاز سلامت ترم و بازارچه خوابگاهی (کاملاً بهینه‌شده برای موبایل و تبلت):
                   </p>
                 </div>
@@ -387,9 +416,9 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   {onSwitchToLiveApp && (
                     <button
                       onClick={onSwitchToLiveApp}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-600/30 transition-all active:scale-95"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-600/30 transition-all active:scale-95 cursor-pointer"
                     >
-                      <Laptop className="w-4 h-4 text-cyan-300" />
+                      <Laptop className="w-4 h-4 text-cyan-200 dark:text-cyan-300" />
                       <span>ورود به سامانه ترم‌یار (همین تب)</span>
                     </button>
                   )}
@@ -397,7 +426,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
               </div>
 
               {/* Interactive Osterwalder Business Model Canvas Widget */}
-              <div className="pt-6 border-t border-slate-800/80">
+              <div className="pt-6 border-t border-slate-200 dark:border-slate-800/80">
                 <InteractiveBusinessModelCanvas />
               </div>
             </div>
@@ -408,60 +437,60 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 2: تحلیل مسئله و نیاز بازار */}
         {/* ========================================================= */}
         <section id="problems" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-2">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش دوم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش دوم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 تحلیل مسئله و نیاز بازار (بررسی ۵ چالش ساختاری دانشجو)
               </h2>
             </div>
-            <span className="self-start sm:self-auto text-[11px] px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <span className="self-start sm:self-auto text-[11px] px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20">
               فرضیات نیاز بازار (فاقد آمار جعلی)
             </span>
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed print:text-slate-700">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed print:text-slate-700">
             دانشجویان در طول هر نیم‌سال تحصیلی با حجم متراکمی از اطلاعات نامتمرکز، تکالیف پراکنده، جزوات ناقص و معاملات نامطمئن کتاب‌های ترم‌های قبل مواجهند. در زیر، ۵ مسئله محوری با چارچوب ۴ وجهی موشکافی شده‌اند:
           </p>
 
           <div className="space-y-3.5 sm:space-y-4">
             {/* Problem 1 */}
-            <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
+            <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none dark:backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 sm:gap-3">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/20 text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۱
                   </span>
-                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-white print:text-black leading-snug">
+                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-slate-900 dark:text-white print:text-black leading-snug">
                     پراکندگی مفرط اطلاعات آموزشی در پیام‌رسان‌ها و ابزارهای متفرقه
                   </h3>
                 </div>
-                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-800/80">
+                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-600 dark:text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-100 dark:bg-slate-800/80">
                   فرضیه نیاز بازار #۱
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-rose-400 mb-1">۱. مشکل چیست؟</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-rose-700 dark:text-rose-400 mb-1">۱. مشکل چیست؟</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     اطلاعیه‌های درسی در گروه‌های شلوغ تلگرام، کانال‌های ایتا، نوت گوشی و پیامک‌های متفرقه پخش شده و یک مرکزیت مشخص ندارند.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-amber-700 dark:text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     سردرگمی، فراموشی زمان تحویل پروژه‌ها، از دست رفتن نمرات مستمر کلاسی و استرس دائمی بررسی ده‌ها گروه متفرقه.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-slate-700 dark:text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     پین کردن پیام‌ها در تلگرام، عکس گرفتن از تخته در گالری گوشی یا استفاده ناهماهنگ از ابزارهای غربی مانند Trello یا Notion.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30">
-                  <div className="font-bold text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
-                  <p className="text-slate-200 leading-relaxed">
+                <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30">
+                  <div className="font-bold text-indigo-700 dark:text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
+                  <p className="text-indigo-950 dark:text-slate-200 leading-relaxed">
                     ایجاد داشبورد یکپارچه با ساختار Course-Centric که تمامی تکالیف، جزوات و برنامه‌های هر درس را در یک کارت هوشمند گردآوری می‌کند.
                   </p>
                 </div>
@@ -469,42 +498,42 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Problem 2 */}
-            <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
+            <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none dark:backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 sm:gap-3">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/20 text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۲
                   </span>
-                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-white print:text-black leading-snug">
+                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-slate-900 dark:text-white print:text-black leading-snug">
                     دشواری مدیریت تقویم فرجه‌ها، تمرین‌ها و امتحانات در تقویم رسمی
                   </h3>
                 </div>
-                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-800/80">
+                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-600 dark:text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-100 dark:bg-slate-800/80">
                   فرضیه نیاز بازار #۲
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-rose-400 mb-1">۱. مشکل چیست؟</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-rose-700 dark:text-rose-400 mb-1">۱. مشکل چیست؟</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     دانشجو تقویم دقیقی از تداخل امتحانات پایان‌ترم، حجم فرجه‌های میان‌ترم و مهلت ارسال پروژه‌ها به تفکیک درس در دست ندارد.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-amber-700 dark:text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     غافلگیری در هفته‌های امتحانات، شب‌زنده‌داری‌های فرساینده و افت محسوس معدل ترم (GPA).
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-slate-700 dark:text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     نوشتن دستی تاریخ امتحانات پشت برگه انتخاب‌واحد یا سررسیدهای کاغذی که در طول ترم معمولاً گم یا فراموش می‌شوند.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30">
-                  <div className="font-bold text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
-                  <p className="text-slate-200 leading-relaxed">
+                <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30">
+                  <div className="font-bold text-indigo-700 dark:text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
+                  <p className="text-indigo-950 dark:text-slate-200 leading-relaxed">
                     تقویم تعاملی شمسی، سیستم شمارش معکوس فرجه‌ها (Countdown)، اولویت‌بندی هوشمند وظایف و نمره سلامت ترم (Health Score).
                   </p>
                 </div>
@@ -512,42 +541,42 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Problem 3 */}
-            <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
+            <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none dark:backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 sm:gap-3">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/20 text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۳
                   </span>
-                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-white print:text-black leading-snug">
+                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-slate-900 dark:text-white print:text-black leading-snug">
                     دشواری و اتلاف وقت در دسترسی به منابع، جزوات و نمونه‌سوالات معتبر
                   </h3>
                 </div>
-                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-800/80">
+                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-600 dark:text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-100 dark:bg-slate-800/80">
                   فرضیه نیاز بازار #۳
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-rose-400 mb-1">۱. مشکل چیست؟</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-rose-700 dark:text-rose-400 mb-1">۱. مشکل چیست؟</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     دانشجویان در شب امتحان ساعت‌ها وقت خود را صرف التماس در گروه‌ها برای دریافت جزوه خوش‌خط، حل‌المسائل یا نمونه‌سوال سال‌های قبل می‌کنند.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-amber-700 dark:text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     دریافت فایل‌های ناقص، بی‌کیفیت یا نامعتبر که نتیجه آن عدم تسلط بر سرفصل‌های واقعی استاد و افت نمره است.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-slate-700 dark:text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     مراجعه به انتشارات دانشکده، کپی‌های گران‌قیمت یا جستجوی تصادفی در کانال‌های تلگرامی دانشگاه‌های دیگر.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30">
-                  <div className="font-bold text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
-                  <p className="text-slate-200 leading-relaxed">
+                <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30">
+                  <div className="font-bold text-indigo-700 dark:text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
+                  <p className="text-indigo-950 dark:text-slate-200 leading-relaxed">
                     مخزن منابع درسی (Academic Vault) با امکان مطالعه آنلاین/آفلاین PDF، یادداشت‌گذاری مستقیم، برچسب‌گذاری و اشتراک‌گذاری شفاف.
                   </p>
                 </div>
@@ -555,42 +584,42 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Problem 4 */}
-            <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
+            <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none dark:backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 sm:gap-3">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/20 text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۴
                   </span>
-                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-white print:text-black leading-snug">
+                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-slate-900 dark:text-white print:text-black leading-snug">
                     نبود ارتباط ارگانیک میان برنامه کلاسی هفتگی و منابع مطالعاتی
                   </h3>
                 </div>
-                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-800/80">
+                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-600 dark:text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-100 dark:bg-slate-800/80">
                   فرضیه نیاز بازار #۴
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-rose-400 mb-1">۱. مشکل چیست؟</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-rose-700 dark:text-rose-400 mb-1">۱. مشکل چیست؟</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     تقویم کلاسی دانشجو با فایل‌ها و اسلایدهای آموزشی پیوند داده نشده است؛ هنگام شروع کلاس یا مطالعه، پیدا کردن فایل جلسه بسیار زمان‌بر است.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-amber-700 dark:text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     قطع تمرکز (Context Switching) و هدررفت انرژی ذهنی در فایل‌منیجر شلوغ گوشی یا لپ‌تاپ.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-slate-700 dark:text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     ساخت دستی پوشه‌های درهم در حافظه دستگاه، دانلودهای تکراری از تلگرام و مصرف حجم بیهوده اینترنت.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30">
-                  <div className="font-bold text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
-                  <p className="text-slate-200 leading-relaxed">
+                <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30">
+                  <div className="font-bold text-indigo-700 dark:text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
+                  <p className="text-indigo-950 dark:text-slate-200 leading-relaxed">
                     پیوند خودکار منابع با برنامه هفتگی، امکان ثبت یادداشت اختصاصی برای هر فایل و تایمر تمرکز متصل به همان درس.
                   </p>
                 </div>
@@ -598,42 +627,42 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Problem 5 */}
-            <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
+            <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none dark:backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 sm:gap-3">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/20 text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۵
                   </span>
-                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-white print:text-black leading-snug">
+                  <h3 className="font-bold text-sm sm:text-base lg:text-lg text-slate-900 dark:text-white print:text-black leading-snug">
                     پراکندگی، کلاهبرداری و عدم اطمینان در خریدوفروش منابع و لوازم خوابگاهی
                   </h3>
                 </div>
-                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-800/80">
+                <span className="self-start sm:self-auto text-[10px] sm:text-[11px] font-medium text-slate-600 dark:text-slate-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-100 dark:bg-slate-800/80">
                   فرضیه نیاز بازار #۵
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-rose-400 mb-1">۱. مشکل چیست؟</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-rose-700 dark:text-rose-400 mb-1">۱. مشکل چیست؟</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     دانشجوی سال بالایی کتاب‌های گران‌قیمت یا تجهیزات خوابگاهی بلااستفاده دارد و دانشجوی سال اولی نیاز به خرید دارد اما به یکدیگر وصل نمی‌شوند.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-amber-700 dark:text-amber-400 mb-1">۲. پیامد برای دانشجو:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     تحمیل هزینه‌های سنگین چاپ کتاب نو (افزایش سرسام‌آور قیمت کاغذ) یا کلاهبرداری در بیعانه دادن به افراد ناشناس در گروه‌های تلگرامی.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/70">
-                  <div className="font-bold text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
-                  <p className="text-slate-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70">
+                  <div className="font-bold text-slate-700 dark:text-slate-400 mb-1">۳. روش‌های فعلی حل:</div>
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
                     دیوار و شیپور (نامناسب به دلیل عدم تفکیک دانشگاه و نیاز به هزینه پست) یا گروه‌های بی‌نام‌ونشان خریدوفروش خوابگاه.
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30">
-                  <div className="font-bold text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
-                  <p className="text-slate-200 leading-relaxed">
+                <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30">
+                  <div className="font-bold text-indigo-700 dark:text-indigo-300 mb-1">۴. پاسخ ترمیار:</div>
+                  <p className="text-indigo-950 dark:text-slate-200 leading-relaxed">
                     بازارچه درون‌دانشگاهی تفکیک‌شده بر اساس دانشگاه و خوابگاه با بخش «نیازمندی‌های فوری» و امکان تحویل حضوری مطمئن در محوطه.
                   </p>
                 </div>
@@ -646,75 +675,75 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 3: تحلیل مشتری و ارزش پیشنهادی */}
         {/* ========================================================= */}
         <section id="customers" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-1.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-1.5">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش سوم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش سوم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 تحلیل مشتری و تفکیک ارزش‌های پیشنهادی
               </h2>
             </div>
-            <span className="text-xs text-slate-400">تحلیل اقتصادی و رفتاری کاربران</span>
+            <span className="text-xs text-slate-600 dark:text-slate-400">تحلیل اقتصادی و رفتاری کاربران</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2.5 sm:space-y-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-2.5 sm:space-y-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 flex items-center justify-center">
                 <Users className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
-              <h3 className="font-bold text-white text-sm sm:text-base">مشتریان اصلی (User Segments)</h3>
-              <ul className="text-xs text-slate-300 space-y-2 leading-relaxed">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">مشتریان اصلی (User Segments)</h3>
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-indigo-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                   <span><strong>دانشجویان کارشناسی (سال ۱ و ۲):</strong> نیازمند نظم‌دهی اولیه، تقویم امتحانات و دسترسی به نمونه سوالات.</span>
                 </li>
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-indigo-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                   <span><strong>دانشجویان خوابگاهی:</strong> متقاضیان فعال خریدوفروش وسایل، کتاب دست‌دوم و جزوه در محدوده فیزیکی خوابگاه.</span>
                 </li>
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-indigo-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                   <span><strong>نمایندگان کلاس و TAها:</strong> مایل به توزیع منسجم منابع درسی و جلوگیری از پاسخ به ده‌ها پیام تکراری.</span>
                 </li>
               </ul>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2.5 sm:space-y-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-2.5 sm:space-y-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 flex items-center justify-center">
                 <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
-              <h3 className="font-bold text-white text-sm sm:text-base">انگیزه‌ها و درایورهای پذیرش</h3>
-              <ul className="text-xs text-slate-300 space-y-2 leading-relaxed">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">انگیزه‌ها و درایورهای پذیرش</h3>
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                   <span><strong>صرفه‌جویی اقتصادی ملموس:</strong> تهیه کتاب‌ها با ۳۰ الی ۵۰ درصد قیمت نو و کسب درآمد از فروش وسایل قدیمی.</span>
                 </li>
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                   <span><strong>کاهش تنش تحصیلی:</strong> جلوگیری از شوک امتحانات با سیستم هشدار فرجه‌ها و نمره سلامت ترم.</span>
                 </li>
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                   <span><strong>تمرکز بالا:</strong> بهره‌گیری از تایمر پومودورو متصل به گزارش پیشرفت هر درس.</span>
                 </li>
               </ul>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2.5 sm:space-y-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-2.5 sm:space-y-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 flex items-center justify-center">
                 <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
-              <h3 className="font-bold text-white text-sm sm:text-base">موانع و اصطکاک‌های ورود (Frictions)</h3>
-              <ul className="text-xs text-slate-300 space-y-2 leading-relaxed">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">موانع و اصطکاک‌های ورود (Frictions)</h3>
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                   <span><strong>اینرسی رفتاری (Habit Inertia):</strong> عادت عمیق دانشجویان به ارسال فایل در گروه‌های غیررسمی تلگرام.</span>
                 </li>
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                   <span><strong>تنبلی در ورود داده‌ها:</strong> عدم تمایل اولیه به تایپ مشخصات ۵ درس و تاریخ امتحانات در ابتدای ترم.</span>
                 </li>
                 <li className="flex items-start gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
+                  <Check className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                   <span><strong>اعتماد در بازارچه:</strong> نگرانی خریدار از ناقص بودن برگه جزوه یا عدم حضور فروشنده در قرار خوابگاه.</span>
                 </li>
               </ul>
@@ -722,27 +751,27 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
           </div>
 
           {/* Deep Academic Distinction: Use Value vs Exchange Value */}
-          <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-indigo-950/50 to-slate-900 border border-indigo-500/30 space-y-3 sm:space-y-4 print:border-slate-300 print:bg-white">
+          <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-indigo-950/50 dark:to-slate-900 border border-indigo-200 dark:border-indigo-500/30 shadow-sm dark:shadow-none space-y-3 sm:space-y-4 print:border-slate-300 print:bg-white">
             <div className="flex items-center gap-2">
-              <Scale className="w-5 h-5 text-indigo-400 shrink-0" />
-              <h3 className="font-bold text-sm sm:text-base lg:text-lg text-white print:text-black">
+              <Scale className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+              <h3 className="font-bold text-sm sm:text-base lg:text-lg text-slate-900 dark:text-white print:text-black">
                 تفکیک علمی: ارزش کاربردی (Use Value) در برابر ارزش مبادله‌ای (Exchange Value)
               </h3>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed print:text-slate-700">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed print:text-slate-700">
               بر مبنای تئوری ارزش در اقتصاد دیجیتال و درس تجارت الکترونیک، تمایز میان مطلوبیت مستقیم برای مصرف‌کننده و پتانسیل مبادلاتی نقدی در بازار به شرح زیر تعریف می‌شود:
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 pt-1">
-              <div className="p-3.5 sm:p-4 rounded-xl bg-white/[0.03] border border-white/[0.08] space-y-2">
+              <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="font-bold text-xs sm:text-sm text-indigo-300">الف) ارزش کاربردی (Use Value)</h4>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 shrink-0">مطلوبیت تحصیلی</span>
+                  <h4 className="font-bold text-xs sm:text-sm text-indigo-700 dark:text-indigo-300">الف) ارزش کاربردی (Use Value)</h4>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 shrink-0">مطلوبیت تحصیلی</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                   ارزشی است که دانشجو مستقیماً از به‌کارگیری روزانه نرم‌افزار کسب می‌کند و باعث ارتقای کارایی تحصیلی می‌شود:
                 </p>
-                <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-1.5 list-disc list-inside">
                   <li>جلوگیری از فراموشی پروژه‌ها و ارتقای معدل از طریق نمره سلامت ترم.</li>
                   <li>افزایش ساعات مطالعه خالص با زمان‌سنج پومودورو بدون مزاحمت نوتیفیکیشن‌ها.</li>
                   <li>مطالعه بدون‌دردسر کتاب‌ها و اسلایدهای PDF در کتابخانه آفلاین.</li>
@@ -750,15 +779,15 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 </ul>
               </div>
 
-              <div className="p-3.5 sm:p-4 rounded-xl bg-white/[0.03] border border-white/[0.08] space-y-2">
+              <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="font-bold text-xs sm:text-sm text-emerald-300">ب) ارزش مبادله‌ای (Exchange Value)</h4>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 shrink-0">تراکنش مالی و نقدشوندگی</span>
+                  <h4 className="font-bold text-xs sm:text-sm text-emerald-700 dark:text-emerald-300">ب) ارزش مبادله‌ای (Exchange Value)</h4>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 shrink-0">تراکنش مالی و نقدشوندگی</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                   ارزشی که در قالب قیمت، مبادله کالا و جریان وجوه نقدی بین اعضای پلتفرم یا به نفع ترمیار محقق می‌گردد:
                 </p>
-                <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-1.5 list-disc list-inside">
                   <li><strong>صرفه‌جویی خریدار:</strong> تهیه کتب ۵۰۰ هزار تومانی به قیمت ۱۵۰ هزار تومان از دانشجوی ترم قبل.</li>
                   <li><strong>درآمدزایی فروشنده:</strong> نقد کردن جزوات دست‌نویس باکیفیت و وسایل خوابگاهی که راکد مانده بودند.</li>
                   <li><strong>مدل درآمدی پلتفرم:</strong> دریافت کارمزد اندک (۵ تا ۷ درصد) در صورت اتصال درگاه امن امانی در فاز بلوغ.</li>
@@ -767,7 +796,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Interactive Market Size & Unit Economics Simulator */}
-            <div className="mt-6 pt-6 border-t border-slate-800">
+            <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
               <InteractiveMarketEconomics />
             </div>
           </div>
@@ -777,63 +806,63 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 4: پاسخ تحلیلی به ۸ سؤال ایده بالغ */}
         {/* ========================================================= */}
         <section id="eight-questions" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-2">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش چهارم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش چهارم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 پاسخ تحلیلی به ۸ سؤال ایده بالغ (دستورالعمل ویژه درس تجارت الکترونیک)
               </h2>
             </div>
             <div className="flex items-center gap-2 print:hidden self-start sm:self-auto">
               <button
                 onClick={() => expandAllQuestions(true)}
-                className="text-xs px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                className="text-xs px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent transition-colors cursor-pointer"
               >
                 باز کردن همه
               </button>
               <button
                 onClick={() => expandAllQuestions(false)}
-                className="text-xs px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                className="text-xs px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent transition-colors cursor-pointer"
               >
                 بستن همه
               </button>
             </div>
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed print:text-slate-700">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed print:text-slate-700">
             بررسی ۸ شاخص حیاتی برای راستی‌آزمایی بلوغ ایده، بررسی ریسک‌ها، درک محدودیت‌ها و دفاع در برابر هیئت داوری دانشگاه:
           </p>
 
           <div className="space-y-3 sm:space-y-4">
             {/* Question 1 */}
-            <div className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all print:border-slate-300 print:bg-white">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden transition-all print:border-slate-300 print:bg-white">
               <button
                 onClick={() => toggleQuestion(1)}
-                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-800/40 transition-colors"
+                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۱
                   </span>
-                  <span className="font-bold text-xs sm:text-sm md:text-base text-white print:text-black leading-snug">
+                  <span className="font-bold text-xs sm:text-sm md:text-base text-slate-900 dark:text-white print:text-black leading-snug">
                     آیا تقاضای بالفعل و نیازی واقعی در بازار کنونی وجود دارد؟
                   </span>
                 </div>
                 {expandedQuestions[1] ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 )}
               </button>
               {expandedQuestions[1] && (
-                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-800/60 leading-relaxed print:text-slate-700">
+                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-200 dark:border-slate-800/60 leading-relaxed print:text-slate-700">
                   <p>
                     <strong>پاسخ تحلیلی:</strong> بله، تقاضای بالفعل به صورت رفتارهای روزمره و آشکار در دانشگاه‌ها در حال جوشش است اما در بستر کانال‌های غیررسمی سرکوب می‌شود. روزانه هزاران دانشجو در گروه‌های تلگرامی و ایتا با پیام‌هایی چون «کسی جزوه دکتر فلانی رو داره؟»، «کتاب ریاضی مهندسی تمیز برای فروش دارم» یا «فرجه این درس چقدره؟» تبادل می‌کنند.
                   </p>
                   <p>
                     وجود کانال‌های تلگرامی متعدد تحت عنوان «خریدوفروش دانشگاه شهید بهشتی / تهران / امیرکبیر» یا «بانک جزوه» بزرگ‌ترین گواه عینی بر <strong>تقاضای موجود</strong> است. با این حال، به دلیل فقدان زیرساخت پایگاه‌داده مناسب در پیام‌رسان‌ها، این تبادلات پر از کلاهبرداری، گم شدن پیام‌ها و اتلاف وقت است. تقاضای بالفعل وجود دارد؛ وظیفه ترمیار ایجاد کانال متمرکز و ساختارمند است.
                   </p>
-                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs">
+                  <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-900 dark:text-amber-300 text-xs">
                     ⚠️ <strong>نیاز به تحقیق بیشتر:</strong> آیا دانشجویان حاضرند از تلگرامی که همیشه باز است به وب‌اپلیکیشن مستقل نقل مکان کنند؟ این فرضیه اصطکاک رفتار کاربر نیازمند پایش در طرح پایلوت است.
                   </div>
                 </div>
@@ -841,34 +870,34 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Question 2 */}
-            <div className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all print:border-slate-300 print:bg-white">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden transition-all print:border-slate-300 print:bg-white">
               <button
                 onClick={() => toggleQuestion(2)}
-                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-800/40 transition-colors"
+                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۲
                   </span>
-                  <span className="font-bold text-xs sm:text-sm md:text-base text-white print:text-black leading-snug">
+                  <span className="font-bold text-xs sm:text-sm md:text-base text-slate-900 dark:text-white print:text-black leading-snug">
                     آیا ایده پاسخگوی نیازی واقعی است یا صرفاً متکی بر فرضیات طراح است؟
                   </span>
                 </div>
                 {expandedQuestions[2] ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 )}
               </button>
               {expandedQuestions[2] && (
-                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-800/60 leading-relaxed print:text-slate-700">
+                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-200 dark:border-slate-800/60 leading-relaxed print:text-slate-700">
                   <p>
                     <strong>پاسخ تحلیلی:</strong> بخش عمده نیازها واقعی و اثبات‌شده در زیست تحصیلی هستند: «داشتن برنامه هفتگی کلاسی»، «یادآوری تاریخ امتحان پایانی» و «دسترسی به جزوات شب امتحان» قطعی‌ترین رفتارهای هر دانشجو در هر ترم است.
                   </p>
                   <p>
                     اما برخی مولفه‌ها ممکن است <strong>«فرضیه طراح»</strong> باشند؛ به عنوان مثال:
                   </p>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-300 pr-2">
+                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-700 dark:text-slate-300 pr-2">
                     <li>فرضیه ۱: آیا دانشجو واقعاً حوصله دارد نمره هر کوییز را وارد کند تا نرم‌افزار نمره سلامت ترم محاسبه کند؟</li>
                     <li>فرضیه ۲: آیا دانشجوی ایرانی از تایمر پومودورو در دسکتاپ استفاده می‌کند یا این کار را در اپلیکیشن‌های مستقل موبایل انجام می‌دهد؟</li>
                   </ul>
@@ -880,27 +909,27 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Question 3 */}
-            <div className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all print:border-slate-300 print:bg-white">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden transition-all print:border-slate-300 print:bg-white">
               <button
                 onClick={() => toggleQuestion(3)}
-                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-800/40 transition-colors"
+                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۳
                   </span>
-                  <span className="font-bold text-xs sm:text-sm md:text-base text-white print:text-black leading-snug">
+                  <span className="font-bold text-xs sm:text-sm md:text-base text-slate-900 dark:text-white print:text-black leading-snug">
                     ایده در کدام طبقه‌بندی قرار می‌گیرد؟ بنیادین، ترکیبی یا تطبیقی؟
                   </span>
                 </div>
                 {expandedQuestions[3] ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 )}
               </button>
               {expandedQuestions[3] && (
-                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-800/60 leading-relaxed print:text-slate-700">
+                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-200 dark:border-slate-800/60 leading-relaxed print:text-slate-700">
                   <p>
                     <strong>پاسخ تحلیلی:</strong> ترمیار یک <strong>ایده ترکیبی (Hybrid / Combinatorial)</strong> با المان‌های بارز <strong>تطبیقی (Adaptive)</strong> است و به هیچ وجه ادعای «نوآوری بنیادین (Radical)» ندارد.
                   </p>
@@ -915,31 +944,31 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Question 4 */}
-            <div className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all print:border-slate-300 print:bg-white">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden transition-all print:border-slate-300 print:bg-white">
               <button
                 onClick={() => toggleQuestion(4)}
-                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-800/40 transition-colors"
+                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۴
                   </span>
-                  <span className="font-bold text-xs sm:text-sm md:text-base text-white print:text-black leading-snug">
+                  <span className="font-bold text-xs sm:text-sm md:text-base text-slate-900 dark:text-white print:text-black leading-snug">
                     سقف رشد طبیعی و ظرفیت مقیاس‌پذیری کسب‌وکار کجاست؟
                   </span>
                 </div>
                 {expandedQuestions[4] ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 )}
               </button>
               {expandedQuestions[4] && (
-                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-800/60 leading-relaxed print:text-slate-700">
+                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-200 dark:border-slate-800/60 leading-relaxed print:text-slate-700">
                   <p>
                     <strong>تحلیل حجم بازار (TAM / SAM / SOM):</strong>
                   </p>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-300 pr-2">
+                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-700 dark:text-slate-300 pr-2">
                     <li><strong>کل بازار بالقوه (TAM):</strong> حدود ۳.۲ میلیون دانشجو در کل دانشگاه‌های دولتی، آزاد، پیام‌نور و غیرانتفاعی کشور.</li>
                     <li><strong>بازار در دسترس (SAM):</strong> حدود ۸۰۰ هزار دانشجوی دوره‌های کارشناسی و کارشناسی‌ارشد روزانه و آزاد در دانشگاه‌های مراکز استان‌ها با ضریب نفوذ اینترنت بالا.</li>
                     <li><strong>بازار هدف اولیه (SOM):</strong> ۵۰ هزار دانشجوی دانشگاه‌های برتر تهران و کلان‌شهرها در ۲ سال نخست.</li>
@@ -947,7 +976,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   <p>
                     <strong>مقیاس‌پذیری فنی:</strong> به دلیل معماری وب مدرن و استفاده از IndexedDB و ذخیره‌سازی محلی کلاینت برای اسناد در نسخه ۱.۰، هزینه‌های سرور در شروع بسیار پایین است. در صورت ورود به کلود مرکزی، مقیاس‌پذیری به ازای هر کاربر با هزینه‌های ذخیره‌سازی ابری همراه خواهد بود.
                   </p>
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 text-xs">
+                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs">
                     💡 <strong>سقف رشد طبیعی:</strong> هر دانشجو پس از ۴ سال فارغ‌التحصیل شده و نیاز به جذب مداوم ورودی‌های جدید سال اول (Churn طبیعی ۴ ساله) وجود دارد که این ویژگی ذاتی بازارهای دانشجویی است.
                   </div>
                 </div>
@@ -955,27 +984,27 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Question 5 */}
-            <div className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all print:border-slate-300 print:bg-white">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden transition-all print:border-slate-300 print:bg-white">
               <button
                 onClick={() => toggleQuestion(5)}
-                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-800/40 transition-colors"
+                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۵
                   </span>
-                  <span className="font-bold text-xs sm:text-sm md:text-base text-white print:text-black leading-snug">
+                  <span className="font-bold text-xs sm:text-sm md:text-base text-slate-900 dark:text-white print:text-black leading-snug">
                     مشتریان حاضرند دقیقاً در ازای کدام ارزش یا خدمت پول پرداخت کنند؟
                   </span>
                 </div>
                 {expandedQuestions[5] ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 )}
               </button>
               {expandedQuestions[5] && (
-                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-800/60 leading-relaxed print:text-slate-700">
+                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-200 dark:border-slate-800/60 leading-relaxed print:text-slate-700">
                   <p>
                     <strong>تحلیل دقیق تمایل به پرداخت (Willingness to Pay):</strong>
                   </p>
@@ -985,7 +1014,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                   <p>
                     نقاط تمایل قطعی به پرداخت در ۳ حوزه شکل می‌گیرد:
                   </p>
-                  <ol className="list-decimal list-inside space-y-1.5 text-xs text-slate-300 pr-2">
+                  <ol className="list-decimal list-inside space-y-1.5 text-xs text-slate-700 dark:text-slate-300 pr-2">
                     <li><strong>صرفه‌جویی آنی در خرید کتاب فیزیکی:</strong> پرداخت ۱۵۰ هزار تومان برای کتابی که قیمت بازار آزاد آن ۶۰۰ هزار تومان است (خلق سود نقدی مستقیم).</li>
                     <li><strong>جزوات طلایی شب امتحان و نمونه‌سوالات حل‌شده:</strong> پرداخت مبالغ خرد (مثلاً ۲۰ الی ۵۰ هزار تومان) جهت دانلود جزوه دست‌نویس رتبه یک دانشگاه برای شب امتحان.</li>
                     <li><strong>کارمزد پرداخت امن در بازارچه خوابگاهی:</strong> کارمزد ۱ الی ۲ درصدی برای حفظ پول در حساب واسط تا زمان تحویل فیزیکی کالا.</li>
@@ -995,34 +1024,34 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Question 6 */}
-            <div className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all print:border-slate-300 print:bg-white">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden transition-all print:border-slate-300 print:bg-white">
               <button
                 onClick={() => toggleQuestion(6)}
-                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-800/40 transition-colors"
+                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۶
                   </span>
-                  <span className="font-bold text-xs sm:text-sm md:text-base text-white print:text-black leading-snug">
+                  <span className="font-bold text-xs sm:text-sm md:text-base text-slate-900 dark:text-white print:text-black leading-snug">
                     آیا امکان ارزیابی میدانی و دریافت بازخورد اولیه از کاربران بالقوه وجود دارد؟
                   </span>
                 </div>
                 {expandedQuestions[6] ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 )}
               </button>
               {expandedQuestions[6] && (
-                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-800/60 leading-relaxed print:text-slate-700">
+                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-200 dark:border-slate-800/60 leading-relaxed print:text-slate-700">
                   <p>
                     <strong>پاسخ تحلیلی:</strong> بله، کاملاً در دسترس است زیرا جامعه مخاطبان دقیقاً در دسترس دانشجویان بنیان‌گذار قرار دارد (دانشکده، خوابگاه و گروه‌های کلاسی هم‌رشته).
                   </p>
                   <p>
                     می‌توان نسخه اولیه منتشرشده در Vercel را در قالب لینک تست به ۸۰ تا ۱۰۰ نفر از دانشجویان کلاس یا خوابگاه ارائه داد و با پرسشنامه Google Forms و ترکینگ رفتاری (Heatmaps و لاگ‌های ثبت درس) موارد زیر را سنجید:
                   </p>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-300 pr-2">
+                  <ul className="list-disc list-inside space-y-1 text-xs text-slate-700 dark:text-slate-300 pr-2">
                     <li>چند درصد کاربران پس از روز اول دوباره به سایت سر زدند؟ (Retention D7)</li>
                     <li>کدام قابلیت محبوب‌تر بود: بارگذاری جزوات، تقویم امتحانات یا آگهی بازارچه؟</li>
                   </ul>
@@ -1031,46 +1060,46 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Question 7 */}
-            <div className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all print:border-slate-300 print:bg-white">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden transition-all print:border-slate-300 print:bg-white">
               <button
                 onClick={() => toggleQuestion(7)}
-                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-800/40 transition-colors"
+                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۷
                   </span>
-                  <span className="font-bold text-xs sm:text-sm md:text-base text-white print:text-black leading-snug">
+                  <span className="font-bold text-xs sm:text-sm md:text-base text-slate-900 dark:text-white print:text-black leading-snug">
                     در صورت بروز مانع در مدل عملیاتی، چه راهکارها و سناریوهای واکنشی وجود دارد؟
                   </span>
                 </div>
                 {expandedQuestions[7] ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 )}
               </button>
               {expandedQuestions[7] && (
-                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-800/60 leading-relaxed print:text-slate-700">
+                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2.5 sm:space-y-3 border-t border-slate-200 dark:border-slate-800/60 leading-relaxed print:text-slate-700">
                   <p>
                     <strong>موانع محتمل و سناریوهای واکنش استراتژیک (Contingency Plans):</strong>
                   </p>
                   <div className="space-y-2 text-xs">
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                      <span className="font-bold text-rose-400">مانع ۱: مقاومت در برابر وارد کردن دستی دروس و تکالیف</span>
-                      <p className="text-slate-300 mt-1">
+                    <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                      <span className="font-bold text-rose-700 dark:text-rose-400">مانع ۱: مقاومت در برابر وارد کردن دستی دروس و تکالیف</span>
+                      <p className="text-slate-700 dark:text-slate-300 mt-1">
                         <strong>راهکار واکنشی:</strong> پیاده‌سازی قابلیت «واردسازی با یک کلیک» بر اساس بارگذاری فایل عکس برگه انتخاب‌واحد یا فرمت اکسل نماینده کلاس به طوری که یک نفر برنامه را بچیند و بقیه با یک کد دعوت عضو شوند.
                       </p>
                     </div>
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                      <span className="font-bold text-amber-400">مانع ۲: کمبود فایل و جزوه در ابتدای کار (Cold Start Problem)</span>
-                      <p className="text-slate-300 mt-1">
+                    <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                      <span className="font-bold text-amber-700 dark:text-amber-400">مانع ۲: کمبود فایل و جزوه در ابتدای کار (Cold Start Problem)</span>
+                      <p className="text-slate-700 dark:text-slate-300 mt-1">
                         <strong>راهکار واکنشی:</strong> پرداخت پاداش کوچک یا اعتبار رایگان به دانشجویان سال‌بالایی ممتاز جهت بارگذاری جزوات ۵ درس پرمخاطب پایه (ریاضی ۱، فیزیک ۱، مبانی برنامه‌نویسی).
                       </p>
                     </div>
-                    <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                      <span className="font-bold text-cyan-400">مانع ۳: چالش‌های حقوقی کپی‌رایت کتب ناشران دانشگاهی</span>
-                      <p className="text-slate-300 mt-1">
+                    <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                      <span className="font-bold text-cyan-700 dark:text-cyan-400">مانع ۳: چالش‌های حقوقی کپی‌رایت کتب ناشران دانشگاهی</span>
+                      <p className="text-slate-700 dark:text-slate-300 mt-1">
                         <strong>راهکار واکنشی:</strong> تمرکز صرف بر کتب دست‌دوم کاغذی در بازارچه فیزیکی و محدود کردن فایل‌های دانلودی به جزوات دست‌نویس شخصی و اسلایدهای عمومی اساتید.
                       </p>
                     </div>
@@ -1080,66 +1109,66 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Question 8 */}
-            <div className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all print:border-slate-300 print:bg-white">
+            <div className="rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none overflow-hidden transition-all print:border-slate-300 print:bg-white">
               <button
                 onClick={() => toggleQuestion(8)}
-                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-800/40 transition-colors"
+                className="w-full p-3.5 sm:p-5 flex items-center justify-between text-right gap-2 sm:gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors cursor-pointer"
               >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0">
                     ۸
                   </span>
-                  <span className="font-bold text-xs sm:text-sm md:text-base text-white print:text-black leading-snug">
+                  <span className="font-bold text-xs sm:text-sm md:text-base text-slate-900 dark:text-white print:text-black leading-snug">
                     گزینه‌ها و روش‌های جاری مخاطبان برای حل این نیاز چیست؟ (تحلیل رقبا و هزینه سوئیچ)
                   </span>
                 </div>
                 {expandedQuestions[8] ? (
-                  <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
                 )}
               </button>
               {expandedQuestions[8] && (
-                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-300 space-y-3 border-t border-slate-800/60 leading-relaxed print:text-slate-700">
+                <div className="px-3.5 sm:px-5 pb-4 sm:pb-5 pt-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-3 border-t border-slate-200 dark:border-slate-800/60 leading-relaxed print:text-slate-700">
                   <p>
                     <strong>بررسی ماتریس جایگزین‌های فعلی:</strong>
                   </p>
 
                   {/* Desktop Table View (md+) */}
-                  <div className="hidden md:block overflow-x-auto rounded-xl border border-slate-800">
+                  <div className="hidden md:block overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
                     <table className="w-full text-right text-xs">
                       <thead>
-                        <tr className="bg-slate-950 text-slate-300 border-b border-slate-800">
-                          <th className="p-3 font-bold text-white">ابزار جایگزین</th>
-                          <th className="p-3 font-bold text-white">مزیت فعلی</th>
-                          <th className="p-3 font-bold text-white">نقص اساسی</th>
-                          <th className="p-3 font-bold text-white">برتری ترمیار</th>
+                        <tr className="bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800">
+                          <th className="p-3 font-bold text-slate-900 dark:text-white">ابزار جایگزین</th>
+                          <th className="p-3 font-bold text-slate-900 dark:text-white">مزیت فعلی</th>
+                          <th className="p-3 font-bold text-slate-900 dark:text-white">نقص اساسی</th>
+                          <th className="p-3 font-bold text-slate-900 dark:text-white">برتری ترمیار</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-800 text-slate-300">
+                      <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                         <tr>
-                          <td className="p-3 font-bold text-white">گروه‌های تلگرام و ایتا</td>
+                          <td className="p-3 font-bold text-slate-900 dark:text-white">گروه‌های تلگرام و ایتا</td>
                           <td className="p-3">دسترس‌پذیری عمومی و عضویت همگانی</td>
-                          <td className="p-3 text-rose-300">هرج‌ومرج، گم شدن پیام‌ها، کلاهبرداری</td>
-                          <td className="p-3 text-emerald-400 font-semibold">دسته‌بندی منظم درس‌به‌درس و بازارچه امن</td>
+                          <td className="p-3 text-rose-700 dark:text-rose-300">هرج‌ومرج، گم شدن پیام‌ها، کلاهبرداری</td>
+                          <td className="p-3 text-emerald-700 dark:text-emerald-400 font-semibold">دسته‌بندی منظم درس‌به‌درس و بازارچه امن</td>
                         </tr>
                         <tr>
-                          <td className="p-3 font-bold text-white">دیوار و شیپور</td>
+                          <td className="p-3 font-bold text-slate-900 dark:text-white">دیوار و شیپور</td>
                           <td className="p-3">تعداد کاربر بسیار بالا</td>
-                          <td className="p-3 text-rose-300">عدم تمرکز بر محیط دانشگاهی و خوابگاهی</td>
-                          <td className="p-3 text-emerald-400 font-semibold">تطبیق رایگان درون‌دانشگاهی بدون هزینه پست</td>
+                          <td className="p-3 text-rose-700 dark:text-rose-300">عدم تمرکز بر محیط دانشگاهی و خوابگاهی</td>
+                          <td className="p-3 text-emerald-700 dark:text-emerald-400 font-semibold">تطبیق رایگان درون‌دانشگاهی بدون هزینه پست</td>
                         </tr>
                         <tr>
-                          <td className="p-3 font-bold text-white">Notion و Todoist</td>
+                          <td className="p-3 font-bold text-slate-900 dark:text-white">Notion و Todoist</td>
                           <td className="p-3">امکانات سفارشی‌سازی پیشرفته</td>
-                          <td className="p-3 text-rose-300">پیچیدگی بالا، زبان انگلیسی، فقدان بازارچه</td>
-                          <td className="p-3 text-emerald-400 font-semibold">زبان فارسی، تقویم شمسی و ساختار آماده تحصیلی</td>
+                          <td className="p-3 text-rose-700 dark:text-rose-300">پیچیدگی بالا، زبان انگلیسی، فقدان بازارچه</td>
+                          <td className="p-3 text-emerald-700 dark:text-emerald-400 font-semibold">زبان فارسی، تقویم شمسی و ساختار آماده تحصیلی</td>
                         </tr>
                         <tr>
-                          <td className="p-3 font-bold text-white">کاغذ و سررسید</td>
+                          <td className="p-3 font-bold text-slate-900 dark:text-white">کاغذ و سررسید</td>
                           <td className="p-3">بدون نیاز به اینترنت و شارژ</td>
-                          <td className="p-3 text-rose-300">عدم هشداردهی هوشمند، آسیب‌پذیری فیزیکی</td>
-                          <td className="p-3 text-emerald-400 font-semibold">هشدارهای خودکار ددلاین و نمره سلامت ترم</td>
+                          <td className="p-3 text-rose-700 dark:text-rose-300">عدم هشداردهی هوشمند، آسیب‌پذیری فیزیکی</td>
+                          <td className="p-3 text-emerald-700 dark:text-emerald-400 font-semibold">هشدارهای خودکار ددلاین و نمره سلامت ترم</td>
                         </tr>
                       </tbody>
                     </table>
@@ -1147,32 +1176,32 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
 
                   {/* Mobile Stacked Card View (<md) */}
                   <div className="md:hidden space-y-2.5">
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-                      <div className="font-bold text-white text-xs">۱. گروه‌های تلگرام و ایتا</div>
-                      <div className="text-[11px] text-slate-400"><strong className="text-slate-300">مزیت:</strong> دسترس‌پذیری عمومی و عضویت همگانی</div>
-                      <div className="text-[11px] text-rose-300"><strong className="text-rose-400">نقص:</strong> هرج‌ومرج، گم شدن پیام‌ها، کلاهبرداری در بیعانه</div>
-                      <div className="text-[11px] text-emerald-400 pt-1 border-t border-slate-800/80"><strong className="text-emerald-300">برتری ترمیار:</strong> تفکیک منظم درس‌به‌درس و بازارچه درون‌دانشگاهی</div>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1.5">
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">۱. گروه‌های تلگرام و ایتا</div>
+                      <div className="text-[11px] text-slate-600 dark:text-slate-400"><strong className="text-slate-800 dark:text-slate-300">مزیت:</strong> دسترس‌پذیری عمومی و عضویت همگانی</div>
+                      <div className="text-[11px] text-rose-700 dark:text-rose-300"><strong className="text-rose-700 dark:text-rose-400">نقص:</strong> هرج‌ومرج، گم شدن پیام‌ها، کلاهبرداری در بیعانه</div>
+                      <div className="text-[11px] text-emerald-700 dark:text-emerald-400 pt-1 border-t border-slate-200 dark:border-slate-800/80"><strong className="text-emerald-800 dark:text-emerald-300">برتری ترمیار:</strong> تفکیک منظم درس‌به‌درس و بازارچه درون‌دانشگاهی</div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-                      <div className="font-bold text-white text-xs">۲. پلتفرم‌های عمومی (دیوار و شیپور)</div>
-                      <div className="text-[11px] text-slate-400"><strong className="text-slate-300">مزیت:</strong> جامعه آماری گسترده</div>
-                      <div className="text-[11px] text-rose-300"><strong className="text-rose-400">نقص:</strong> عدم تمرکز بر محیط خوابگاه و هزینه‌های پیک درون‌شهری</div>
-                      <div className="text-[11px] text-emerald-400 pt-1 border-t border-slate-800/80"><strong className="text-emerald-300">برتری ترمیار:</strong> تحویل حضوری مطمئن در محوطه و خوابگاه بدون هزینه پست</div>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1.5">
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">۲. پلتفرم‌های عمومی (دیوار و شیپور)</div>
+                      <div className="text-[11px] text-slate-600 dark:text-slate-400"><strong className="text-slate-800 dark:text-slate-300">مزیت:</strong> جامعه آماری گسترده</div>
+                      <div className="text-[11px] text-rose-700 dark:text-rose-300"><strong className="text-rose-700 dark:text-rose-400">نقص:</strong> عدم تمرکز بر محیط خوابگاه و هزینه‌های پیک درون‌شهری</div>
+                      <div className="text-[11px] text-emerald-700 dark:text-emerald-400 pt-1 border-t border-slate-200 dark:border-slate-800/80"><strong className="text-emerald-800 dark:text-emerald-300">برتری ترمیار:</strong> تحویل حضوری مطمئن در محوطه و خوابگاه بدون هزینه پست</div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-                      <div className="font-bold text-white text-xs">۳. ابزارهای مدیریت وظیفه (Notion / Todoist)</div>
-                      <div className="text-[11px] text-slate-400"><strong className="text-slate-300">مزیت:</strong> انعطاف در طراحی شخصی</div>
-                      <div className="text-[11px] text-rose-300"><strong className="text-rose-400">نقص:</strong> پیچیدگی راه‌اندازی، عدم پشتیبانی از تقویم شمسی و نبود بازارچه</div>
-                      <div className="text-[11px] text-emerald-400 pt-1 border-t border-slate-800/80"><strong className="text-emerald-300">برتری ترمیار:</strong> ساختار کاملاً بومی با ترم‌های تحصیلی ایران و تقویم شمسی</div>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1.5">
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">۳. ابزارهای مدیریت وظیفه (Notion / Todoist)</div>
+                      <div className="text-[11px] text-slate-600 dark:text-slate-400"><strong className="text-slate-800 dark:text-slate-300">مزیت:</strong> انعطاف در طراحی شخصی</div>
+                      <div className="text-[11px] text-rose-700 dark:text-rose-300"><strong className="text-rose-700 dark:text-rose-400">نقص:</strong> پیچیدگی راه‌اندازی، عدم پشتیبانی از تقویم شمسی و نبود بازارچه</div>
+                      <div className="text-[11px] text-emerald-700 dark:text-emerald-400 pt-1 border-t border-slate-200 dark:border-slate-800/80"><strong className="text-emerald-800 dark:text-emerald-300">برتری ترمیار:</strong> ساختار کاملاً بومی با ترم‌های تحصیلی ایران و تقویم شمسی</div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-                      <div className="font-bold text-white text-xs">۴. دفترچه کاغذی و سررسید</div>
-                      <div className="text-[11px] text-slate-400"><strong className="text-slate-300">مزیت:</strong> سادگی و عدم نیاز به ابزار دیجیتال</div>
-                      <div className="text-[11px] text-rose-300"><strong className="text-rose-400">نقص:</strong> احتمال گم شدن، نبود هشدارهای فرجه و ناتوانی در اشتراک‌گذاری</div>
-                      <div className="text-[11px] text-emerald-400 pt-1 border-t border-slate-800/80"><strong className="text-emerald-300">برتری ترمیار:</strong> اعلان‌های هوشمند و نگهداری ابری اسناد و یادداشت‌ها</div>
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1.5">
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">۴. دفترچه کاغذی و سررسید</div>
+                      <div className="text-[11px] text-slate-600 dark:text-slate-400"><strong className="text-slate-800 dark:text-slate-300">مزیت:</strong> سادگی و عدم نیاز به ابزار دیجیتال</div>
+                      <div className="text-[11px] text-rose-700 dark:text-rose-300"><strong className="text-rose-700 dark:text-rose-400">نقص:</strong> احتمال گم شدن، نبود هشدارهای فرجه و ناتوانی در اشتراک‌گذاری</div>
+                      <div className="text-[11px] text-emerald-700 dark:text-emerald-400 pt-1 border-t border-slate-200 dark:border-slate-800/80"><strong className="text-emerald-800 dark:text-emerald-300">برتری ترمیار:</strong> اعلان‌های هوشمند و نگهداری ابری اسناد و یادداشت‌ها</div>
                     </div>
                   </div>
                 </div>
@@ -1185,61 +1214,61 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 5: طبقه‌بندی ماهیت ایده */}
         {/* ========================================================= */}
         <section id="classification" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-2">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش پنجم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش پنجم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 طبقه‌بندی ماهیت ایده (بنیادین، ترکیبی یا تطبیقی؟)
               </h2>
             </div>
-            <span className="self-start sm:self-auto text-xs px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">
+            <span className="self-start sm:self-auto text-xs px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 font-bold border border-purple-200 dark:border-purple-500/30">
               ارزیابی بر اساس تئوری نوآوری
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800/80 space-y-2.5 sm:space-y-3 opacity-60">
-              <div className="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs">
+            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 space-y-2.5 sm:space-y-3 opacity-80 dark:opacity-60">
+              <div className="px-2.5 py-1 w-fit rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400 flex items-center justify-center font-bold text-xs">
                 رد فرضیه
               </div>
-              <h3 className="font-bold text-slate-300 text-sm sm:text-base">۱. نوآوری بنیادین (Radical)</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="font-bold text-slate-800 dark:text-slate-300 text-sm sm:text-base">۱. نوآوری بنیادین (Radical)</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                 ایجاد فناوری، مدل رفتاری یا بازاری کاملاً بی‌سابقه که جهان پیش از آن ندیده است (نظیر ظهور اولیه وب یا اینترنت اشیاء).
               </p>
-              <div className="text-[11px] font-bold text-rose-400 pt-1">
+              <div className="text-[11px] font-bold text-rose-700 dark:text-rose-400 pt-1">
                 ❌ ترمیار در این رده قرار نمی‌گیرد (ادعای نوآوری بنیادین غیرعلمی و غیرواقع‌بینانه است).
               </div>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-indigo-950/40 border-2 border-indigo-500/50 space-y-2.5 sm:space-y-3 relative shadow-lg shadow-indigo-500/10">
-              <div className="w-8 h-8 rounded-lg bg-indigo-500 text-white flex items-center justify-center font-bold text-xs">
+            <div className="p-4 sm:p-5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border-2 border-indigo-400 dark:border-indigo-500/50 space-y-2.5 sm:space-y-3 relative shadow-lg shadow-indigo-500/10">
+              <div className="px-2.5 py-1 w-fit rounded-lg bg-indigo-600 dark:bg-indigo-500 text-white flex items-center justify-center font-bold text-xs">
                 تأیید اصلی
               </div>
-              <h3 className="font-bold text-white text-sm sm:text-base">۲. نوآوری ترکیبی (Hybrid / Combinatorial)</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <h3 className="font-bold text-indigo-950 dark:text-white text-sm sm:text-base">۲. نوآوری ترکیبی (Hybrid / Combinatorial)</h3>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                 ادغام اجزای موجود در صنایع و بسترهای مختلف و بازآرایی آن‌ها در یک زنجیره ارزش جدید که اصطکاک رفتاری مصرف‌کننده را حذف می‌کند.
               </p>
-              <div className="text-[11px] font-bold text-emerald-400 pt-1">
+              <div className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 pt-1">
                 ✅ جایگاه اصلی ترمیار: پیوند زدن مدیریت زمان شخصی با بازارچه اقتصادی P2P دانشگاهی.
               </div>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-purple-950/40 border border-purple-500/40 space-y-2.5 sm:space-y-3 relative">
-              <div className="w-8 h-8 rounded-lg bg-purple-500/40 text-purple-200 flex items-center justify-center font-bold text-xs">
+            <div className="p-4 sm:p-5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-300 dark:border-purple-500/40 space-y-2.5 sm:space-y-3 relative">
+              <div className="px-2.5 py-1 w-fit rounded-lg bg-purple-600 dark:bg-purple-500/40 text-white dark:text-purple-200 flex items-center justify-center font-bold text-xs">
                 تأیید مکمل
               </div>
-              <h3 className="font-bold text-white text-sm sm:text-base">۳. نوآوری تطبیقی (Adaptive)</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <h3 className="font-bold text-purple-950 dark:text-white text-sm sm:text-base">۳. نوآوری تطبیقی (Adaptive)</h3>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                 بومی‌سازی مدل‌های بین‌المللی با ویژگی‌های محیطی، فرهنگی، تقویمی و حقوقی یک بازار خاص با ویژگی‌های محلی.
               </p>
-              <div className="text-[11px] font-bold text-purple-300 pt-1">
+              <div className="text-[11px] font-bold text-purple-800 dark:text-purple-300 pt-1">
                 ✅ وجه ثانویه ترمیار: انطباق کامل با تقویم شمسی، فرجه‌های امتحانی و زیست‌بوم خوابگاه‌های ایران.
               </div>
             </div>
           </div>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300 leading-relaxed space-y-2">
-            <h4 className="font-bold text-white text-xs sm:text-sm">استدلال دانشگاهی در دفاعیه:</h4>
+          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none text-xs text-slate-700 dark:text-slate-300 leading-relaxed space-y-2">
+            <h4 className="font-bold text-slate-900 dark:text-white text-xs sm:text-sm">استدلال دانشگاهی در دفاعیه:</h4>
             <p>
               «ترمیار با تلفیق سه الگوی کارکردی موفق (Personal LMS + Cloud Resource Vault + Hyperlocal Marketplace) و تطبیق آن با ساختار آموزشی و فرهنگ خوابگاهی دانشگاه‌های ایران، یک نوآوری ترکیبی-تطبیقی مؤثر ایجاد کرده است. مزیت رقابتی در اختراع چرخ از ابتدا نیست، بلکه در به صفر رساندن هزینه پرش مداوم کاربر میان ابزارهای نامتجانس است.»
             </p>
@@ -1250,10 +1279,10 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 6: تفکیک فرایندهای آنلاین و آفلاین */}
         {/* ========================================================= */}
         <section id="online-offline" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-2.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-2.5">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش ششم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش ششم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 تفکیک فرایندهای آنلاین و آفلاین (ماتریس عملیاتی و مرز مسئولیت)
               </h2>
             </div>
@@ -1263,8 +1292,8 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 onClick={() => setOfflineFilter('all')}
                 className={`text-[11px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors ${
                   offlineFilter === 'all'
-                    ? 'bg-indigo-600 text-white font-bold'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-indigo-600 text-white font-bold shadow-sm'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-transparent'
                 }`}
               >
                 همه فرایندها
@@ -1273,8 +1302,8 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 onClick={() => setOfflineFilter('online')}
                 className={`text-[11px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors ${
                   offlineFilter === 'online'
-                    ? 'bg-indigo-600 text-white font-bold'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-indigo-600 text-white font-bold shadow-sm'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-transparent'
                 }`}
               >
                 صرفاً آنلاین
@@ -1283,8 +1312,8 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 onClick={() => setOfflineFilter('offline')}
                 className={`text-[11px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors ${
                   offlineFilter === 'offline'
-                    ? 'bg-indigo-600 text-white font-bold'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-indigo-600 text-white font-bold shadow-sm'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-transparent'
                 }`}
               >
                 فرایندهای آفلاین / فیزیکی
@@ -1292,95 +1321,95 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed print:text-slate-700">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed print:text-slate-700">
             یک پلتفرم تجارت الکترونیک دانشگاهی تنها در صورتی مقیاس‌پذیر خواهد بود که مرز تعهدات فنی سامانه با تعاملات فیزیکی کف دانشگاه و خوابگاه مشخص باشد:
           </p>
 
           {/* Desktop Table View (md+) */}
-          <div className="hidden md:block overflow-x-auto rounded-2xl border border-slate-800 bg-[#0B1020] backdrop-blur-md">
+          <div className="hidden md:block overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1020] shadow-sm dark:shadow-none backdrop-blur-md">
             <table className="w-full text-right text-xs">
               <thead>
-                <tr className="bg-slate-950/80 text-slate-300 border-b border-slate-800">
-                  <th className="p-3.5 sm:p-4 font-bold text-white">عنوان فرایند</th>
-                  <th className="p-3.5 sm:p-4 font-bold text-white">بستر اجرا</th>
-                  <th className="p-3.5 sm:p-4 font-bold text-white">شرح عملیات</th>
-                  <th className="p-3.5 sm:p-4 font-bold text-white">مسئولیت پلتفرم ترمیار</th>
-                  <th className="p-3.5 sm:p-4 font-bold text-white">مرز مسئولیت کاربر (خارج از سامانه)</th>
+                <tr className="bg-slate-100 dark:bg-slate-950/80 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800">
+                  <th className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">عنوان فرایند</th>
+                  <th className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">بستر اجرا</th>
+                  <th className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">شرح عملیات</th>
+                  <th className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">مسئولیت پلتفرم ترمیار</th>
+                  <th className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">مرز مسئولیت کاربر (خارج از سامانه)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-600 dark:text-slate-300">
                 {(offlineFilter === 'all' || offlineFilter === 'online') && (
                   <>
-                    <tr className="hover:bg-slate-800/30">
-                      <td className="p-3.5 sm:p-4 font-bold text-white">مدیریت تکالیف و تقویم</td>
+                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                      <td className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">مدیریت تکالیف و تقویم</td>
                       <td className="p-3.5 sm:p-4">
-                        <span className="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 font-semibold text-[11px]">
+                        <span className="px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-transparent font-semibold text-[11px]">
                           ۱۰۰٪ دیجیتال (آنلاین)
                         </span>
                       </td>
                       <td className="p-3.5 sm:p-4">ورود ددلاین‌ها، یادآور امتحانات و نمره سلامت ترم</td>
-                      <td className="p-3.5 sm:p-4 text-emerald-400">حفظ داده، اولویت‌بندی هوشمند و هشدارهای دقیق</td>
-                      <td className="p-3.5 sm:p-4 text-slate-400">صحت تاریخ‌های وارد شده توسط دانشجو</td>
+                      <td className="p-3.5 sm:p-4 text-emerald-700 dark:text-emerald-400 font-medium">حفظ داده، اولویت‌بندی هوشمند و هشدارهای دقیق</td>
+                      <td className="p-3.5 sm:p-4 text-slate-500 dark:text-slate-400">صحت تاریخ‌های وارد شده توسط دانشجو</td>
                     </tr>
-                    <tr className="hover:bg-slate-800/30">
-                      <td className="p-3.5 sm:p-4 font-bold text-white">ثبت آگهی کتب و اقلام</td>
+                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                      <td className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">ثبت آگهی کتب و اقلام</td>
                       <td className="p-3.5 sm:p-4">
-                        <span className="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 font-semibold text-[11px]">
+                        <span className="px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-transparent font-semibold text-[11px]">
                           دیجیتال (آنلاین)
                         </span>
                       </td>
                       <td className="p-3.5 sm:p-4">درج مشخصات کتاب، تصویر، قیمت و وضعیت فیزیکی</td>
-                      <td className="p-3.5 sm:p-4 text-emerald-400">نمایش بهینه، فیلتر بر اساس دانشگاه و خوابگاه</td>
-                      <td className="p-3.5 sm:p-4 text-slate-400">صداقت در بیان خط‌خوردگی یا تمیزی کتاب</td>
+                      <td className="p-3.5 sm:p-4 text-emerald-700 dark:text-emerald-400 font-medium">نمایش بهینه، فیلتر بر اساس دانشگاه و خوابگاه</td>
+                      <td className="p-3.5 sm:p-4 text-slate-500 dark:text-slate-400">صداقت در بیان خط‌خوردگی یا تمیزی کتاب</td>
                     </tr>
-                    <tr className="hover:bg-slate-800/30">
-                      <td className="p-3.5 sm:p-4 font-bold text-white">مطالعه و نوت‌برداری PDF</td>
+                    <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                      <td className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">مطالعه و نوت‌برداری PDF</td>
                       <td className="p-3.5 sm:p-4">
-                        <span className="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 font-semibold text-[11px]">
+                        <span className="px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-transparent font-semibold text-[11px]">
                           دیجیتال (مستقل/آفلاین در کلاینت)
                         </span>
                       </td>
                       <td className="p-3.5 sm:p-4">باز کردن اسلایدها و درج یادداشت روی صفحات</td>
-                      <td className="p-3.5 sm:p-4 text-emerald-400">ذخیره سریع در حافظه محلی مرورگر و سرعت بالا</td>
-                      <td className="p-3.5 sm:p-4 text-slate-400">رعایت حقوق مولف و عدم انتشار فایل‌های محرمانه</td>
+                      <td className="p-3.5 sm:p-4 text-emerald-700 dark:text-emerald-400 font-medium">ذخیره سریع در حافظه محلی مرورگر و سرعت بالا</td>
+                      <td className="p-3.5 sm:p-4 text-slate-500 dark:text-slate-400">رعایت حقوق مولف و عدم انتشار فایل‌های محرمانه</td>
                     </tr>
                   </>
                 )}
 
                 {(offlineFilter === 'all' || offlineFilter === 'offline') && (
                   <>
-                    <tr className="hover:bg-slate-800/30 bg-purple-950/10">
-                      <td className="p-3.5 sm:p-4 font-bold text-white">هماهنگی محل تحویل کتاب</td>
+                    <tr className="hover:bg-purple-50/70 dark:hover:bg-slate-800/30 bg-purple-50/40 dark:bg-purple-950/10">
+                      <td className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">هماهنگی محل تحویل کتاب</td>
                       <td className="p-3.5 sm:p-4">
-                        <span className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-semibold text-[11px]">
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-transparent font-semibold text-[11px]">
                           هیبرید (آنلاین + ارتباط فردی)
                         </span>
                       </td>
                       <td className="p-3.5 sm:p-4">توافق روی زمان و مکان ملاقات در لابی دانشکده یا اتاق خوابگاه</td>
-                      <td className="p-3.5 sm:p-4 text-emerald-400">فراهم‌سازی راه‌های ارتباطی معتبر طرفین</td>
-                      <td className="p-3.5 sm:p-4 text-slate-400">حضور به‌موقع سر قرار و توافق بر زمان معقول</td>
+                      <td className="p-3.5 sm:p-4 text-emerald-700 dark:text-emerald-400 font-medium">فراهم‌سازی راه‌های ارتباطی معتبر طرفین</td>
+                      <td className="p-3.5 sm:p-4 text-slate-500 dark:text-slate-400">حضور به‌موقع سر قرار و توافق بر زمان معقول</td>
                     </tr>
-                    <tr className="hover:bg-slate-800/30 bg-purple-950/10">
-                      <td className="p-3.5 sm:p-4 font-bold text-white">تحویل فیزیکی و بررسی سلامت کالا</td>
+                    <tr className="hover:bg-purple-50/70 dark:hover:bg-slate-800/30 bg-purple-50/40 dark:bg-purple-950/10">
+                      <td className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">تحویل فیزیکی و بررسی سلامت کالا</td>
                       <td className="p-3.5 sm:p-4">
-                        <span className="px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300 font-semibold text-[11px]">
+                        <span className="px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-transparent font-semibold text-[11px]">
                           ۱۰۰٪ فیزیکی (آفلاین)
                         </span>
                       </td>
                       <td className="p-3.5 sm:p-4">رویت کتاب، تورق صفحات، چک کردن پارگی و سلامت فیزیکی</td>
-                      <td className="p-3.5 sm:p-4 text-slate-400">پلتفرم هیچ دخالت یا مسئولیتی در مبادله فیزیکی ندارد</td>
-                      <td className="p-3.5 sm:p-4 text-rose-300 font-semibold">تایید نهایی خریدار قبل از هرگونه پرداخت</td>
+                      <td className="p-3.5 sm:p-4 text-slate-500 dark:text-slate-400">پلتفرم هیچ دخالت یا مسئولیتی در مبادله فیزیکی ندارد</td>
+                      <td className="p-3.5 sm:p-4 text-rose-700 dark:text-rose-300 font-semibold">تایید نهایی خریدار قبل از هرگونه پرداخت</td>
                     </tr>
-                    <tr className="hover:bg-slate-800/30 bg-purple-950/10">
-                      <td className="p-3.5 sm:p-4 font-bold text-white">تسویه‌حساب مالی کتاب</td>
+                    <tr className="hover:bg-purple-50/70 dark:hover:bg-slate-800/30 bg-purple-50/40 dark:bg-purple-950/10">
+                      <td className="p-3.5 sm:p-4 font-bold text-slate-900 dark:text-white">تسویه‌حساب مالی کتاب</td>
                       <td className="p-3.5 sm:p-4">
-                        <span className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-semibold text-[11px]">
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-transparent font-semibold text-[11px]">
                           فاز ۱: کارت‌به‌کارت فیزیکی / فاز ۲: امانی
                         </span>
                       </td>
                       <td className="p-3.5 sm:p-4">پرداخت وجه به فروشنده پس از رویت کالا</td>
-                      <td className="p-3.5 sm:p-4 text-slate-400">فاز ۱: عدم مسئولیت در مبادله دستی وجه</td>
-                      <td className="p-3.5 sm:p-4 text-slate-400">خودداری خریدار از پرداخت بیعانه قبل از رویت فیزیکی کالا</td>
+                      <td className="p-3.5 sm:p-4 text-slate-500 dark:text-slate-400">فاز ۱: عدم مسئولیت در مبادله دستی وجه</td>
+                      <td className="p-3.5 sm:p-4 text-slate-500 dark:text-slate-400">خودداری خریدار از پرداخت بیعانه قبل از رویت فیزیکی کالا</td>
                     </tr>
                   </>
                 )}
@@ -1392,39 +1421,39 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
           <div className="md:hidden space-y-3">
             {(offlineFilter === 'all' || offlineFilter === 'online') && (
               <>
-                <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white text-xs">مدیریت تکالیف و تقویم</span>
-                    <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px] font-bold">۱۰۰٪ آنلاین</span>
+                    <span className="font-bold text-slate-900 dark:text-white text-xs">مدیریت تکالیف و تقویم</span>
+                    <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold">۱۰۰٪ آنلاین</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">ورود ددلاین‌ها، یادآور امتحانات و نمره سلامت ترم</p>
-                  <div className="pt-2 border-t border-slate-800 text-[11px] space-y-1">
-                    <div className="text-emerald-400"><strong>مسئولیت پلتفرم:</strong> حفظ داده و هشدارهای دقیق</div>
-                    <div className="text-slate-400"><strong>مسئولیت کاربر:</strong> صحت تاریخ‌های وارد شده توسط دانشجو</div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300">ورود ددلاین‌ها، یادآور امتحانات و نمره سلامت ترم</p>
+                  <div className="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] space-y-1">
+                    <div className="text-emerald-700 dark:text-emerald-400"><strong>مسئولیت پلتفرم:</strong> حفظ داده و هشدارهای دقیق</div>
+                    <div className="text-slate-500 dark:text-slate-400"><strong>مسئولیت کاربر:</strong> صحت تاریخ‌های وارد شده توسط دانشجو</div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white text-xs">ثبت آگهی کتب و اقلام</span>
-                    <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px] font-bold">آنلاین</span>
+                    <span className="font-bold text-slate-900 dark:text-white text-xs">ثبت آگهی کتب و اقلام</span>
+                    <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold">آنلاین</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">درج مشخصات کتاب، تصویر، قیمت و وضعیت فیزیکی</p>
-                  <div className="pt-2 border-t border-slate-800 text-[11px] space-y-1">
-                    <div className="text-emerald-400"><strong>مسئولیت پلتفرم:</strong> نمایش بهینه و فیلتر دانشگاه/خوابگاه</div>
-                    <div className="text-slate-400"><strong>مسئولیت کاربر:</strong> صداقت در بیان خط‌خوردگی یا تمیزی کتاب</div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300">درج مشخصات کتاب، تصویر، قیمت و وضعیت فیزیکی</p>
+                  <div className="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] space-y-1">
+                    <div className="text-emerald-700 dark:text-emerald-400"><strong>مسئولیت پلتفرم:</strong> نمایش بهینه و فیلتر دانشگاه/خوابگاه</div>
+                    <div className="text-slate-500 dark:text-slate-400"><strong>مسئولیت کاربر:</strong> صداقت در بیان خط‌خوردگی یا تمیزی کتاب</div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white text-xs">مطالعه و نوت‌برداری PDF</span>
-                    <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px] font-bold">آفلاین کلاینت</span>
+                    <span className="font-bold text-slate-900 dark:text-white text-xs">مطالعه و نوت‌برداری PDF</span>
+                    <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold">آفلاین کلاینت</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">باز کردن اسلایدها و درج یادداشت روی صفحات</p>
-                  <div className="pt-2 border-t border-slate-800 text-[11px] space-y-1">
-                    <div className="text-emerald-400"><strong>مسئولیت پلتفرم:</strong> ذخیره سریع در حافظه محلی مرورگر</div>
-                    <div className="text-slate-400"><strong>مسئولیت کاربر:</strong> رعایت حقوق مولف و عدم انتشار فایل محرمانه</div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300">باز کردن اسلایدها و درج یادداشت روی صفحات</p>
+                  <div className="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] space-y-1">
+                    <div className="text-emerald-700 dark:text-emerald-400"><strong>مسئولیت پلتفرم:</strong> ذخیره سریع در حافظه محلی مرورگر</div>
+                    <div className="text-slate-500 dark:text-slate-400"><strong>مسئولیت کاربر:</strong> رعایت حقوق مولف و عدم انتشار فایل محرمانه</div>
                   </div>
                 </div>
               </>
@@ -1432,39 +1461,39 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
 
             {(offlineFilter === 'all' || offlineFilter === 'offline') && (
               <>
-                <div className="p-3.5 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-2">
+                <div className="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-500/30 space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white text-xs">هماهنگی محل تحویل کتاب</span>
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold">هیبرید</span>
+                    <span className="font-bold text-slate-900 dark:text-white text-xs">هماهنگی محل تحویل کتاب</span>
+                    <span className="px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[10px] font-bold">هیبرید</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">توافق روی زمان و مکان ملاقات در لابی دانشکده یا اتاق خوابگاه</p>
-                  <div className="pt-2 border-t border-purple-900/50 text-[11px] space-y-1">
-                    <div className="text-emerald-400"><strong>مسئولیت پلتفرم:</strong> فراهم‌سازی راه‌های ارتباطی معتبر طرفین</div>
-                    <div className="text-slate-400"><strong>مسئولیت کاربر:</strong> حضور به‌موقع سر قرار در دانشگاه</div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300">توافق روی زمان و مکان ملاقات در لابی دانشکده یا اتاق خوابگاه</p>
+                  <div className="pt-2 border-t border-purple-200 dark:border-purple-900/50 text-[11px] space-y-1">
+                    <div className="text-emerald-700 dark:text-emerald-400"><strong>مسئولیت پلتفرم:</strong> فراهم‌سازی راه‌های ارتباطی معتبر طرفین</div>
+                    <div className="text-slate-500 dark:text-slate-400"><strong>مسئولیت کاربر:</strong> حضور به‌موقع سر قرار در دانشگاه</div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-2">
+                <div className="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-500/30 space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white text-xs">تحویل فیزیکی و بررسی سلامت کالا</span>
-                    <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 text-[10px] font-bold">۱۰۰٪ فیزیکی</span>
+                    <span className="font-bold text-slate-900 dark:text-white text-xs">تحویل فیزیکی و بررسی سلامت کالا</span>
+                    <span className="px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 text-[10px] font-bold">۱۰۰٪ فیزیکی</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">رویت کتاب، تورق صفحات، چک کردن پارگی و سلامت فیزیکی</p>
-                  <div className="pt-2 border-t border-purple-900/50 text-[11px] space-y-1">
-                    <div className="text-slate-400"><strong>مسئولیت پلتفرم:</strong> پلتفرم دخالتی در مبادله فیزیکی ندارد</div>
-                    <div className="text-rose-300 font-semibold"><strong>مسئولیت کاربر:</strong> تایید نهایی خریدار قبل از هرگونه پرداخت</div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300">رویت کتاب، تورق صفحات، چک کردن پارگی و سلامت فیزیکی</p>
+                  <div className="pt-2 border-t border-purple-200 dark:border-purple-900/50 text-[11px] space-y-1">
+                    <div className="text-slate-500 dark:text-slate-400"><strong>مسئولیت پلتفرم:</strong> پلتفرم دخالتی در مبادله فیزیکی ندارد</div>
+                    <div className="text-rose-700 dark:text-rose-300 font-semibold"><strong>مسئولیت کاربر:</strong> تایید نهایی خریدار قبل از هرگونه پرداخت</div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-2">
+                <div className="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-500/30 space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white text-xs">تسویه‌حساب مالی کتاب</span>
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold">کارت‌به‌کارت</span>
+                    <span className="font-bold text-slate-900 dark:text-white text-xs">تسویه‌حساب مالی کتاب</span>
+                    <span className="px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[10px] font-bold">کارت‌به‌کارت</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">پرداخت وجه به فروشنده پس از رویت کالا</p>
-                  <div className="pt-2 border-t border-purple-900/50 text-[11px] space-y-1">
-                    <div className="text-slate-400"><strong>مسئولیت پلتفرم:</strong> فاز ۱: عدم مسئولیت در مبادله دستی وجه</div>
-                    <div className="text-slate-300"><strong>مسئولیت کاربر:</strong> خودداری از پرداخت بیعانه قبل از رویت فیزیکی</div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-300">پرداخت وجه به فروشنده پس از رویت کالا</p>
+                  <div className="pt-2 border-t border-purple-200 dark:border-purple-900/50 text-[11px] space-y-1">
+                    <div className="text-slate-500 dark:text-slate-400"><strong>مسئولیت پلتفرم:</strong> فاز ۱: عدم مسئولیت در مبادله دستی وجه</div>
+                    <div className="text-slate-700 dark:text-slate-300"><strong>مسئولیت کاربر:</strong> خودداری از پرداخت بیعانه قبل از رویت فیزیکی</div>
                   </div>
                 </div>
               </>
@@ -1476,103 +1505,103 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 7: تعریف و مرزهای MVP */}
         {/* ========================================================= */}
         <section id="mvp-definition" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-1.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-1.5">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش هفتم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش هفتم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 تعریف حداقل محصول پذیرفتنی (MVP) و مرزبندی قابلیت‌ها
               </h2>
             </div>
-            <span className="text-xs text-slate-400">ماتریس اولویت‌بندی فیچرها</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">ماتریس اولویت‌بندی فیچرها</span>
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed print:text-slate-700">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed print:text-slate-700">
             بر اساس متدولوژی Lean Startup، ارائه قابلیت‌های زائد نه تنها باعث اتلاف بودجه می‌شود بلکه کاربر را سردرگم می‌کند. در اینجا مرزهای صریح نسخه فعلی، برنامه‌های آتی و موارد کنار گذاشته‌شده تفکیک شده‌اند:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-5">
             {/* Phase 1: MVP Core (Currently active) */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-indigo-950/30 border-2 border-indigo-500/50 space-y-3 sm:space-y-4">
+            <div className="p-4 sm:p-5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/30 border-2 border-indigo-400 dark:border-indigo-500/50 shadow-sm dark:shadow-none space-y-3 sm:space-y-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-500 text-white shrink-0">
+                <span className="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-600 dark:bg-indigo-500 text-white shrink-0">
                   فاز اول (MVP فعال)
                 </span>
-                <span className="text-[10px] sm:text-[11px] text-emerald-400 font-bold truncate">پیاده‌سازی‌شده در ورسل</span>
+                <span className="text-[10px] sm:text-[11px] text-emerald-700 dark:text-emerald-400 font-bold truncate">پیاده‌سازی‌شده در ورسل</span>
               </div>
-              <h3 className="font-bold text-sm sm:text-base text-white">امکانات الزامی و هسته اولیه</h3>
-              <ul className="text-xs text-slate-300 space-y-2">
+              <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">امکانات الزامی و هسته اولیه</h3>
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2">
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>داشبورد یکپارچه تحصیلی:</strong> خلاصه اولویت‌های روز، کوییزهای در پیش و شاخص سلامت ترم.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>جدول برنامه هفتگی با Collision Detection:</strong> تشخیص تداخل ساعات دروس کلاسی.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>مدیریت تکالیف و امتحانات:</strong> با پشتیبانی از تاریخ شمسی و میلادی و شمارنده فرجه.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>کتابخانه منابع و اسناد (Vault):</strong> پیش‌نمایش درون‌برنامه‌ای فایل‌های PDF و نوت‌نویسی بدون نیاز به فیلترشکن.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span><strong>بازارچه تبادل و نیازمندی‌های خوابگاهی:</strong> ثبت آگهی کتاب با فیلتر خوابگاه و وضعیت اقلام.</span>
                 </li>
               </ul>
             </div>
 
             {/* Phase 2: Deferred Growth */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3 sm:space-y-4">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-3 sm:space-y-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-md bg-purple-500/20 text-purple-300 shrink-0">
+                <span className="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-md bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300 shrink-0">
                   فاز دوم (توسعه آتی)
                 </span>
-                <span className="text-[10px] sm:text-[11px] text-slate-400 truncate">پس از اعتبارسنجی پایلوت</span>
+                <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">پس از اعتبارسنجی پایلوت</span>
               </div>
-              <h3 className="font-bold text-sm sm:text-base text-white">امکانات موکول به آینده</h3>
-              <ul className="text-xs text-slate-300 space-y-2">
+              <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">امکانات موکول به آینده</h3>
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2">
                 <li className="flex items-start gap-2">
-                  <Clock className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                   <span><strong>درگاه پرداخت امن امانی (Escrow):</strong> نگه‌داری پول در حساب واسط تا تایید فیزیکی کتاب توسط دانشجو.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Clock className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                   <span><strong>چت متنی درون‌برنامه‌ای:</strong> مکالمه مستقیم خریدار و فروشنده بدون نیاز به اشتراک شماره تماس.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Clock className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                   <span><strong>اشتراک گروهی جزوه با لینک اختصاصی:</strong> امکان ساخت کلاب‌های مطالعه کلاسی.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Clock className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                   <span><strong>اپلیکیشن نصب‌شونده موبایل (PWA پیشرفته):</strong> دریافت نوتیفیکیشن ددلاین در موبایل.</span>
                 </li>
               </ul>
             </div>
 
             {/* Omitted Complexities */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-rose-500/20 space-y-3 sm:space-y-4">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/40 border border-rose-200 dark:border-rose-500/20 shadow-sm dark:shadow-none space-y-3 sm:space-y-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-md bg-rose-500/20 text-rose-300 shrink-0">
+                <span className="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-md bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 shrink-0">
                   حذف از دامنه (Out of Scope)
                 </span>
-                <span className="text-[10px] sm:text-[11px] text-rose-400 font-bold truncate">پیچیدگی غیرضروری</span>
+                <span className="text-[10px] sm:text-[11px] text-rose-600 dark:text-rose-400 font-bold truncate">پیچیدگی غیرضروری</span>
               </div>
-              <h3 className="font-bold text-sm sm:text-base text-white">امکانات حذف‌شده به دلیل ریسک</h3>
-              <ul className="text-xs text-slate-400 space-y-2">
+              <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">امکانات حذف‌شده به دلیل ریسک</h3>
+              <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-2">
                 <li className="flex items-start gap-2">
-                  <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                   <span><strong>اتصال خودکار به سیستم گلستان/آموزشیار:</strong> ریسک بالای امنیتی، نبود API رسمی و احتمال فیلتر یا شکایت حراست.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                   <span><strong>سیستم پیک اختصاصی درون‌شهری:</strong> هزینه فوق‌العاده سنگین لجستیکی و خروج از مدل پلتفرمی بدون‌دارایی (Asset-Light).</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                   <span><strong>چت‌بات‌های عمومی LLM پرمصرف:</strong> هزینه دلاری نامعقول API و دور شدن از نیازهای عینی دانشجو.</span>
                 </li>
               </ul>
@@ -1584,14 +1613,14 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 8: سناریوهای عملیاتی گام‌به‌گام */}
         {/* ========================================================= */}
         <section id="scenarios" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-1.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-1.5">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش هشتم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش هشتم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 سناریوهای عملیاتی واقعی (User Journey Maps)
               </h2>
             </div>
-            <span className="text-xs text-slate-400">روایت ملموس از چرخه حیات کاربر در سامانه</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">روایت ملموس از چرخه حیات کاربر در سامانه</span>
           </div>
 
           {/* Interactive Visual Customer Journey Pipeline */}
@@ -1605,59 +1634,59 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
           </div>
 
           <div className="space-y-4 sm:space-y-6 pt-2">
-            <div className="border-b border-slate-800/80 pb-2">
-              <h3 className="text-sm font-bold text-slate-300">
+            <div className="border-b border-slate-200 dark:border-slate-800/80 pb-2">
+              <h3 className="text-sm font-bold text-slate-800 dark:text-slate-300">
                 روایت‌های موردی (۳ سناریوی شبیه‌سازی‌شده در بستر خوابگاه و دانشکده):
               </h3>
             </div>
             {/* Scenario 1 */}
-            <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
+            <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 sm:gap-3">
-                  <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs sm:text-sm shrink-0">
+                  <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center text-xs sm:text-sm shrink-0">
                     ۱
                   </span>
                   <div>
-                    <h3 className="font-bold text-white text-sm sm:text-base lg:text-lg print:text-black">
+                    <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base lg:text-lg print:text-black">
                       مدیریت بحران فرجه‌ها و تکالیف شب امتحان
                     </h3>
-                    <p className="text-[11px] sm:text-xs text-slate-400">کاربر: سارا — دانشجوی ترم چهارم مهندسی کامپیوتر در هفته دهم ترم</p>
+                    <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">کاربر: سارا — دانشجوی ترم چهارم مهندسی کامپیوتر در هفته دهم ترم</p>
                   </div>
                 </div>
-                <span className="self-start sm:self-auto text-[10px] sm:text-xs px-2.5 py-1 rounded-md bg-indigo-500/20 text-indigo-300">
+                <span className="self-start sm:self-auto text-[10px] sm:text-xs px-2.5 py-1 rounded-md bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-transparent font-medium">
                   وظایف + اسناد + سلامت ترم
                 </span>
               </div>
 
               {/* 5-Step Process */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 pt-1">
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
-                  <span className="text-[10px] font-bold text-indigo-400">گام ۱: ورود و وضعیت</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+                  <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400">گام ۱: ورود و وضعیت</span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     سارا وارد داشبورد شده و نمره سلامت ترم را روی ۵۸٪ (هشدار) می‌بیند؛ ۳ تکلیف با فرجه کمتر از ۲ روز باقی است.
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
-                  <span className="text-[10px] font-bold text-indigo-400">گام ۲: انتخاب اولویت</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+                  <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400">گام ۲: انتخاب اولویت</span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     روی «تمرین ۳ ساختمان داده‌ها» کلیک کرده و فایل PDF صورت سوالات مستقیماً در کتابخانه باز می‌شود.
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
-                  <span className="text-[10px] font-bold text-indigo-400">گام ۳: تایمر تمرکز</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+                  <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400">گام ۳: تایمر تمرکز</span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     تایمر ۲۵ دقیقه‌ای پومودورو را روشن کرده و نکات حل تمرین را در بخش یادداشت‌های فایل ثبت می‌نماید.
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
-                  <span className="text-[10px] font-bold text-indigo-400">گام ۴: تکمیل تکلیف</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+                  <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400">گام ۴: تکمیل تکلیف</span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     پس از اتمام حل سوالات، گزینه «انجام شد» را علامت می‌زند؛ زمان مطالعه به آمار هفتگی اضافه می‌گردد.
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 space-y-1.5 sm:col-span-2 md:col-span-1">
-                  <span className="text-[10px] font-bold text-emerald-400">گام ۵: نتیجه نهایی</span>
-                  <p className="text-xs text-slate-200 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-500/30 space-y-1.5 sm:col-span-2 md:col-span-1">
+                  <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400">گام ۵: نتیجه نهایی</span>
+                  <p className="text-xs text-emerald-900 dark:text-slate-200 leading-relaxed">
                     نمره سلامت ترم سارا به ۷۶٪ ارتقا می‌یابد، استرس وی کاهش یافته و احساس تسلط کامل بر امتحانات ترم پیدا می‌کند.
                   </p>
                 </div>
@@ -1665,53 +1694,53 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Scenario 2 */}
-            <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
+            <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none backdrop-blur-md space-y-3.5 sm:space-y-4 print:border-slate-300 print:bg-white">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 sm:gap-3">
-                  <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center text-xs sm:text-sm shrink-0">
+                  <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 font-bold flex items-center justify-center text-xs sm:text-sm shrink-0">
                     ۲
                   </span>
                   <div>
-                    <h3 className="font-bold text-white text-sm sm:text-base lg:text-lg print:text-black">
+                    <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base lg:text-lg print:text-black">
                       تهیه کتاب مرجع فیزیکی و مبادله در خوابگاه
                     </h3>
-                    <p className="text-[11px] sm:text-xs text-slate-400">کاربر: علی — دانشجوی سال اول خوابگاهی در جستجوی کتاب ریاضی ۲</p>
+                    <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">کاربر: علی — دانشجوی سال اول خوابگاهی در جستجوی کتاب ریاضی ۲</p>
                   </div>
                 </div>
-                <span className="self-start sm:self-auto text-[10px] sm:text-xs px-2.5 py-1 rounded-md bg-purple-500/20 text-purple-300">
+                <span className="self-start sm:self-auto text-[10px] sm:text-xs px-2.5 py-1 rounded-md bg-purple-50 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-transparent font-medium">
                   بازارچه دانشجویی و نیازمندی‌ها
                 </span>
               </div>
 
               {/* 5-Step Process */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 pt-1">
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
-                  <span className="text-[10px] font-bold text-purple-400">گام ۱: جستجوی منبع</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+                  <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400">گام ۱: جستجوی منبع</span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     علی متوجه قیمت ۶۵۰ هزار تومانی کتاب نو شده و به تب بازارچه رفته و «حساب دیفرانسیل توماس» را جستجو می‌کند.
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
-                  <span className="text-[10px] font-bold text-purple-400">گام ۲: فیلتر خوابگاه</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+                  <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400">گام ۲: فیلتر خوابگاه</span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     با فیلتر خوابگاه خود، آگهی دانشجوی بلوک ۳ را پیدا می‌کند که کتاب را به قیمت ۲۰۰ هزار تومان آگهی کرده است.
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
-                  <span className="text-[10px] font-bold text-purple-400">گام ۳: هماهنگی قرار</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+                  <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400">گام ۳: هماهنگی قرار</span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     از طریق اطلاعات تماس هماهنگ کرده و برای ساعت ۲۱ در لابی بلوک خوابگاه قرار ملاقات می‌گذارند.
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
-                  <span className="text-[10px] font-bold text-purple-400">گام ۴: بازبینی و تسویه</span>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+                  <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400">گام ۴: بازبینی و تسویه</span>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     علی کتاب را بررسی کرده، از تمیزی صفحات مطمئن می‌شود و مبلغ توافقی را حضوری کارت‌به‌کارت می‌کند.
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 space-y-1.5 sm:col-span-2 md:col-span-1">
-                  <span className="text-[10px] font-bold text-emerald-400">گام ۵: نتیجه نهایی</span>
-                  <p className="text-xs text-slate-200 leading-relaxed">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-500/30 space-y-1.5 sm:col-span-2 md:col-span-1">
+                  <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400">گام ۵: نتیجه نهایی</span>
+                  <p className="text-xs text-emerald-900 dark:text-slate-200 leading-relaxed">
                     علی ۴۵۰ هزار تومان صرفه‌جویی کرده، فروشنده درآمد کسب کرده و هر دو از معامله امن محلی در کمتر از ۲ ساعت رضایت دارند.
                   </p>
                 </div>
@@ -1724,62 +1753,62 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 9: برنامه اعتبارسنجی اولیه */}
         {/* ========================================================= */}
         <section id="validation-plan" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-2">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش نهم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش نهم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 برنامه پیشنهادی اعتبارسنجی اولیه بازار (طرح پایلوت دانشگاهی)
               </h2>
             </div>
-            <span className="self-start sm:self-auto text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">
+            <span className="self-start sm:self-auto text-xs px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-400 border border-amber-300 dark:border-amber-500/20 font-bold">
               پیشنهاد پژوهشی (فاقد آمار جعلی)
             </span>
           </div>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200 leading-relaxed">
+          <div className="p-4 sm:p-5 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/20 text-xs text-amber-950 dark:text-amber-200 leading-relaxed">
             📢 <strong>تعهد به صداقت دانشگاهی:</strong> اطلاعات این بخش، چارچوب تجربی پیشنهادی برای راستی‌آزمایی فرضیات کسب‌وکار است و نباید به عنوان پروژه‌ای که قبلاً با اعداد واقعی به اتمام رسیده تلقی گردد.
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2.5 sm:space-y-3">
-              <h3 className="font-bold text-white text-sm sm:text-base">طراحی پروتکل پایلوت تجربی</h3>
-              <ul className="text-xs text-slate-300 space-y-2 leading-relaxed">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-2.5 sm:space-y-3">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">طراحی پروتکل پایلوت تجربی</h3>
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
                 <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 font-bold text-[10px]">۱</span>
+                  <span className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0 font-bold text-[10px]">۱</span>
                   <span><strong>محل اجرای آزمایشی:</strong> دو دانشکده مهندسی برق و کامپیوتر در یک دانشگاه دولتی مرکزی.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 font-bold text-[10px]">۲</span>
+                  <span className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0 font-bold text-[10px]">۲</span>
                   <span><strong>جامعه نمونه:</strong> ۶۰ تا ۱۰۰ نفر از دانشجویان ترم‌های ۲، ۴ و ۶.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 font-bold text-[10px]">۳</span>
+                  <span className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0 font-bold text-[10px]">۳</span>
                   <span><strong>بازه زمانی تست:</strong> ۶ هفته متوالی (از ۳ هفته پیش از امتحانات میان‌ترم تا ۲ هفته پس از آن).</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 font-bold text-[10px]">۴</span>
+                  <span className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0 font-bold text-[10px]">۴</span>
                   <span><strong>کانال جذب تسترها:</strong> همکاری با انجمن علمی دانشجویی و معرفی در کانال رسمی ورودی‌ها.</span>
                 </li>
               </ul>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2.5 sm:space-y-3">
-              <h3 className="font-bold text-white text-sm sm:text-base">شاخص‌های کلیدی اعتبارسنجی (Metrics)</h3>
-              <ul className="text-xs text-slate-300 space-y-2 leading-relaxed">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none space-y-2.5 sm:space-y-3">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">شاخص‌های کلیدی اعتبارسنجی (Metrics)</h3>
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
                 <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 font-bold text-[10px]">A</span>
+                  <span className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0 font-bold text-[10px]">A</span>
                   <span><strong>نرخ تکمیل ثبت برنامه (Activation):</strong> چه درصدی از تست‌کنندگان کل ۵ درس ترم خود را وارد سامانه کردند؟ (معیار پذیرش: &gt; ۶۰٪)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 font-bold text-[10px]">B</span>
+                  <span className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0 font-bold text-[10px]">B</span>
                   <span><strong>نرخ بازگشت هفتگی (Weekly Retention):</strong> چند درصد تسترها در هفته سوم و چهارم مجدداً وارد سامانه شدند؟ (معیار پذیرش: &gt; ۴۰٪)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 font-bold text-[10px]">C</span>
+                  <span className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0 font-bold text-[10px]">C</span>
                   <span><strong>تراکنش بازارچه (Marketplace Velocity):</strong> ثبت حداقل ۲۰ آگهی کتاب و انجام حداقل ۵ معامله موفق حضوری در بازه آزمایشی.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 font-bold text-[10px]">D</span>
+                  <span className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0 font-bold text-[10px]">D</span>
                   <span><strong>پرسشنامه ارزیابی رضایت (NPS):</strong> سنجش تمایل به توصیه ترمیار به هم‌کلاسی‌ها (هدف: نمره بالای +۴۰).</span>
                 </li>
               </ul>
@@ -1791,25 +1820,25 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         {/* SECTION 10: جمع‌بندی تحلیلی و ماتریس استراتژیک */}
         {/* ========================================================= */}
         <section id="synthesis" className="scroll-mt-28 space-y-4 sm:space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 sm:pb-4 gap-1.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4 gap-1.5">
             <div>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">بخش دهم</span>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white print:text-black">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">بخش دهم</span>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white print:text-black">
                 جمع‌بندی تحلیلی، ریسک‌ها و تصمیم استراتژیک
               </h2>
             </div>
-            <span className="text-xs text-slate-400">سنتز نهایی طرح کسب‌وکار</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">سنتز نهایی طرح کسب‌وکار</span>
           </div>
 
           {/* SWOT Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
             {/* Strengths */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-2">
-              <h4 className="font-bold text-emerald-400 text-xs sm:text-sm flex items-center gap-2">
+            <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-500/30 shadow-sm dark:shadow-none space-y-2">
+              <h4 className="font-bold text-emerald-700 dark:text-emerald-400 text-xs sm:text-sm flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>نقاط قوت کلیدی (Strengths)</span>
               </h4>
-              <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-1.5 list-disc list-inside">
                 <li>یکپارچگی کاربردی چند ابزار مجزا در یک رابط مدرن و چشم‌نواز (UI/UX تمیز).</li>
                 <li>بومی‌سازی کامل با تقویم شمسی و اصطلاحات آموزش عالی ایران.</li>
                 <li>هزینه صفر تا نزدیک به صفر زیرساخت در فاز اول (بهره‌گیری از IndexedDB مرورگر).</li>
@@ -1818,12 +1847,12 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Weaknesses */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-rose-950/20 border border-rose-500/30 space-y-2">
-              <h4 className="font-bold text-rose-400 text-xs sm:text-sm flex items-center gap-2">
+            <div className="p-4 sm:p-5 rounded-2xl bg-rose-50/70 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-500/30 shadow-sm dark:shadow-none space-y-2">
+              <h4 className="font-bold text-rose-700 dark:text-rose-400 text-xs sm:text-sm flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 shrink-0" />
                 <span>نقاط ضعف و محدودیت‌ها (Weaknesses)</span>
               </h4>
-              <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-1.5 list-disc list-inside">
                 <li>نیاز به ورود دستی مشخصات دروس و امتحانات در غیاب API سامانه‌های دانشگاهی.</li>
                 <li>نبود اپلیکیشن نیتیو موبایل (اندروید/iOS) در گام اولیه.</li>
                 <li>اتکای بازارچه به تراکم فیزیکی دانشجویان در یک خوابگاه یا دانشکده خاص.</li>
@@ -1831,12 +1860,12 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Opportunities */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-cyan-950/20 border border-cyan-500/30 space-y-2">
-              <h4 className="font-bold text-cyan-400 text-xs sm:text-sm flex items-center gap-2">
+            <div className="p-4 sm:p-5 rounded-2xl bg-cyan-50/70 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-500/30 shadow-sm dark:shadow-none space-y-2">
+              <h4 className="font-bold text-cyan-800 dark:text-cyan-400 text-xs sm:text-sm flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 shrink-0" />
                 <span>فرصت‌های رشد بازار (Opportunities)</span>
               </h4>
-              <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-1.5 list-disc list-inside">
                 <li>افزایش تصاعدی قیمت کاغذ و کتاب‌های نو که تقاضای کتب دست‌دوم را به اوج رسانده است.</li>
                 <li>فیلترینگ تلگرام و واتساپ که باعث تمایل به ابزارهای وب‌محور پایدار بدون قطعی شده است.</li>
                 <li>پتانسیل جذب اسپانسرهای دانشجویی (کلاس‌های کنکور ارشد، پلتفرم‌های کاریابی کارآموزی).</li>
@@ -1844,12 +1873,12 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
             </div>
 
             {/* Threats */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-amber-950/20 border border-amber-500/30 space-y-2">
-              <h4 className="font-bold text-amber-400 text-xs sm:text-sm flex items-center gap-2">
+            <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-500/30 shadow-sm dark:shadow-none space-y-2">
+              <h4 className="font-bold text-amber-800 dark:text-amber-400 text-xs sm:text-sm flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 shrink-0" />
                 <span>ریسک‌ها و تهدیدهای احتمالی (Threats)</span>
               </h4>
-              <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+              <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-1.5 list-disc list-inside">
                 <li>اینرسی رفتاری شدید دانشجویان و مقاومت در برابر مهاجرت از کانال‌های تلگرامی.</li>
                 <li>چرخه حیات ۴ ساله دانشجو (نیاز مداوم به بازاریابی برای ورودی‌های جدید).</li>
                 <li>عدم توازن عرضه و تقاضا در کتاب‌های تخصصی رشته‌های کم‌جمعیت.</li>
@@ -1858,20 +1887,20 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
           </div>
 
           {/* Strategic Conclusion Card */}
-          <div className="p-4 sm:p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-indigo-950/60 via-slate-900 to-purple-950/50 border border-indigo-500/40 space-y-3 sm:space-y-4">
-            <h3 className="font-black text-sm sm:text-base lg:text-lg text-white">
+          <div className="p-4 sm:p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-950/60 dark:via-slate-900 dark:to-purple-950/50 border border-indigo-200 dark:border-indigo-500/40 shadow-sm dark:shadow-none space-y-3 sm:space-y-4">
+            <h3 className="font-black text-sm sm:text-base lg:text-lg text-slate-900 dark:text-white">
               نتیجه‌گیری نهایی و پیشنهاد مشورتی جهت دفاع دانشگاهی:
             </h3>
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
               «طرح کسب‌وکار <strong>ترمیار (TermYar)</strong> روی نیازی ملموس و مستمر بنا نهاده شده است. نسخه اولیه پیاده‌سازی‌شده با برخورداری از جدول برنامه هفتگی، شمارنده فرجه‌ها، کتابخانه فایل‌های درسی و بازارچه دانشجویی، گام نخست (MVP) را با موفقیت اثبات کرده است.
             </p>
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
               <strong>توصیه مشورتی:</strong> برای تبدیل این پروژه دانشگاهی به یک استارتاپ پایدار تجاری، بنیان‌گذاران نباید به سمت هزینه‌های سنگین سرور یا چت‌بات‌های غیرضروری حرکت کنند. تمرکز حیاتی در این مرحله، <strong>اعتبارسنجی پایلوت در دو دانشکده با حل چالش اصطکاک ورود دستی دروس (با امکان دعوت هم‌کلاسی‌ها)</strong> و ایجاد نقدشوندگی در بازارچه کتاب است. در صورت دستیابی به Retention بالای ۴۰٪ در پایلوت، این مدل ظرفیت جذب سرمایه بذری و توسعه به سایر دانشگاه‌های کشور را دارا خواهد بود.»
             </p>
 
             {/* Bottom Actions inside the dossier */}
-            <div className="pt-4 border-t border-indigo-500/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
-              <div className="text-[11px] sm:text-xs text-slate-400">
+            <div className="pt-4 border-t border-indigo-200 dark:border-indigo-500/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
+              <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
                 پایان پرونده تحلیلی • تهیه شده جهت ارائه در درس تجارت الکترونیک دانشگاه
               </div>
               <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end flex-wrap">
@@ -1880,13 +1909,13 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                     onClick={onSwitchToLiveApp}
                     className="px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md transition-all flex items-center justify-center gap-2 flex-1 sm:flex-initial"
                   >
-                    <Laptop className="w-4 h-4 text-cyan-300" />
+                    <Laptop className="w-4 h-4 text-cyan-200 dark:text-cyan-300" />
                     <span>ورود مستقیم به سامانه ترم‌یار</span>
                   </button>
                 )}
                 <button
                   onClick={handlePrint}
-                  className="px-3.5 sm:px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
+                  className="px-3.5 sm:px-4 py-2 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 shadow-xs dark:shadow-none transition-colors flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
                 >
                   <Printer className="w-3.5 h-3.5" />
                   <span>چاپ سند</span>
@@ -1902,11 +1931,11 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
         aria-label="نوار پیشرفت مطالعه پرونده"
         className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-40 print:hidden animate-in fade-in slide-in-from-bottom-2 duration-300"
       >
-        <div className="bg-[#0B1020]/90 backdrop-blur-2xl border border-white/[0.14] rounded-2xl p-2 sm:p-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)] flex items-center gap-2.5 sm:gap-3 transition-all hover:border-[#663AF3]/50 hover:shadow-[0_8px_32px_rgba(102,58,243,0.3)] group">
+        <div className="bg-white dark:bg-[#0B1020]/90 dark:backdrop-blur-2xl border border-slate-200 dark:border-white/[0.14] rounded-2xl p-2 sm:p-2.5 shadow-xl dark:shadow-[0_8px_32px_rgba(0,0,0,0.6)] flex items-center gap-2.5 sm:gap-3 transition-all hover:border-[#663AF3]/50 hover:shadow-[0_8px_32px_rgba(102,58,243,0.2)] dark:hover:shadow-[0_8px_32px_rgba(102,58,243,0.3)] group">
           {/* Radial Circular Gauge */}
           <div className="relative w-8 h-8 sm:w-9 sm:h-9 shrink-0 flex items-center justify-center">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-              <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="3.2" />
+              <circle cx="18" cy="18" r="14" fill="none" className="stroke-slate-200 dark:stroke-white/10" strokeWidth="3.2" />
               <circle
                 cx="18"
                 cy="18"
@@ -1927,7 +1956,7 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
                 </linearGradient>
               </defs>
             </svg>
-            <span className="absolute text-[9px] sm:text-[10px] font-black text-[#F1F3FA] tabular-nums">
+            <span className="absolute text-[9px] sm:text-[10px] font-black text-slate-900 dark:text-[#F1F3FA] tabular-nums">
               {toPersianDigits(Math.round(scrollProgress))}٪
             </span>
           </div>
@@ -1935,16 +1964,16 @@ export const BusinessDossierView: React.FC<BusinessDossierViewProps> = ({ onSwit
           {/* Section details */}
           <div className="min-w-0 pr-0.5">
             <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#65D5FF] shadow-[0_0_8px_#65D5FF] animate-pulse shrink-0" />
-              <span className="text-[10px] text-slate-400 font-medium leading-none">پیشرفت مطالعه پرونده</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-[#65D5FF] dark:shadow-[0_0_8px_#65D5FF] animate-pulse shrink-0" />
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-none">پیشرفت مطالعه پرونده</span>
             </div>
-            <div className="text-[11px] sm:text-xs font-bold text-slate-200 truncate max-w-[130px] sm:max-w-[200px] mt-1">
+            <div className="text-[11px] sm:text-xs font-bold text-slate-900 dark:text-slate-200 truncate max-w-[130px] sm:max-w-[200px] mt-1">
               {currentSectionObj.label}
             </div>
           </div>
 
           {/* Mini Linear Progress on Tablet/Desktop */}
-          <div className="hidden sm:block w-16 h-1.5 bg-white/[0.06] rounded-full overflow-hidden border border-white/[0.08] shrink-0">
+          <div className="hidden sm:block w-16 h-1.5 bg-slate-100 dark:bg-white/[0.06] rounded-full overflow-hidden border border-slate-200 dark:border-white/[0.08] shrink-0">
             <div
               className="h-full bg-gradient-to-r from-[#663AF3] to-[#65D5FF] rounded-full transition-all duration-150"
               style={{ width: `${scrollProgress}%` }}

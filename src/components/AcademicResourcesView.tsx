@@ -301,7 +301,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
               onClick={() => setOnlyFavorites(!onlyFavorites)}
               className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all cursor-pointer ${
                 onlyFavorites
-                  ? 'bg-amber-500/15 border-amber-500/40 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+                  ? 'bg-amber-50 dark:bg-amber-500/15 border-amber-300 dark:border-amber-500/40 text-amber-800 dark:text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.15)]'
                   : 'bg-[#11182A]/80 border-white/[0.08] text-[#A6AEC3] hover:text-[#F1F3FA] hover:bg-white/[0.04]'
               }`}
             >
@@ -397,7 +397,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
               onClick={() => setSelectedTypeFilter(type.id)}
               className={`px-2.5 py-1 rounded-lg text-xs font-medium shrink-0 transition-colors cursor-pointer ${
                 selectedTypeFilter === type.id
-                  ? 'bg-white/[0.12] text-white border border-white/[0.2] font-bold shadow-xs'
+                  ? 'bg-indigo-600 text-white border border-indigo-600 dark:bg-white/[0.12] dark:text-white dark:border-white/[0.2] font-bold shadow-xs'
                   : 'text-[#707B96] hover:text-[#F1F3FA]'
               }`}
             >
@@ -531,7 +531,7 @@ export const AcademicResourcesView: React.FC<AcademicResourcesViewProps> = ({
 
                   <button
                     onClick={() => onOpenResourceViewer(res)}
-                    className="px-3 py-1.5 bg-[#663AF3]/20 hover:bg-[#663AF3] text-[#65D5FF] hover:text-white border border-[#663AF3]/35 rounded-xl text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer shadow-xs"
+                    className="px-3 py-1.5 bg-indigo-50 dark:bg-[#663AF3]/20 hover:bg-[#663AF3] text-indigo-700 dark:text-[#65D5FF] hover:!text-white border border-indigo-200 dark:border-[#663AF3]/35 rounded-xl text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer shadow-xs"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     <span>{isFa ? 'مطالعه' : 'Read'}</span>

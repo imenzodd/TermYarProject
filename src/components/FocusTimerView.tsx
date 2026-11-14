@@ -155,7 +155,7 @@ export const FocusTimerView: React.FC<FocusTimerViewProps> = ({
               cx="128"
               cy="128"
               r="110"
-              className="text-[#11182A]"
+              className="text-slate-200 dark:text-[#11182A]"
               strokeWidth="10"
               stroke="currentColor"
               fill="transparent"
@@ -200,11 +200,11 @@ export const FocusTimerView: React.FC<FocusTimerViewProps> = ({
               className="w-full p-2.5 rounded-xl bg-[#11182A] border border-white/[0.08] text-xs font-semibold text-[#F1F3FA] outline-none cursor-pointer focus:border-[#663AF3]"
             >
               {courses.map((c) => (
-                <option key={c.id} value={c.name} className="bg-[#0B1020] text-white">
+                <option key={c.id} value={c.name} className="bg-white dark:bg-[#0B1020] text-slate-900 dark:text-white">
                   {c.name}
                 </option>
               ))}
-              <option value="مطالعه آزاد" className="bg-[#0B1020] text-white">مطالعه آزاد / زبان خارجه</option>
+              <option value="مطالعه آزاد" className="bg-white dark:bg-[#0B1020] text-slate-900 dark:text-white">مطالعه آزاد / زبان خارجه</option>
             </select>
           </div>
         )}
@@ -213,10 +213,10 @@ export const FocusTimerView: React.FC<FocusTimerViewProps> = ({
         <div className="flex items-center justify-center gap-3 relative z-10">
           <button
             onClick={toggleTimer}
-            className={`px-8 py-3 rounded-xl text-sm font-bold text-white shadow-lg flex items-center gap-2 transition-all cursor-pointer ${
+            className={`px-8 py-3 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2 transition-all cursor-pointer ${
               isRunning
-                ? 'bg-[#11182A] hover:bg-[#151D33] border border-white/[0.1]'
-                : 'btn-primary-futuristic'
+                ? 'bg-slate-100 dark:bg-[#11182A] text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-[#151D33] border border-slate-300 dark:border-white/[0.1]'
+                : 'btn-primary-futuristic text-white'
             }`}
           >
             {isRunning ? (
@@ -249,7 +249,7 @@ export const FocusTimerView: React.FC<FocusTimerViewProps> = ({
             <Timer className="w-4 h-4 text-[#39A7FF]" />
             <span>گزارش جلسات مطالعه اخیر</span>
           </h2>
-          <span className="text-xs font-bold text-emerald-400 tabular-nums">
+          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
             مجموعاً: {toPersianDigits(totalStudyMinutes)} دقیقه
           </span>
         </div>
@@ -270,7 +270,7 @@ export const FocusTimerView: React.FC<FocusTimerViewProps> = ({
                     تاریخ: {toPersianDigits(log.date)}
                   </span>
                 </div>
-                <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold tabular-nums">
+                <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold tabular-nums">
                   +{toPersianDigits(log.durationMinutes)} دقیقه تمرکز
                 </span>
               </div>

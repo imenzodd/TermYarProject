@@ -104,17 +104,17 @@ export const InteractiveCustomerJourney: React.FC = () => {
   const StepIcon = current.icon;
 
   return (
-    <div className="p-4 sm:p-7 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0A0F1D] via-[#0E1529] to-[#0A0E1A] border border-slate-700/80 shadow-2xl space-y-6">
+    <div className="p-4 sm:p-7 rounded-2xl sm:rounded-3xl bg-white dark:bg-gradient-to-br dark:from-[#0A0F1D] dark:via-[#0E1529] dark:to-[#0A0E1A] border border-slate-200 dark:border-slate-700/80 shadow-lg dark:shadow-2xl space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-base sm:text-lg font-bold text-white">
+            <Sparkles className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
               مسیر تعاملی چرخه حیات دانشجو (Student Customer Journey Map)
             </h3>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
             از نخستین مواجهه در راهروهای پردیس تا تبدیل شدن به کاربر وفادار و مروج، گام‌های ۵گانه را لمس کنید.
           </p>
         </div>
@@ -123,19 +123,19 @@ export const InteractiveCustomerJourney: React.FC = () => {
             type="button"
             disabled={activeStep === 1}
             onClick={() => setActiveStep((prev) => Math.max(1, prev - 1))}
-            className="p-1.5 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-30 disabled:pointer-events-none hover:bg-slate-700 transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent disabled:opacity-30 disabled:pointer-events-none hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
             title="گام قبلی"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
-          <span className="text-xs font-mono font-bold text-slate-300 px-2">
+          <span className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 px-2">
             {activeStep} از ۵
           </span>
           <button
             type="button"
             disabled={activeStep === 5}
             onClick={() => setActiveStep((prev) => Math.min(5, prev + 1))}
-            className="p-1.5 rounded-lg bg-slate-800 text-slate-300 disabled:opacity-30 disabled:pointer-events-none hover:bg-slate-700 transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent disabled:opacity-30 disabled:pointer-events-none hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
             title="گام بعدی"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -154,21 +154,21 @@ export const InteractiveCustomerJourney: React.FC = () => {
               key={stage.id}
               type="button"
               onClick={() => setActiveStep(stage.id)}
-              className={`min-w-[68px] sm:min-w-0 flex-1 p-2 sm:p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1 sm:gap-1.5 shrink-0 sm:shrink ${
+              className={`min-w-[68px] sm:min-w-0 flex-1 p-2 sm:p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1 sm:gap-1.5 shrink-0 sm:shrink cursor-pointer ${
                 isSelected
-                  ? 'bg-indigo-600/30 border-indigo-400 text-white ring-2 ring-indigo-500/30 shadow-md'
+                  ? 'bg-indigo-50 dark:bg-indigo-600/30 border-indigo-500 dark:border-indigo-400 text-indigo-950 dark:text-white ring-2 ring-indigo-500/20 dark:ring-indigo-500/30 shadow-md'
                   : isCompleted
-                  ? 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-800'
-                  : 'bg-slate-900/50 border-slate-800/80 text-slate-500 hover:text-slate-300'
+                  ? 'bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-800'
+                  : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800/80 text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
               }`}
             >
               <div
                 className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 ${
                   isSelected
-                    ? 'bg-indigo-500 text-white'
+                    ? 'bg-indigo-600 dark:bg-indigo-500 text-white'
                     : isCompleted
-                    ? 'bg-slate-700 text-indigo-300'
-                    : 'bg-slate-800 text-slate-500'
+                    ? 'bg-indigo-100 dark:bg-slate-700 text-indigo-700 dark:text-indigo-300'
+                    : 'bg-slate-200/80 dark:bg-slate-800 text-slate-500'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -182,52 +182,52 @@ export const InteractiveCustomerJourney: React.FC = () => {
       </div>
 
       {/* Active Stage Detailed Breakdown */}
-      <div className="p-4 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
+      <div className="p-4 sm:p-6 rounded-2xl bg-slate-50/70 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-5">
         {/* Title and Quote */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-center shrink-0">
               <StepIcon className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-sm sm:text-base font-extrabold text-white">
+              <h4 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
                 {current.title}
               </h4>
-              <p className="text-xs text-indigo-300 mt-0.5">
+              <p className="text-xs text-indigo-600 dark:text-indigo-300 mt-0.5">
                 {current.subtitle}
               </p>
             </div>
           </div>
-          <div className="text-[11px] font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-3 py-1 rounded-full self-start sm:self-auto">
+          <div className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 px-3 py-1 rounded-full self-start sm:self-auto">
             {current.conversionKPI}
           </div>
         </div>
 
         {/* Real Student Quote */}
-        <div className="p-3 rounded-xl bg-white/[0.02] border-r-2 border-indigo-500 text-xs italic text-slate-300">
+        <div className="p-3 rounded-xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-transparent border-r-2 border-r-indigo-500 dark:border-r-indigo-500 text-xs italic text-slate-700 dark:text-slate-300">
           {current.quote}
         </div>
 
         {/* Comparison Grid: Offline Campus vs Online App */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Offline Physical Campus Action */}
-          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-amber-400">
-              <MapPin className="w-4 h-4 text-amber-400" />
+          <div className="p-4 rounded-xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-400">
+              <MapPin className="w-4 h-4 text-amber-600 dark:text-amber-400" />
               <span>محیط فیزیکی دانشگاه و خوابگاه (آفلاین):</span>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
               {current.campusStep}
             </p>
           </div>
 
           {/* Online Digital App Action */}
-          <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-cyan-400">
-              <Smartphone className="w-4 h-4 text-cyan-400" />
+          <div className="p-4 rounded-xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold text-cyan-700 dark:text-cyan-400">
+              <Smartphone className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
               <span>پلتفرم نرم‌افزاری ترم‌یار (آنلاین):</span>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
               {current.appStep}
             </p>
           </div>
@@ -235,22 +235,22 @@ export const InteractiveCustomerJourney: React.FC = () => {
 
         {/* Friction Point and Friction Killer Solution */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-          <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/20 space-y-1">
-            <div className="text-xs font-bold text-rose-300 flex items-center gap-1.5">
+          <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-500/20 space-y-1">
+            <div className="text-xs font-bold text-rose-800 dark:text-rose-300 flex items-center gap-1.5">
               <span>⚠️</span>
               <span>نقطه اصطکاک و دغدغه ذهنی دانشجو:</span>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
               {current.frictionPoint}
             </p>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-1">
-            <div className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-500/20 space-y-1">
+            <div className="text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>راهکار ترمیار برای حذف اصطکاک (Friction Killer):</span>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
               {current.solution}
             </p>
           </div>

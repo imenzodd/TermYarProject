@@ -90,15 +90,24 @@ export default function App() {
     document.documentElement.lang = lang;
   }, [lang]);
 
-  // Theme state: Dedicated futuristic liquid glass theme
-  const [darkMode, setDarkMode] = useState<boolean>(true);
+  // Theme state: Supports both Futuristic Dark Liquid Glass and Crisp Light Editorial theme
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('ty_dark_mode');
+    return saved !== null ? saved === 'true' : true;
+  });
 
   useEffect(() => {
-    document.documentElement.classList.add('dark');
-    localStorage.setItem('ty_dark_mode', 'true');
-  }, []);
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
+    localStorage.setItem('ty_dark_mode', String(darkMode));
+  }, [darkMode]);
 
-  const toggleDarkMode = () => setDarkMode(true);
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   // Active navigation tab (defaults to 'landing' for modern SaaS landing presentation)
   const [activeTab, setActiveTab] = useState<string>(() => {
@@ -414,6 +423,8 @@ export default function App() {
   if (activeTab === 'dossier') {
     return (
       <BusinessDossierView
+        darkMode={darkMode}
+        onToggleDarkMode={toggleDarkMode}
         onSwitchToLiveApp={() => {
           setActiveTab('dashboard');
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -434,13 +445,15 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen futuristic-bg text-[#F1F3FA] flex flex-col lg:flex-row w-full max-w-full overflow-x-hidden relative selection:bg-[#663AF3] selection:text-white">
-      {/* Ambient Atmospheric Lighting Layers */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute -top-32 end-0 w-[600px] h-[600px] bg-[#663AF3]/15 rounded-full blur-[140px]" />
-        <div className="absolute top-[25%] start-0 w-[500px] h-[500px] bg-[#39A7FF]/10 rounded-full blur-[130px]" />
-        <div className="absolute -bottom-32 end-[20%] w-[650px] h-[650px] bg-[#663AF3]/10 rounded-full blur-[160px]" />
-      </div>
+    <div className="min-h-screen futuristic-bg text-slate-900 dark:text-[#F1F3FA] flex flex-col lg:flex-row w-full max-w-full overflow-x-hidden relative selection:bg-[#663AF3] selection:text-white transition-colors">
+      {/* Ambient Atmospheric Lighting Layers (Dark mode only for clean white clarity in Light mode) */}
+      {darkMode && (
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+          <div className="absolute -top-32 end-0 w-[600px] h-[600px] bg-[#663AF3]/15 rounded-full blur-[140px]" />
+          <div className="absolute top-[25%] start-0 w-[500px] h-[500px] bg-[#39A7FF]/10 rounded-full blur-[130px]" />
+          <div className="absolute -bottom-32 end-[20%] w-[650px] h-[650px] bg-[#663AF3]/10 rounded-full blur-[160px]" />
+        </div>
+      )}
 
       {/* 1. Navigation Sidebar (Desktop permanent + Mobile slide-over drawer) */}
       <Sidebar

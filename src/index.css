@@ -27,6 +27,17 @@
   --sal: env(safe-area-inset-left, 0px);
 }
 
+html.light {
+  --bg-space: #F6F7FB;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F1F5F9;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --glass-border: #E2E8F0;
+  --glass-border-hover: rgba(102, 58, 243, 0.45);
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-space);
@@ -35,6 +46,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   max-width: 100vw;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 html {
@@ -43,7 +55,7 @@ html {
   background-color: var(--bg-space);
 }
 
-/* Atmospheric Layered Canvas */
+/* Atmospheric Layered Canvas (Dark Mode Default) */
 .futuristic-bg {
   background-color: #080B16;
   background-image: 
@@ -52,6 +64,17 @@ html {
     radial-gradient(ellipse 1100px 700px at 50% 95%, rgba(102, 58, 243, 0.14), transparent 75%),
     radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px;
+  background-attachment: fixed;
+}
+
+/* Crisp Editorial SaaS Light Canvas (Light Mode) */
+html.light .futuristic-bg {
+  background-color: #F6F7FB;
+  background-image:
+    radial-gradient(ellipse 900px 600px at 85% -10%, rgba(102, 58, 243, 0.06), transparent 70%),
+    radial-gradient(ellipse 750px 500px at 10% 25%, rgba(57, 167, 255, 0.05), transparent 65%),
+    radial-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 36px 36px;
   background-attachment: fixed;
 }
 
@@ -74,7 +97,7 @@ html {
   }
 }
 
-/* Liquid Glass System */
+/* Liquid Glass System (Dark Mode) */
 .glass-panel {
   background: rgba(11, 16, 32, 0.75);
   backdrop-filter: blur(20px) saturate(180%);
@@ -117,6 +140,46 @@ html {
   transform: translateY(-2px);
 }
 
+/* Solid Crisp Cards for Light Mode — High Contrast & Clarity */
+html.light .glass-panel {
+  background: #FFFFFF;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 10px 28px -6px rgba(15, 23, 42, 0.08), 0 1px 3px 0 rgba(15, 23, 42, 0.04);
+}
+
+html.light .glass-panel-subtle {
+  background: #F8FAFC;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #E2E8F0;
+}
+
+html.light .glass-card,
+html.light .dash-card {
+  background: #FFFFFF;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 1px 3px 0 rgba(15, 23, 42, 0.04);
+}
+
+html.light .glass-card-interactive {
+  background: #FFFFFF;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 1px 3px 0 rgba(15, 23, 42, 0.04);
+}
+
+html.light .glass-card-interactive:hover {
+  background: #FFFFFF;
+  border-color: rgba(102, 58, 243, 0.45);
+  box-shadow: 0 12px 28px -4px rgba(102, 58, 243, 0.14), 0 2px 6px 0 rgba(15, 23, 42, 0.05);
+  transform: translateY(-2px);
+}
+
 /* Primary Futuristic Button */
 .btn-primary-futuristic {
   background: linear-gradient(135deg, #663AF3 0%, #4F46E5 50%, #39A7FF 100%);
@@ -151,6 +214,20 @@ html {
   color: #FFFFFF;
 }
 
+html.light .btn-secondary-futuristic {
+  background: #FFFFFF;
+  backdrop-filter: none;
+  border: 1px solid #CBD5E1;
+  color: #1E293B;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+html.light .btn-secondary-futuristic:hover {
+  background: #F8FAFC;
+  border-color: rgba(102, 58, 243, 0.5);
+  color: #0F172A;
+}
+
 /* Active Nav Glow Pill */
 .nav-pill-active {
   background: linear-gradient(135deg, rgba(102, 58, 243, 0.85) 0%, rgba(79, 70, 229, 0.8) 100%);
@@ -159,9 +236,20 @@ html {
   color: #FFFFFF !important;
 }
 
+html.light .nav-pill-active {
+  background: linear-gradient(135deg, #663AF3 0%, #4F46E5 100%);
+  border: 1px solid rgba(102, 58, 243, 0.35);
+  box-shadow: 0 4px 14px -2px rgba(102, 58, 243, 0.32);
+  color: #FFFFFF !important;
+}
+
 /* Glow Utilities */
 .glow-purple-sm {
   box-shadow: 0 0 15px -2px rgba(102, 58, 243, 0.35);
+}
+
+html.light .glow-purple-sm {
+  box-shadow: 0 6px 24px -4px rgba(102, 58, 243, 0.12), 0 1px 3px rgba(15, 23, 42, 0.05);
 }
 
 .glow-blue-sm {
@@ -172,7 +260,7 @@ html {
   box-shadow: 0 0 15px -2px rgba(101, 213, 255, 0.35);
 }
 
-/* Legacy dash-card mapped to Futuristic Glass Cards */
+/* Futuristic Glass Cards */
 .dash-card {
   background: rgba(17, 24, 42, 0.72);
   backdrop-filter: blur(16px);
@@ -182,12 +270,120 @@ html {
   box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
-.dark .dash-card {
-  background: rgba(17, 24, 42, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+/* ============================================================================
+   LIGHT MODE TOKEN ADAPTERS FOR DARK-FIRST COMPONENTS & SUB-VIEWS
+   Ensures zero washed-out glass surfaces or low-contrast text on white pages.
+   ============================================================================ */
+html.light .text-\[\#F1F3FA\] {
+  color: #0F172A !important;
+}
+
+html.light .text-\[\#A6AEC3\] {
+  color: #475569 !important;
+}
+
+html.light .text-\[\#707B96\] {
+  color: #64748B !important;
+}
+
+html.light .text-\[\#65D5FF\] {
+  color: #0284C7 !important;
+}
+
+html.light .text-\[\#C9BAFF\] {
+  color: #5B21B6 !important;
+}
+
+html.light .hover\:text-white:hover {
+  color: #0F172A;
+}
+
+html.light .nav-pill-active:hover,
+html.light .btn-primary-futuristic:hover {
+  color: #FFFFFF !important;
+}
+
+html.light .bg-\[\#070B14\],
+html.light .bg-\[\#080B16\] {
+  background-color: #F6F7FB !important;
+}
+
+html.light .bg-\[\#080B16\]\/80,
+html.light .bg-\[\#080B16\]\/90 {
+  background-color: rgba(246, 247, 251, 0.92) !important;
+}
+
+html.light .bg-\[\#0B1020\],
+html.light .bg-\[\#0B1020\]\/95,
+html.light .bg-\[\#0B1020\]\/98,
+html.light .bg-\[\#0B1020\]\/90,
+html.light .bg-\[\#0B1020\]\/85,
+html.light .bg-\[\#0B1020\]\/80,
+html.light .bg-\[\#0B1020\]\/75,
+html.light .bg-\[\#0B1020\]\/40,
+html.light .bg-\[\#0B0F19\]\/95,
+html.light .bg-\[\#0B0F19\]\/85 {
+  background-color: #FFFFFF !important;
+}
+
+html.light .bg-\[\#11182A\],
+html.light .bg-\[\#11182A\]\/90,
+html.light .bg-\[\#11182A\]\/80,
+html.light .bg-\[\#11182A\]\/70,
+html.light .bg-\[\#11182A\]\/60 {
+  background-color: #F1F5F9 !important;
+}
+
+html.light .hover\:bg-\[\#151D33\]\/90:hover,
+html.light .hover\:bg-\[\#151D33\]:hover {
+  background-color: #E2E8F0 !important;
+}
+
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.05\],
+html.light .bg-white\/\[0\.06\],
+html.light .bg-white\/\[0\.08\] {
+  background-color: #F8FAFC !important;
+}
+
+html.light .hover\:bg-white\/\[0\.04\]:hover,
+html.light .hover\:bg-white\/\[0\.05\]:hover,
+html.light .hover\:bg-white\/\[0\.06\]:hover,
+html.light .hover\:bg-white\/\[0\.08\]:hover,
+html.light .hover\:bg-white\/\[0\.1\]:hover,
+html.light .hover\:bg-white\/\[0\.12\]:hover {
+  background-color: #EEF2FF !important;
+}
+
+html.light .border-white\/\[0\.04\],
+html.light .border-white\/\[0\.06\],
+html.light .border-white\/\[0\.07\],
+html.light .border-white\/\[0\.08\],
+html.light .border-white\/\[0\.1\],
+html.light .border-white\/\[0\.12\],
+html.light .border-white\/\[0\.15\],
+html.light .border-white\/\[0\.2\] {
+  border-color: #E2E8F0 !important;
+}
+
+html.light .stroke-white\/\[0\.08\],
+html.light .stroke-\[\#11182A\] {
+  stroke: #E2E8F0 !important;
+}
+
+html.light .ring-\[\#0B1020\] {
+  --tw-ring-color: #FFFFFF !important;
+}
+
+html.light .placeholder-\[\#707B96\]::placeholder {
+  color: #94A3B8 !important;
+}
+
+html.light select option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
 }
 
 .tabular-nums {
@@ -249,3 +445,17 @@ html {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

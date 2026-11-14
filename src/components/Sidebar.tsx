@@ -116,7 +116,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex flex-col items-center gap-3 w-full px-2">
             <button
               onClick={() => handleSelectTab('dashboard')}
-              className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] flex items-center justify-center text-white shadow-lg shadow-[#663AF3]/30 hover:scale-105 transition-transform shrink-0"
+              className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] flex items-center justify-center text-white shadow-lg shadow-[#663AF3]/30 hover:scale-105 transition-transform shrink-0 cursor-pointer"
               title="TermYar"
             >
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -127,7 +127,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               type="button"
               onClick={toggleDesktopCollapse}
-              className="w-8 h-8 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] flex items-center justify-center transition-colors"
+              className="w-8 h-8 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] flex items-center justify-center transition-colors cursor-pointer"
               title={isFa ? 'باز کردن منو' : 'Expand sidebar'}
             >
               <ChevronsLeft className="w-4 h-4 rtl:rotate-180" />
@@ -157,7 +157,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     key={tab}
                     onClick={() => handleSelectTab(tab)}
                     title={label}
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
                       active
                         ? 'nav-pill-active text-white'
                         : 'text-[#A6AEC3] hover:bg-white/[0.06] hover:text-[#F1F3FA]'
@@ -170,11 +170,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
           </div>
 
-          {/* Bottom icon */}
+          {/* Bottom user avatar */}
           <div className="flex flex-col items-center gap-2">
             <button
               onClick={onOpenProfileModal}
-              className="w-10 h-10 rounded-xl text-[#A6AEC3] hover:bg-white/[0.06] hover:text-[#F1F3FA] flex items-center justify-center transition-colors text-base"
+              className="w-10 h-10 rounded-xl text-[#A6AEC3] hover:bg-white/[0.06] hover:text-[#F1F3FA] flex items-center justify-center transition-colors text-base cursor-pointer"
               title={user.name || 'Profile'}
             >
               {user.avatar || '👨‍🎓'}
@@ -213,7 +213,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 type="button"
                 onClick={toggleDesktopCollapse}
-                className="p-1.5 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors shrink-0"
+                className="p-1.5 rounded-lg text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
                 title={isFa ? 'جمع کردن منو (فضای بازتر)' : 'Collapse sidebar'}
                 aria-label="Collapse sidebar"
               >
@@ -224,7 +224,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {isMobile && (
               <button
                 onClick={onCloseMobile}
-                className="p-1.5 -mr-1.5 rounded-xl text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors shrink-0"
+                className="p-1.5 -mr-1.5 rounded-xl text-[#707B96] hover:text-[#F1F3FA] hover:bg-white/[0.06] transition-colors shrink-0 cursor-pointer"
                 aria-label="Close menu"
               >
                 <X className="w-5 h-5" />
@@ -236,337 +236,266 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="mb-2">
             <button
               onClick={() => handleSelectTab('landing')}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all border ${
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all border cursor-pointer ${
                 activeTab === 'landing'
                   ? 'nav-pill-active text-white border-transparent'
-                  : 'bg-white/[0.03] border-white/[0.06] text-[#A6AEC3] hover:bg-white/[0.08] hover:text-[#F1F3FA]'
+                  : 'bg-slate-50 dark:bg-white/[0.03] border-slate-200 dark:border-white/[0.06] text-slate-700 dark:text-[#A6AEC3] hover:bg-slate-100 dark:hover:bg-white/[0.08] hover:text-slate-900 dark:hover:text-[#F1F3FA]'
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <Compass className="w-4 h-4 text-[#39A7FF] shrink-0" />
+                <Compass className={`w-4 h-4 shrink-0 ${activeTab === 'landing' ? 'text-white' : 'text-[#0284C7] dark:text-[#39A7FF]'}`} />
                 <span>{isFa ? 'صفحه اصلی و معرفی' : 'Landing Page'}</span>
               </div>
-              <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-white/[0.08] text-[#39A7FF] border border-white/[0.06]">
+              <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full border ${
+                activeTab === 'landing'
+                  ? 'bg-white/20 text-white border-white/20'
+                  : 'bg-sky-50 dark:bg-white/[0.08] text-sky-700 dark:text-[#39A7FF] border-sky-200 dark:border-white/[0.06]'
+              }`}>
                 {isFa ? 'جدید' : 'New'}
               </span>
             </button>
           </div>
 
-        {/* Business Dossier Special Item */}
-        <div className="mb-2">
-          <button
-            onClick={() => handleSelectTab('dossier')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all border ${
-              activeTab === 'dossier'
-                ? 'nav-pill-active text-white border-transparent'
-                : 'bg-[#663AF3]/10 border-[#663AF3]/30 text-[#C9BAFF] hover:bg-[#663AF3]/20'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <FileText className="w-4 h-4 text-[#39A7FF] shrink-0" />
-              <span>{isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Business Dossier'}</span>
+          {/* Business Dossier Special Item (Single official button) */}
+          <div className="mb-2">
+            <button
+              onClick={() => handleSelectTab('dossier')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all border cursor-pointer ${
+                activeTab === 'dossier'
+                  ? 'nav-pill-active text-white border-transparent'
+                  : 'bg-indigo-50 dark:bg-[#663AF3]/10 border-indigo-200 dark:border-[#663AF3]/30 text-indigo-800 dark:text-[#C9BAFF] hover:bg-indigo-100 dark:hover:bg-[#663AF3]/20'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <FileText className={`w-4 h-4 shrink-0 ${activeTab === 'dossier' ? 'text-white' : 'text-indigo-600 dark:text-[#39A7FF]'}`} />
+                <span>{isFa ? 'پرونده تحلیلی کسب‌وکار' : 'Business Dossier'}</span>
+              </div>
+              <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-[#663AF3] text-white shadow-xs">
+                {isFa ? 'دانشگاهی' : 'New'}
+              </span>
+            </button>
+          </div>
+
+          {/* Dashboard Single Active Item */}
+          <div className="mb-3">
+            <button
+              onClick={() => handleSelectTab('dashboard')}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all cursor-pointer ${
+                activeTab === 'dashboard'
+                  ? 'nav-pill-active text-white'
+                  : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+              }`}
+            >
+              <LayoutDashboard className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-white' : 'text-[#707B96]'}`} />
+              <span>{isFa ? 'داشبورد' : 'Dashboard'}</span>
+            </button>
+          </div>
+
+          {/* Navigation Sections */}
+          <div className="space-y-3.5">
+            {/* Section: Study Plan */}
+            <div>
+              <button
+                onClick={() => toggleSection('studyPlan')}
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors cursor-pointer"
+              >
+                <span>{isFa ? 'برنامه تحصیلی' : 'Study Plan'}</span>
+                {collapsedSections['studyPlan'] ? (
+                  <ChevronRight className="w-3.5 h-3.5" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5" />
+                )}
+              </button>
+              {!collapsedSections['studyPlan'] && (
+                <div className="mt-1 space-y-0.5">
+                  <button
+                    onClick={() => handleSelectTab('schedule')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'schedule'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
+                    <CalendarDays className={`w-4 h-4 ${activeTab === 'schedule' ? 'text-white' : 'text-[#707B96]'}`} />
+                    <span>{isFa ? 'برنامه هفتگی' : 'Weekly Schedule'}</span>
+                  </button>
+                  <button
+                    onClick={() => handleSelectTab('courses')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'courses'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
+                    <GraduationCap className={`w-4 h-4 ${activeTab === 'courses' ? 'text-white' : 'text-[#707B96]'}`} />
+                    <span>{isFa ? 'دروس من' : 'My Courses'}</span>
+                  </button>
+                </div>
+              )}
             </div>
-            <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-[#663AF3] text-white shadow-xs">
-              {isFa ? 'دانشگاهی' : 'New'}
-            </span>
-          </button>
-        </div>
 
-        {/* Dashboard Single Active Item */}
-        <div className="mb-3">
-          <button
-            onClick={() => handleSelectTab('dashboard')}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all ${
-              activeTab === 'dashboard'
-                ? 'nav-pill-active text-white'
-                : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-            }`}
-          >
-            <LayoutDashboard className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-white' : 'text-[#707B96]'}`} />
-            <span>{isFa ? 'داشبورد' : 'Dashboard'}</span>
-          </button>
-        </div>
-
-        {/* Navigation Sections */}
-        <div className="space-y-3.5">
-          {/* Section: Study Plan */}
-          <div>
-            <button
-              onClick={() => toggleSection('studyPlan')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
-            >
-              <span>{isFa ? 'برنامه تحصیلی' : 'Study Plan'}</span>
-              {collapsedSections['studyPlan'] ? (
-                <ChevronRight className="w-3.5 h-3.5" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5" />
+            {/* Section: Tasks & Assessments */}
+            <div>
+              <button
+                onClick={() => toggleSection('tasks')}
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors cursor-pointer"
+              >
+                <span>{isFa ? 'تکالیف و ارزیابی‌ها' : 'Tasks & Assessments'}</span>
+                {collapsedSections['tasks'] ? (
+                  <ChevronRight className="w-3.5 h-3.5" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5" />
+                )}
+              </button>
+              {!collapsedSections['tasks'] && (
+                <div className="mt-1 space-y-0.5">
+                  <button
+                    onClick={() => handleSelectTab('tasks')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'tasks'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
+                    <ClipboardList className={`w-4 h-4 ${activeTab === 'tasks' ? 'text-white' : 'text-[#707B96]'}`} />
+                    <span>{isFa ? 'تکالیف و تمرین‌ها' : 'Tasks'}</span>
+                  </button>
+                  <button
+                    onClick={() => handleSelectTab('exams')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'exams'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
+                    <Calendar className={`w-4 h-4 ${activeTab === 'exams' ? 'text-white' : 'text-[#707B96]'}`} />
+                    <span>{isFa ? 'امتحانات' : 'Exams'}</span>
+                  </button>
+                  <button
+                    onClick={() => handleSelectTab('timer')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'timer'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
+                    <Timer className={`w-4 h-4 ${activeTab === 'timer' ? 'text-white' : 'text-[#707B96]'}`} />
+                    <span>{isFa ? 'تایمر پومودورو' : 'Timer'}</span>
+                  </button>
+                </div>
               )}
-            </button>
-            {!collapsedSections['studyPlan'] && (
-              <div className="mt-1 space-y-0.5">
-                <button
-                  onClick={() => handleSelectTab('schedule')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'schedule'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <CalendarDays className={`w-4 h-4 ${activeTab === 'schedule' ? 'text-white' : 'text-[#707B96]'}`} />
-                  <span>{isFa ? 'برنامه هفتگی' : 'Weekly Schedule'}</span>
-                </button>
-                <button
-                  onClick={() => handleSelectTab('courses')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'courses'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <GraduationCap className={`w-4 h-4 ${activeTab === 'courses' ? 'text-white' : 'text-[#707B96]'}`} />
-                  <span>{isFa ? 'دروس من' : 'My Courses'}</span>
-                </button>
-              </div>
-            )}
-          </div>
+            </div>
 
-          {/* Section: Tasks & Assessments */}
-          <div>
-            <button
-              onClick={() => toggleSection('tasks')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
-            >
-              <span>{isFa ? 'تکالیف و ارزیابی‌ها' : 'Tasks & Assessments'}</span>
-              {collapsedSections['tasks'] ? (
-                <ChevronRight className="w-3.5 h-3.5" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5" />
-              )}
-            </button>
-            {!collapsedSections['tasks'] && (
-              <div className="mt-1 space-y-0.5">
-                <button
-                  onClick={() => handleSelectTab('tasks')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'tasks'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <FileCheck className={`w-4 h-4 ${activeTab === 'tasks' ? 'text-white' : 'text-[#707B96]'}`} />
-                  <span>{isFa ? 'تکالیف و تمرین‌ها' : 'Assignments'}</span>
-                </button>
-                <button
-                  onClick={() => handleSelectTab('exams')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'exams'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <ClipboardList className={`w-4 h-4 ${activeTab === 'exams' ? 'text-white' : 'text-[#707B96]'}`} />
-                  <span>{isFa ? 'امتحانات' : 'Exams'}</span>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Section: Study & Progress */}
-          <div>
-            <button
-              onClick={() => toggleSection('progress')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
-            >
-              <span>{isFa ? 'مطالعه و پیشرفت' : 'Study & Progress'}</span>
-              {collapsedSections['progress'] ? (
-                <ChevronRight className="w-3.5 h-3.5" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5" />
-              )}
-            </button>
-            {!collapsedSections['progress'] && (
-              <div className="mt-1 space-y-0.5">
-                <button
-                  onClick={() => handleSelectTab('timer')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'timer'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <Timer className={`w-4 h-4 ${activeTab === 'timer' ? 'text-white' : 'text-[#707B96]'}`} />
-                  <span>{isFa ? 'تایمر مطالعه (پومودورو)' : 'Study Timer'}</span>
-                </button>
-                <button
-                  onClick={() => handleSelectTab('statistics')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'statistics'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <BarChart2 className={`w-4 h-4 ${activeTab === 'statistics' ? 'text-white' : 'text-[#707B96]'}`} />
-                  <span>{isFa ? 'آمار مطالعه' : 'Statistics'}</span>
-                </button>
-                <button
-                  onClick={() => handleSelectTab('reports')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'reports'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <FileText className={`w-4 h-4 ${activeTab === 'reports' ? 'text-white' : 'text-[#707B96]'}`} />
-                  <span>{isFa ? 'گزارش‌های تحصیلی' : 'Reports'}</span>
-                </button>
-                <button
-                  onClick={() => handleSelectTab('health_score')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'health_score'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <Activity className="w-4 h-4 text-emerald-400" />
-                    <span>{isFa ? 'سلامت ترم (هوشمند)' : 'Semester Health'}</span>
-                  </div>
-                  <span className="text-[10px] bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-full font-bold">
-                    100
-                  </span>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Section: Academic Resources */}
-          <div>
-            <button
-              onClick={() => toggleSection('resources')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
-            >
-              <span>{isFa ? 'منابع و خدمات دانشجویی' : 'Academic Resources'}</span>
-              {collapsedSections['resources'] ? (
-                <ChevronRight className="w-3.5 h-3.5" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5" />
-              )}
-            </button>
-            {!collapsedSections['resources'] && (
-              <div className="mt-1 space-y-0.5">
-                <button
-                  onClick={() => handleSelectTab('resources')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'resources'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <BookOpen className={`w-4 h-4 ${activeTab === 'resources' ? 'text-white' : 'text-[#39A7FF]'}`} />
-                    <span>{isFa ? 'منابع درسی و جزوات' : 'Academic Resources'}</span>
-                  </div>
-                  <span className="text-[10px] bg-[#663AF3]/20 border border-[#663AF3]/30 text-[#C9BAFF] px-2 py-0.5 rounded-full font-medium">
-                    {isFa ? 'کتابخانه' : 'Library'}
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => handleSelectTab('marketplace')}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'marketplace'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
+            {/* Section: Academic Resources & Market */}
+            <div>
+              <button
+                onClick={() => toggleSection('resources')}
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors cursor-pointer"
+              >
+                <span>{isFa ? 'منابع و خدمات دانشجویی' : 'Resources & Services'}</span>
+                {collapsedSections['resources'] ? (
+                  <ChevronRight className="w-3.5 h-3.5" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5" />
+                )}
+              </button>
+              {!collapsedSections['resources'] && (
+                <div className="mt-1 space-y-0.5">
+                  <button
+                    onClick={() => handleSelectTab('resources')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'resources'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
+                    <Layers className={`w-4 h-4 ${activeTab === 'resources' ? 'text-white' : 'text-[#707B96]'}`} />
+                    <span>{isFa ? 'بانک جزوات و منابع' : 'Vault'}</span>
+                  </button>
+                  <button
+                    onClick={() => handleSelectTab('marketplace')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'marketplace'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
                     <ShoppingBag className={`w-4 h-4 ${activeTab === 'marketplace' ? 'text-white' : 'text-[#707B96]'}`} />
-                    <span>{isFa ? 'بازارچه اجاره و خرید خوابگاه' : 'Marketplace'}</span>
-                  </div>
-                  <span className="text-[10px] bg-white/[0.06] border border-white/[0.08] text-[#A6AEC3] px-2 py-0.5 rounded-full font-medium">
-                    {isFa ? 'خوابگاه' : 'Dorm'}
-                  </span>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Section: Account */}
-          <div>
-            <button
-              onClick={() => toggleSection('account')}
-              className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors"
-            >
-              <span>{isFa ? 'حساب کاربری' : 'Account'}</span>
-              {collapsedSections['account'] ? (
-                <ChevronRight className="w-3.5 h-3.5" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5" />
+                    <span>{isFa ? 'بازارچه خوابگاه' : 'Marketplace'}</span>
+                  </button>
+                </div>
               )}
-            </button>
-            {!collapsedSections['account'] && (
-              <div className="mt-1 space-y-0.5">
-                <button
-                  onClick={() => onOpenProfileModal ? onOpenProfileModal() : handleSelectTab('profile')}
-                  className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA] transition-colors"
-                >
-                  <User className="w-4 h-4 text-[#707B96]" />
-                  <span>{isFa ? 'مشخصات دانشجو' : 'Profile'}</span>
-                </button>
-                <button
-                  onClick={() => handleSelectTab('favorites')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'favorites'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <Heart className={`w-4 h-4 ${activeTab === 'favorites' ? 'text-white fill-current' : 'text-rose-400'}`} />
-                  <span>{isFa ? 'نشان‌شده‌ها' : 'Favorites'}</span>
-                </button>
-                <button
-                  onClick={() => handleSelectTab('settings')}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
-                    activeTab === 'settings'
-                      ? 'nav-pill-active text-white'
-                      : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
-                  }`}
-                >
-                  <Settings className={`w-4 h-4 ${activeTab === 'settings' ? 'text-white' : 'text-[#707B96]'}`} />
-                  <span>{isFa ? 'تنظیمات' : 'Settings'}</span>
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+            </div>
 
-      {/* Bottom Semester Card */}
-      <div className="p-3 sm:p-4 border-t border-white/[0.08]">
-        <div className="p-3 bg-[#11182A]/80 border border-white/[0.08] rounded-2xl flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3]/30 to-[#39A7FF]/30 border border-[#663AF3]/40 text-[#C9BAFF] flex items-center justify-center shrink-0">
-            <GraduationCap className="w-4 h-4" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs font-bold text-[#F1F3FA] truncate">
-              {isFa ? 'نیم‌سال بهار ۱۴۰۴' : 'Spring 2025'}
+            {/* Section: General */}
+            <div>
+              <button
+                onClick={() => toggleSection('general')}
+                className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-[#707B96] uppercase tracking-wider hover:text-[#A6AEC3] transition-colors cursor-pointer"
+              >
+                <span>{isFa ? 'عمومی' : 'General'}</span>
+                {collapsedSections['general'] ? (
+                  <ChevronRight className="w-3.5 h-3.5" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5" />
+                )}
+              </button>
+              {!collapsedSections['general'] && (
+                <div className="mt-1 space-y-0.5">
+                  <button
+                    onClick={() => handleSelectTab('favorites')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'favorites'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
+                    <Heart className={`w-4 h-4 ${activeTab === 'favorites' ? 'text-white fill-current' : 'text-rose-400'}`} />
+                    <span>{isFa ? 'نشان‌شده‌ها' : 'Favorites'}</span>
+                  </button>
+                  <button
+                    onClick={() => handleSelectTab('settings')}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all cursor-pointer ${
+                      activeTab === 'settings'
+                        ? 'nav-pill-active text-white'
+                        : 'text-[#A6AEC3] hover:bg-white/[0.05] hover:text-[#F1F3FA]'
+                    }`}
+                  >
+                    <Settings className={`w-4 h-4 ${activeTab === 'settings' ? 'text-white' : 'text-[#707B96]'}`} />
+                    <span>{isFa ? 'تنظیمات' : 'Settings'}</span>
+                  </button>
+                </div>
+              )}
             </div>
-            <div className="text-[11px] text-[#707B96] truncate">
-              {isFa ? 'ترم تحصیلی جاری' : 'Current Semester'}
+          </div>
+        </div>
+
+        {/* Bottom Semester Card */}
+        <div className="p-3 sm:p-4 border-t border-slate-200 dark:border-white/[0.08]">
+          <div className="p-3 bg-slate-50 dark:bg-[#11182A]/80 border border-slate-200 dark:border-white/[0.08] rounded-2xl flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#663AF3]/15 to-[#39A7FF]/15 dark:from-[#663AF3]/30 dark:to-[#39A7FF]/30 border border-[#663AF3]/25 dark:border-[#663AF3]/40 text-indigo-700 dark:text-[#C9BAFF] flex items-center justify-center shrink-0">
+              <GraduationCap className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-bold text-slate-900 dark:text-[#F1F3FA] truncate">
+                {isFa ? 'نیم‌سال بهار ۱۴۰۴' : 'Spring 2025'}
+              </div>
+              <div className="text-[11px] text-slate-500 dark:text-[#707B96] truncate">
+                {isFa ? 'ترم تحصیلی جاری' : 'Current Semester'}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
   return (
     <>
       {/* 1. Permanent Desktop Sidebar */}
       {isDesktop && (
         <aside
-          className={`desktop-sidebar hidden lg:flex shrink-0 bg-[#0B1020]/90 backdrop-blur-2xl rtl:border-l ltr:border-r border-white/[0.08] flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none transition-all duration-200 z-20 ${
+          className={`desktop-sidebar hidden lg:flex shrink-0 bg-white dark:bg-[#0B1020]/90 backdrop-blur-2xl rtl:border-l ltr:border-r border-slate-200 dark:border-white/[0.08] flex-col justify-between h-screen sticky top-0 overflow-y-auto select-none transition-all duration-200 z-20 ${
             isDesktopCollapsed ? 'w-20' : 'w-60 xl:w-64'
           }`}
         >
@@ -577,7 +506,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* 2. Mobile Drawer Backdrop Overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 z-40 bg-slate-900/40 dark:bg-black/70 backdrop-blur-xs lg:hidden transition-opacity duration-300"
           onClick={onCloseMobile}
           aria-hidden="true"
         />
@@ -586,7 +515,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* 3. Mobile Slide-out Drawer */}
       {isMobileOpen && (
         <aside
-          className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-[#0B1020]/98 backdrop-blur-3xl border-e border-white/[0.1] shadow-2xl flex flex-col justify-between h-full overflow-y-auto select-none lg:hidden"
+          className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-white dark:bg-[#0B1020]/98 backdrop-blur-3xl border-e border-slate-200 dark:border-white/[0.1] shadow-2xl flex flex-col justify-between h-full overflow-y-auto select-none lg:hidden"
         >
           {renderNavContent(true)}
         </aside>
@@ -594,4 +523,3 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </>
   );
 };
-

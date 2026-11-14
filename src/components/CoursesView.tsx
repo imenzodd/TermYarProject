@@ -116,7 +116,7 @@ export const CoursesView: React.FC<CoursesViewProps> = ({
 
         <div className="p-4.5 rounded-2xl glass-card glow-purple-sm">
           <span className="text-xs text-[#707B96] font-medium">وضعیت سرفصل دروس</span>
-          <div className="text-2xl font-black text-emerald-400 mt-1">
+          <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
             مناسب و در حال پیشرفت
           </div>
         </div>
@@ -305,7 +305,7 @@ export const CoursesView: React.FC<CoursesViewProps> = ({
                       type="button"
                       onClick={() => setColor(c)}
                       className={`w-7 h-7 rounded-full transition-transform cursor-pointer ${
-                        color === c ? 'ring-2 ring-offset-2 ring-offset-[#080B16] ring-[#39A7FF] scale-110' : 'opacity-70 hover:opacity-100'
+                        color === c ? 'ring-2 ring-offset-2 ring-offset-white dark:ring-offset-[#080B16] ring-[#39A7FF] scale-110' : 'opacity-70 hover:opacity-100'
                       }`}
                       style={{ backgroundColor: c }}
                     />

@@ -214,36 +214,36 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/80 backdrop-blur-xs animate-in fade-in">
-      <div className="bg-slate-900 text-white rounded-3xl border border-slate-800 shadow-2xl w-full h-[96vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-xs animate-in fade-in">
+      <div className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl w-full h-[96vh] flex flex-col overflow-hidden">
         {/* Top Control Bar */}
-        <div className="px-3 sm:px-5 py-2.5 sm:py-3.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between gap-2 sm:gap-4 shrink-0">
+        <div className="px-3 sm:px-5 py-2.5 sm:py-3.5 bg-white dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 shrink-0">
           {/* Document metadata info */}
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-rose-50 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
               <FileText className="w-4 h-4" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <h3 className="text-xs sm:text-sm font-bold text-white truncate max-w-[120px] sm:max-w-md">
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate max-w-[120px] sm:max-w-md">
                   {resource.title}
                 </h3>
-                <span className="text-[9px] sm:text-[10px] font-semibold px-1.5 sm:px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shrink-0">
+                <span className="text-[9px] sm:text-[10px] font-semibold px-1.5 sm:px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 shrink-0">
                   {resource.courseCode}
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-slate-400 truncate hidden xs:block">
+              <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate hidden xs:block">
                 {resource.fileName} • {resource.fileSizeFormatted}
               </p>
             </div>
           </div>
 
           {/* Center: Page Navigation Controls (Desktop & Tablet) */}
-          <div className="hidden md:flex items-center gap-2 bg-slate-800/80 border border-slate-700/80 rounded-xl px-2.5 py-1">
+          <div className="hidden md:flex items-center gap-2 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl px-2.5 py-1">
             <button
               onClick={handlePrevPage}
               disabled={currentPage <= 1}
-              className="p-1 rounded hover:bg-slate-700 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
+              className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
               title="Previous Page"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -256,15 +256,15 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                 max={totalPages}
                 value={currentPage}
                 onChange={(e) => handleJumpToPage(parseInt(e.target.value, 10))}
-                className="w-10 text-center bg-slate-900 border border-slate-700 rounded px-1 py-0.5 text-xs text-white"
+                className="w-10 text-center bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded px-1 py-0.5 text-xs text-slate-900 dark:text-white"
               />
-              <span className="text-slate-400">/ {totalPages}</span>
+              <span className="text-slate-500 dark:text-slate-400">/ {totalPages}</span>
             </div>
 
             <button
               onClick={handleNextPage}
               disabled={currentPage >= totalPages}
-              className="p-1 rounded hover:bg-slate-700 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
+              className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
               title="Next Page"
             >
               <ChevronRight className="w-4 h-4" />
@@ -272,22 +272,22 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
           </div>
 
           {/* Mobile Page Controls */}
-          <div className="flex md:hidden items-center gap-1 bg-slate-800/80 border border-slate-700/80 rounded-lg px-1.5 py-0.5 text-xs">
+          <div className="flex md:hidden items-center gap-1 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-lg px-1.5 py-0.5 text-xs">
             <button
               onClick={handlePrevPage}
               disabled={currentPage <= 1}
-              className="p-1 disabled:opacity-30 text-slate-300"
+              className="p-1 disabled:opacity-30 text-slate-600 dark:text-slate-300"
               aria-label="Previous Page"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <span className="text-[11px] font-mono px-1 text-slate-200">
+            <span className="text-[11px] font-mono px-1 text-slate-800 dark:text-slate-200">
               {currentPage}/{totalPages}
             </span>
             <button
               onClick={handleNextPage}
               disabled={currentPage >= totalPages}
-              className="p-1 disabled:opacity-30 text-slate-300"
+              className="p-1 disabled:opacity-30 text-slate-600 dark:text-slate-300"
               aria-label="Next Page"
             >
               <ChevronRight className="w-3.5 h-3.5" />
@@ -297,21 +297,21 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
           {/* Right Tools: Zoom, Print, Download, Notes Drawer, Close */}
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             {/* Zoom Controls */}
-            <div className="hidden sm:flex items-center gap-1 bg-slate-800/80 border border-slate-700/80 rounded-xl px-2 py-1 text-xs">
-              <button onClick={handleZoomOut} className="p-1 rounded hover:bg-slate-700 text-slate-300" title="Zoom Out">
+            <div className="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-xl px-2 py-1 text-xs">
+              <button onClick={handleZoomOut} className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300" title="Zoom Out">
                 <ZoomOut className="w-3.5 h-3.5" />
               </button>
-              <button onClick={handleZoomReset} className="px-1.5 py-0.5 text-[11px] font-mono text-slate-300 hover:text-white" title="Reset 100%">
+              <button onClick={handleZoomReset} className="px-1.5 py-0.5 text-[11px] font-mono text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white" title="Reset 100%">
                 {zoomLevel}%
               </button>
-              <button onClick={handleZoomIn} className="p-1 rounded hover:bg-slate-700 text-slate-300" title="Zoom In">
+              <button onClick={handleZoomIn} className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300" title="Zoom In">
                 <ZoomIn className="w-3.5 h-3.5" />
               </button>
             </div>
 
             <button
               onClick={handlePrint}
-              className="hidden sm:flex p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/80 transition-colors"
+              className="hidden sm:flex p-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700/80 transition-colors"
               title="Print Document"
             >
               <Printer className="w-4 h-4" />
@@ -319,7 +319,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
             <button
               onClick={handleDownload}
-              className="p-1.5 sm:p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/80 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700/80 transition-colors"
               title="Download File"
             >
               <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -327,7 +327,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
             <button
               onClick={toggleFullscreen}
-              className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/80 transition-colors hidden lg:flex"
+              className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700/80 transition-colors hidden lg:flex"
               title="Toggle Fullscreen"
             >
               {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -339,7 +339,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
               className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all ${
                 sidebarOpen
                   ? 'bg-indigo-600 text-white border-indigo-500 shadow-xs'
-                  : 'bg-slate-800/80 text-slate-300 border-slate-700/80 hover:bg-slate-700'
+                  : 'bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
               <MessageSquare className="w-3.5 h-3.5" />
@@ -354,7 +354,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-800 hover:bg-rose-500 text-slate-300 hover:text-white flex items-center justify-center transition-colors ml-0.5"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-rose-500 text-slate-600 dark:text-slate-300 hover:text-white flex items-center justify-center transition-colors ml-0.5"
             >
               <X className="w-4 h-4" />
             </button>
@@ -364,7 +364,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
         {/* Main Body: Document Viewer Canvas + Collapsible Notes/Share Sidebar */}
         <div className="flex-1 flex overflow-hidden">
           {/* Canvas Viewport */}
-          <div className="flex-1 overflow-auto bg-slate-950 p-3 sm:p-6 flex flex-col items-center justify-start relative">
+          <div className="flex-1 overflow-auto bg-slate-100 dark:bg-slate-950 p-3 sm:p-6 flex flex-col items-center justify-start relative">
             {/* If native file data URL is present and is image */}
             {resource.fileType === 'image' && resource.fileDataUrl ? (
               <div
@@ -464,12 +464,12 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
           {/* Right Sidebar: Notes & Annotations / Share Settings */}
           {sidebarOpen && (
-            <div className="fixed inset-y-0 end-0 z-30 w-full sm:w-96 lg:relative lg:inset-auto bg-slate-900 border-l border-slate-800 flex flex-col shrink-0 shadow-2xl lg:shadow-none">
+            <div className="fixed inset-y-0 end-0 z-30 w-full sm:w-96 lg:relative lg:inset-auto bg-slate-50 dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 flex flex-col shrink-0 shadow-2xl lg:shadow-none">
               {/* Sidebar Tabs */}
-              <div className="flex items-center border-b border-slate-800 text-xs font-semibold">
+              <div className="flex items-center border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-transparent text-xs font-semibold">
                 <button
                   onClick={() => setSidebarOpen(false)}
-                  className="lg:hidden p-3 text-slate-400 hover:text-white"
+                  className="lg:hidden p-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   title="Close sidebar"
                 >
                   <X className="w-4 h-4" />
@@ -478,13 +478,13 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                   onClick={() => setActiveSidebarTab('notes')}
                   className={`flex-1 py-3 text-center transition-colors flex items-center justify-center gap-1.5 ${
                     activeSidebarTab === 'notes'
-                      ? 'border-b-2 border-indigo-500 text-indigo-400 font-bold bg-slate-800/40'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'border-b-2 border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50/50 dark:bg-slate-800/40'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                   }`}
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
                   <span>{isFa ? 'یادداشت‌ها' : 'Notes'}</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-300">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                     {pageNotes.length}
                   </span>
                 </button>
@@ -492,8 +492,8 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                   onClick={() => setActiveSidebarTab('share')}
                   className={`flex-1 py-3 text-center transition-colors flex items-center justify-center gap-1.5 ${
                     activeSidebarTab === 'share'
-                      ? 'border-b-2 border-indigo-500 text-indigo-400 font-bold bg-slate-800/40'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'border-b-2 border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50/50 dark:bg-slate-800/40'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                   }`}
                 >
                   <Share2 className="w-3.5 h-3.5" />
@@ -503,8 +503,8 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                   onClick={() => setActiveSidebarTab('outline')}
                   className={`flex-1 py-3 text-center transition-colors flex items-center justify-center gap-1.5 ${
                     activeSidebarTab === 'outline'
-                      ? 'border-b-2 border-indigo-500 text-indigo-400 font-bold bg-slate-800/40'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'border-b-2 border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50/50 dark:bg-slate-800/40'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                   }`}
                 >
                   <BookOpen className="w-3.5 h-3.5" />
@@ -517,9 +517,9 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                 {activeSidebarTab === 'notes' && (
                   <>
                     {/* Add note on this page form */}
-                    <form onSubmit={handleAddNote} className="space-y-3 bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60">
+                    <form onSubmit={handleAddNote} className="space-y-3 bg-white dark:bg-slate-800/60 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-xs dark:shadow-none">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-200">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
                           {isFa ? `ثبت یادداشت برای صفحه ${currentPage}` : `Add note for page ${currentPage}`}
                         </span>
                         {/* Highlight Color Picker */}
@@ -539,7 +539,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                                   : color === 'pink'
                                   ? 'bg-pink-400'
                                   : 'bg-purple-400'
-                              } ${newNoteColor === color ? 'ring-2 ring-white scale-110' : 'opacity-70 hover:opacity-100'}`}
+                              } ${newNoteColor === color ? 'ring-2 ring-slate-900 dark:ring-white scale-110' : 'opacity-70 hover:opacity-100'}`}
                             />
                           ))}
                         </div>
@@ -554,7 +554,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                             ? 'نکته استاد، یادداشت امتحانی یا حاشیه‌نویسی...'
                             : 'Write a lecture comment, exam tip or highlight note...'
                         }
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-indigo-500"
+                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:border-indigo-500"
                       />
 
                       <button
@@ -569,7 +569,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
                     {/* Notes List */}
                     <div className="space-y-2.5">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
                         {isFa ? 'تمام یادداشت‌های این سند' : 'All Notes in Document'} ({allResourceNotes.length})
                       </span>
 
@@ -586,29 +586,29 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                               key={note.id}
                               className={`p-3 rounded-2xl border transition-all ${
                                 isCurrent
-                                  ? 'bg-slate-800 border-indigo-500/60 shadow-sm'
-                                  : 'bg-slate-800/40 border-slate-700/60 hover:bg-slate-800'
+                                  ? 'bg-white dark:bg-slate-800 border-indigo-400 dark:border-indigo-500/60 shadow-sm'
+                                  : 'bg-white/80 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800'
                               }`}
                             >
                               <div className="flex items-center justify-between mb-1.5">
                                 <button
                                   onClick={() => setCurrentPage(note.pageNumber)}
-                                  className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500 hover:text-white transition-colors"
+                                  className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-600 hover:text-white transition-colors"
                                 >
                                   {isFa ? `صفحه ${note.pageNumber}` : `Page ${note.pageNumber}`}
                                 </button>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-[10px] text-slate-400">{note.createdAt}</span>
+                                  <span className="text-[10px] text-slate-500 dark:text-slate-400">{note.createdAt}</span>
                                   <button
                                     onClick={() => handleDeleteNote(note.id)}
-                                    className="text-slate-500 hover:text-rose-400 transition-colors"
+                                    className="text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 transition-colors"
                                     title="Delete Note"
                                   >
                                     <Trash2 className="w-3 h-3" />
                                   </button>
                                 </div>
                               </div>
-                              <p className="text-xs text-slate-200 leading-relaxed whitespace-pre-line">
+                              <p className="text-xs text-slate-700 dark:text-slate-200 leading-relaxed whitespace-pre-line">
                                 {note.content}
                               </p>
                             </div>
@@ -622,10 +622,10 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                 {activeSidebarTab === 'share' && (
                   <div className="space-y-4">
                     <div className="space-y-1">
-                      <span className="text-xs font-bold text-white block">
+                      <span className="text-xs font-bold text-slate-900 dark:text-white block">
                         {isFa ? 'تنظیمات دسترسی و اشتراک‌گذاری' : 'Access & Sharing Controls'}
                       </span>
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400">
                         {isFa
                           ? 'سطح دسترسی این جزوه را مشخص کنید تا هم‌دانشگاهی‌های شما بهره‌مند شوند.'
                           : 'Control who can view and download this academic material.'}
@@ -638,16 +638,16 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                         onClick={() => setShareVisibility('private')}
                         className={`p-3 rounded-2xl border flex items-start gap-3 cursor-pointer transition-colors ${
                           shareVisibility === 'private'
-                            ? 'bg-slate-800 border-indigo-500'
-                            : 'bg-slate-800/40 border-slate-700 hover:bg-slate-800'
+                            ? 'bg-indigo-50/70 dark:bg-slate-800 border-indigo-500'
+                            : 'bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
                         }`}
                       >
-                        <Lock className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                        <Lock className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0 mt-0.5" />
                         <div>
-                          <span className="text-xs font-bold text-white block">
+                          <span className="text-xs font-bold text-slate-900 dark:text-white block">
                             {isFa ? 'شخصی (فقط من)' : 'Private (Only Me)'}
                           </span>
-                          <span className="text-[11px] text-slate-400">
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">
                             {isFa ? 'فقط در حساب کاربری شما قابل مشاهده است.' : 'Only visible to your TermYar account.'}
                           </span>
                         </div>
@@ -657,16 +657,16 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                         onClick={() => setShareVisibility('link')}
                         className={`p-3 rounded-2xl border flex items-start gap-3 cursor-pointer transition-colors ${
                           shareVisibility === 'link'
-                            ? 'bg-slate-800 border-indigo-500'
-                            : 'bg-slate-800/40 border-slate-700 hover:bg-slate-800'
+                            ? 'bg-indigo-50/70 dark:bg-slate-800 border-indigo-500'
+                            : 'bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
                         }`}
                       >
-                        <Link className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                        <Link className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                         <div>
-                          <span className="text-xs font-bold text-white block">
+                          <span className="text-xs font-bold text-slate-900 dark:text-white block">
                             {isFa ? 'اشتراک با لینک اختصاصی' : 'Share via Secure Link'}
                           </span>
-                          <span className="text-[11px] text-slate-400">
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">
                             {isFa ? 'هر کسی توکن لینک را داشته باشد می‌تواند جزوه را ببیند.' : 'Anyone with the secret link token can read.'}
                           </span>
                         </div>
@@ -676,16 +676,16 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                         onClick={() => setShareVisibility('public')}
                         className={`p-3 rounded-2xl border flex items-start gap-3 cursor-pointer transition-colors ${
                           shareVisibility === 'public'
-                            ? 'bg-slate-800 border-indigo-500'
-                            : 'bg-slate-800/40 border-slate-700 hover:bg-slate-800'
+                            ? 'bg-indigo-50/70 dark:bg-slate-800 border-indigo-500'
+                            : 'bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
                         }`}
                       >
-                        <Globe className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                        <Globe className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                         <div>
-                          <span className="text-xs font-bold text-white block">
+                          <span className="text-xs font-bold text-slate-900 dark:text-white block">
                             {isFa ? 'عمومی در کتابخانه دانشگاه' : 'Public in University Library'}
                           </span>
-                          <span className="text-[11px] text-slate-400">
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">
                             {isFa ? 'قابل جستجو برای تمام دانشجویان در تب بازارچه و منابع.' : 'Listed in public university notes library.'}
                           </span>
                         </div>
@@ -693,12 +693,12 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                     </div>
 
                     {/* Download Permission Toggle */}
-                    <div className="p-3 bg-slate-800/60 rounded-2xl border border-slate-700 flex items-center justify-between">
+                    <div className="p-3 bg-white dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                       <div>
-                        <span className="text-xs font-bold text-white block">
+                        <span className="text-xs font-bold text-slate-900 dark:text-white block">
                           {isFa ? 'اجازه دانلود فایل' : 'Allow File Download'}
                         </span>
-                        <span className="text-[10px] text-slate-400">
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">
                           {isFa ? 'بینندگان می‌توانند نسخه اصلی را ذخیره کنند' : 'Viewers can download source file'}
                         </span>
                       </div>
@@ -713,7 +713,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                     {/* Share Link Box */}
                     {shareVisibility !== 'private' && (
                       <div className="space-y-2">
-                        <span className="text-xs font-bold text-slate-300 block">
+                        <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
                           {isFa ? 'لینک اشتراک‌گذاری' : 'Shareable Link'}
                         </span>
                         <div className="flex items-center gap-2">
@@ -721,7 +721,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                             type="text"
                             readOnly
                             value={shareUrl}
-                            className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-1.5 text-[11px] font-mono text-slate-300 truncate"
+                            className="flex-1 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-[11px] font-mono text-slate-700 dark:text-slate-300 truncate"
                           />
                           <button
                             onClick={handleCopyLink}
@@ -745,7 +745,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                       {shareVisibility !== 'private' && (
                         <button
                           onClick={handleRevokeShare}
-                          className="px-3 py-2 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 rounded-xl text-xs font-semibold transition-colors"
+                          className="px-3 py-2 bg-rose-50 dark:bg-rose-500/20 hover:bg-rose-100 dark:hover:bg-rose-500/30 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-transparent rounded-xl text-xs font-semibold transition-colors"
                           title="Revoke and make private"
                         >
                           {isFa ? 'ابطال لینک' : 'Revoke'}
@@ -757,7 +757,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
                 {activeSidebarTab === 'outline' && (
                   <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-2">
                       {isFa ? 'فهرست صفحات سند' : 'Document Outline'}
                     </span>
                     {Array.from({ length: totalPages }).map((_, idx) => {
@@ -770,15 +770,15 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
                           onClick={() => setCurrentPage(pageNum)}
                           className={`w-full text-left p-3 rounded-xl border text-xs transition-colors flex items-center justify-between ${
                             isCurrent
-                              ? 'bg-indigo-600/30 border-indigo-500 text-white font-bold'
-                              : 'bg-slate-800/40 border-slate-700/60 text-slate-300 hover:bg-slate-800'
+                              ? 'bg-indigo-50 dark:bg-indigo-600/30 border-indigo-500 text-indigo-900 dark:text-white font-bold'
+                              : 'bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                           }`}
                         >
                           <div className="truncate max-w-[200px]">
-                            <span className="font-mono text-indigo-400 mr-2">#{pageNum}</span>
+                            <span className="font-mono text-indigo-600 dark:text-indigo-400 mr-2">#{pageNum}</span>
                             <span>{pageTitle}</span>
                           </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
                         </button>
                       );
                     })}

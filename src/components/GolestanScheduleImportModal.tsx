@@ -343,8 +343,8 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
           {step === 'upload' && (
             <div className="space-y-5">
               {errorMessage && (
-                <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-start gap-3 text-rose-300 text-xs">
-                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
+                <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-500/15 border border-rose-200 dark:border-rose-500/30 flex items-start gap-3 text-rose-700 dark:text-rose-300 text-xs">
+                  <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600 dark:text-rose-400" />
                   <div className="leading-relaxed">{errorMessage}</div>
                 </div>
               )}
@@ -386,7 +386,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
               </div>
 
               {/* Sample PDF 1-Click Test Box */}
-              <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-[#663AF3]/20 via-[#11182A] to-[#39A7FF]/15 border border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 glow-purple-sm">
+              <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-indigo-50 via-white to-sky-50 dark:from-[#663AF3]/20 dark:via-[#11182A] dark:to-[#39A7FF]/15 border border-indigo-200 dark:border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 glow-purple-sm">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#663AF3] to-[#39A7FF] text-white flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(102,58,243,0.3)]">
                     <Sparkles className="w-5 h-5" />
@@ -394,7 +394,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                   <div>
                     <div className="text-xs sm:text-sm font-bold text-[#F1F3FA] flex items-center gap-2">
                       <span>تست مستقیم با نمونه واقعی دانشگاه یزد</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-500/30">
                         فایل استاندارد
                       </span>
                     </div>
@@ -432,7 +432,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
           {step === 'processing' && (
             <div className="py-12 sm:py-16 flex flex-col items-center justify-center text-center space-y-4">
               <div className="relative">
-                <div className="w-16 h-16 rounded-full border-4 border-white/10 border-t-[#663AF3] animate-spin" />
+                <div className="w-16 h-16 rounded-full border-4 border-slate-200 dark:border-white/10 border-t-[#663AF3] animate-spin" />
                 <Sparkles className="w-6 h-6 text-[#39A7FF] absolute inset-0 m-auto animate-pulse" />
               </div>
               <div className="space-y-1 max-w-md">
@@ -456,7 +456,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
             <div className="space-y-5">
               {/* Student Extracted Info Card */}
               {parsedData?.studentInfo && (
-                <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-[#663AF3]/15 via-[#11182A] to-[#39A7FF]/15 border border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl glass-card bg-gradient-to-r from-indigo-50 via-white to-sky-50 dark:from-[#663AF3]/15 dark:via-[#11182A] dark:to-[#39A7FF]/15 border border-indigo-200 dark:border-[#663AF3]/35 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <GraduationCap className="w-4 h-4 text-[#39A7FF]" />
@@ -542,7 +542,7 @@ export const GolestanScheduleImportModal: React.FC<GolestanScheduleImportModalPr
                               className="w-full bg-[#11182A] border border-white/[0.08] rounded-lg px-2 py-1 text-xs text-[#F1F3FA] focus:outline-none focus:border-[#663AF3]"
                             >
                               {PERSIAN_DAY_OPTIONS.map((d) => (
-                                <option key={d.index} value={d.index} className="bg-[#0B1020] text-white">
+                                <option key={d.index} value={d.index} className="bg-white dark:bg-[#0B1020] text-slate-900 dark:text-white">
                                   {d.label}
                                 </option>
                               ))}
